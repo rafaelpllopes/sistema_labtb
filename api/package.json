@@ -2,9 +2,10 @@
   "name": "api",
   "version": "1.0.0",
   "description": "API REST para sistema labtb",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "keywords": [
     "api",
@@ -12,5 +13,14 @@
     "rest"
   ],
   "author": "Rafael Pereira de Lacerda Lopes <rafael.pllopes@gmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.3",
+    "consign": "^0.1.6",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "helmet": "^3.13.0",
+    "https": "^1.0.0"
+  }
 }
