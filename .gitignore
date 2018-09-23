@@ -63,3 +63,4 @@ typings/
 #api
 api/labtb.key
 api/labtb.cert
+api/secret.json

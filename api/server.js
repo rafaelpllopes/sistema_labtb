@@ -15,6 +15,9 @@ const credenciais = {
     cert: fs.readFileSync("labtb.cert", "utf8")
 };
 
-https.createServer(credenciais, app)
+/*https.createServer(credenciais, app)
     .listen(app.get('port'), () =>
-        console.log(`API rodando na porta ${app.get('port')}`))
+        console.log(`API rodando na porta ${app.get('port')}`));*/
+
+app.listen(app.get('port'), () =>
+    console.log(`API rodando na porta ${app.get('port')}`));
