@@ -1,0 +1,16 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "API REST para sistema labtb",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "api",
+    "labtb",
+    "rest"
+  ],
+  "author": "Rafael Pereira de Lacerda Lopes <rafael.pllopes@gmail.com>",
+  "license": "ISC"
+}
