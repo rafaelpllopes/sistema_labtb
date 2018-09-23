@@ -1,5 +1,20 @@
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('labtb.db');
+const sha256 = require('sha256');
+
+const USUARIOS_SCHEMA = `
+CREATE TABLE IF NOT EXISTS usuarios (
+    user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_name VARCHAR(250) NOT NULL UNIQUE,
+    user_password VARCHAR(250) NOT NULL
+)
+`;
+
+const INSERT_DEFAULT_USUARIO = 
+`
+INSERT INTO usuarios (user_name, user_password)
+    SELECT 'admin', ? WHERE NOT EXISTS (SELECT * FROM usuarios WHERE user_name = 'admin')
+`;
 
 const PACIENTES_SCHEMA = `
 CREATE TABLE IF NOT EXISTS pacientes (
@@ -111,6 +126,7 @@ INSERT INTO resultados (resultado)
 
 db.serialize(() => {
     db.run("PRAGMA foreign_keys=ON");
+    db.run(USUARIOS_SCHEMA);
     db.run(PACIENTES_SCHEMA);
     db.run(LAUDOS_SCHEMA);
     db.run(ASPECTOS_SCHEMA);
@@ -125,6 +141,7 @@ db.serialize(() => {
     db.run(INSERT_DEFAULT_RESULTADOS_3);
     db.run(INSERT_DEFAULT_RESULTADOS_4);
     db.run(INSERT_DEFAULT_RESULTADOS_5);
+    db.run(INSERT_DEFAULT_USUARIO, [sha256.x2('admin')]);
 
     /*db.each("SELECT * FROM aspectos", (err, aspectos) => {
         console.log(aspectos);
@@ -134,6 +151,10 @@ db.serialize(() => {
     db.each("SELECT * FROM resultados", (err, resultado) => {
         console.log(resultado);
     });*/
+
+    db.each("SELECT * FROM usuarios", (err, resultado) => {
+        console.log(resultado);
+    });
 });
 
 process.on('SIGINT', () =>
