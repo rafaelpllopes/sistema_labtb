@@ -5,15 +5,17 @@ const sha256 = require('sha256');
 const USUARIOS_SCHEMA = `
 CREATE TABLE IF NOT EXISTS usuarios (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_name VARCHAR(250) NOT NULL UNIQUE,
-    user_password VARCHAR(250) NOT NULL
+    user_name VARCHAR(100) NOT NULL UNIQUE,
+    user_full_name VARCHAR(250) NOT NULL,
+    user_password VARCHAR(250) NOT NULL,
+    user_data_cadastro TIMESTAMP DEFAULT (datetime('now','localtime')) NOT NULL
 )
 `;
 
-const INSERT_DEFAULT_USUARIO = 
-`
-INSERT INTO usuarios (user_name, user_password)
-    SELECT 'admin', ? WHERE NOT EXISTS (SELECT * FROM usuarios WHERE user_name = 'admin')
+const INSERT_DEFAULT_USUARIO =
+    `
+INSERT INTO usuarios (user_name, user_full_name, user_password)
+    SELECT 'admin', 'Administrador', ? WHERE NOT EXISTS (SELECT * FROM usuarios WHERE user_name = 'admin')
 `;
 
 const PACIENTES_SCHEMA = `
@@ -27,16 +29,17 @@ CREATE TABLE IF NOT EXISTS pacientes (
     paciente_numero VARCHAR(5),
     paciente_bairro VARCHAR(100),
     paciente_municipio VARCHAR(100),
-    paciente_estado VARCHAR(100)
+    paciente_estado VARCHAR(100),
+    paciente_data_cadastro TIMESTAMP DEFAULT (datetime('now','localtime')) NOT NULL
 )
 `;
 
 const LAUDOS_SCHEMA = `
 CREATE TABLE IF NOT EXISTS laudos (
     laudo_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    laudo_data_entrada TIMESTAMP NOT NULL, 
-    laudo_materia VARCHAR(100),
-    laudo_data_coleta DATE NOT NULL,
+    laudo_data_entrada TIMESTAMP DEFAULT (datetime('now','localtime')) NOT NULL, 
+    laudo_material VARCHAR(100),
+    laudo_data_coleta TIMESTAMP NOT NULL,
     laudo_controle INTEGER NOT NULL,
     laudo_obs TEXT DEFAULT ('') NOT NULL,
     aspecto_id INTEGER,
@@ -57,35 +60,29 @@ CREATE TABLE IF NOT EXISTS aspectos (
 )
 `;
 
-const INSERT_DEFAULT_ASPECTOS_1 = 
-`
+const INSERT_DEFAULT_ASPECTOS = [
+    `
 INSERT INTO aspectos (aspecto) 
     SELECT 'MUCOPURULENTO' WHERE NOT EXISTS (SELECT * FROM aspectos WHERE aspecto = 'MUCOPURULENTO')
-`;
-
-const INSERT_DEFAULT_ASPECTOS_2 = 
+`,
 `
 INSERT INTO aspectos (aspecto)
     SELECT 'PURULENTO' WHERE NOT EXISTS (SELECT * FROM aspectos WHERE aspecto = 'PURULENTO')
-`;
-
-const INSERT_DEFAULT_ASPECTOS_3 = 
+`,
 `
 INSERT INTO aspectos (aspecto)
     SELECT 'SANGUINOLENTO' WHERE NOT EXISTS (SELECT * FROM aspectos WHERE aspecto = 'SANGUINOLENTO')
-`;
-
-const INSERT_DEFAULT_ASPECTOS_4 = 
+`,
 `
 INSERT INTO aspectos (aspecto)
     SELECT 'SALIVA' WHERE NOT EXISTS (SELECT * FROM aspectos WHERE aspecto = 'SALIVA')
-`;
-
-const INSERT_DEFAULT_ASPECTOS_5 = 
+`,
 `
 INSERT INTO aspectos (aspecto)
     SELECT 'LIQUEFEITO' WHERE NOT EXISTS (SELECT * FROM aspectos WHERE aspecto = 'LIQUEFEITO')
-`;
+`,
+
+];
 
 const RESULTADOS_SCHEMA = `
 CREATE TABLE IF NOT EXISTS resultados (
@@ -94,35 +91,28 @@ CREATE TABLE IF NOT EXISTS resultados (
 )
 `;
 
-const INSERT_DEFAULT_RESULTADOS_1 = 
-`
+const INSERT_DEFAULT_RESULTADOS = [
+    `
 INSERT INTO resultados (resultado) 
     SELECT 'NEGATIVA' WHERE NOT EXISTS (SELECT * FROM resultados WHERE resultado = 'NEGATIVA')
-`;
-
-const INSERT_DEFAULT_RESULTADOS_2 = 
+`,
 `
 INSERT INTO resultados (resultado)
     SELECT 'POSITIVA DE 1 A 9 BAAR' WHERE NOT EXISTS (SELECT * FROM resultados WHERE resultado = 'POSITIVA DE 1 A 9 BAAR')
-`;
-
-const INSERT_DEFAULT_RESULTADOS_3 = 
+`,
 `
 INSERT INTO resultados (resultado) 
     SELECT 'POSITIVA(+)' WHERE NOT EXISTS (SELECT * FROM resultados WHERE resultado = 'POSITIVA(+)')
-`;
-
-const INSERT_DEFAULT_RESULTADOS_4 = 
+`,
 `
 INSERT INTO resultados (resultado) 
     SELECT 'POSITIVA(++)' WHERE NOT EXISTS (SELECT * FROM resultados WHERE resultado = 'POSITIVA(++)')
-`;
-
-const INSERT_DEFAULT_RESULTADOS_5 = 
+`,
 `
 INSERT INTO resultados (resultado)
     SELECT 'POSITIVA(+++)' WHERE NOT EXISTS (SELECT * FROM resultados WHERE resultado = 'POSITIVA(+++)')
-`;
+`
+];
 
 db.serialize(() => {
     db.run("PRAGMA foreign_keys=ON");
@@ -130,17 +120,11 @@ db.serialize(() => {
     db.run(PACIENTES_SCHEMA);
     db.run(LAUDOS_SCHEMA);
     db.run(ASPECTOS_SCHEMA);
-    db.run(RESULTADOS_SCHEMA);               
-    db.run(INSERT_DEFAULT_ASPECTOS_1); 
-    db.run(INSERT_DEFAULT_ASPECTOS_2);
-    db.run(INSERT_DEFAULT_ASPECTOS_3);
-    db.run(INSERT_DEFAULT_ASPECTOS_4);
-    db.run(INSERT_DEFAULT_ASPECTOS_5);
-    db.run(INSERT_DEFAULT_RESULTADOS_1);
-    db.run(INSERT_DEFAULT_RESULTADOS_2);
-    db.run(INSERT_DEFAULT_RESULTADOS_3);
-    db.run(INSERT_DEFAULT_RESULTADOS_4);
-    db.run(INSERT_DEFAULT_RESULTADOS_5);
+    db.run(RESULTADOS_SCHEMA);
+    INSERT_DEFAULT_ASPECTOS
+        .forEach(inserir => db.run(inserir));
+    INSERT_DEFAULT_RESULTADOS
+        .forEach(inserir => db.run(inserir));
     db.run(INSERT_DEFAULT_USUARIO, [sha256.x2('admin')]);
 
     /*db.each("SELECT * FROM aspectos", (err, aspectos) => {

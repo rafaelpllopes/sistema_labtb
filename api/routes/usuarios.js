@@ -21,20 +21,21 @@ module.exports = app => {
                 const usuarios = await new usuariosDao(req.db).existe(user);
                 res.status(200).json(usuarios);
             } else {
-                res.status(412).json({msg: "Nome do usuario não pode ser vazio"});
+                res.status(412).json({ msg: "Nome do usuario não pode ser vazio" });
             }
         })
     );
 
 
-    app.post('/usuarios/add',
+    app.post('/usuario/add',
         (async (req, res) => {
             let user = req.body.user_name;
+            let nome = req.body.user_full_name;
             let password = req.body.user_password;
             if (user && password) {
                 let existe = await new usuariosDao(req.db).existe(user);
                 if (!existe) {
-                    await new usuariosDao(req.db).add(user, password);
+                    await new usuariosDao(req.db).add(user, nome, password);
                     res.sendStatus(201);
                 } else {
                     res.status(412).json({ msg: "Usuario não pode ser cadastrado" });
@@ -50,15 +51,41 @@ module.exports = app => {
         .put(async (req, res) => {
             let id = req.params.id;
             let password = req.body.user_password;
-            if (id && password) {
-                await new usuariosDao(req.db).updatePassword(id, password);
+            let nome = req.body.user_full_name;
+
+            if (id && password && nome) {
+                await new usuariosDao(req.db).updateUser(id, password, nome);
                 res.sendStatus(202);
             } else {
                 res.status(412).json({ msg: "Senha não pode ser vazia" });
             }
         })
         .get(async (req, res) => {
-            let usuario = await new usuariosDao(req.db).findUserById(req.params.id);
-            res.status(200).json(usuario);
+            let id = req.params.id;
+            if (id) {
+                let usuario = await new usuariosDao(req.db).findUserById(req.params.id);
+                res.status(200).json(usuario);
+            } else {
+                res.sendStatus(404);
+            }
         })
+        .delete(async (req, res) => {
+            let id = req.params.id;
+            if (id) {
+                let usuario = await new usuariosDao(req.db).findUserById(id);
+                if (usuario) {
+                    if (usuario.user_name !== 'admin') {
+                        await new usuariosDao(req.db).deleteUserById(id);
+                        res.status(202).json({ msg: "Usuario deletado com sucesso" });
+                    } else {
+                        res.status(400).json({ msg: "Administrador não pode ser removido" });
+                    }
+                } else {
+                    res.sendStatus(404);
+
+                }
+            } else {
+                res.sendStatus(404);
+            }
+        });
 };
