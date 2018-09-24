@@ -136,9 +136,9 @@ db.serialize(() => {
         console.log(resultado);
     });*/
 
-    db.each("SELECT * FROM usuarios", (err, resultado) => {
+    /*db.each("SELECT * FROM usuarios", (err, resultado) => {
         console.log(resultado);
-    });
+    });*/
 });
 
 process.on('SIGINT', () =>
