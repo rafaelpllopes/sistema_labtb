@@ -14,39 +14,6 @@ module.exports = app => {
         })
     );
 
-    app.post('/usuarios/existe',
-        (async (req, res) => {
-            let user = req.body.user_name;
-            if (user) {
-                const usuarios = await new usuariosDao(req.db).existe(user);
-                res.status(200).json(usuarios);
-            } else {
-                res.status(412).json({ msg: "Nome do usuario não pode ser vazio" });
-            }
-        })
-    );
-
-
-    app.post('/usuario/add',
-        (async (req, res) => {
-            let user = req.body.user_name;
-            let nome = req.body.user_full_name;
-            let password = req.body.user_password;
-            if (user && password) {
-                let existe = await new usuariosDao(req.db).existe(user);
-                if (!existe) {
-                    await new usuariosDao(req.db).add(user, nome, password);
-                    res.sendStatus(201);
-                } else {
-                    res.status(412).json({ msg: "Usuario não pode ser cadastrado" });
-                }
-            } else {
-                res.status(412).json({ msg: "Usuario e senha são obrigatorios" });
-            }
-
-        })
-    );
-
     app.route('/usuarios/:id')
         .put(async (req, res) => {
             let id = req.params.id;
@@ -88,4 +55,37 @@ module.exports = app => {
                 res.sendStatus(404);
             }
         });
+
+    app.post('/usuario/existe',
+        (async (req, res) => {
+            let user = req.body.user_name;
+            if (user) {
+                const usuarios = await new usuariosDao(req.db).existe(user);
+                res.status(200).json(usuarios);
+            } else {
+                res.status(412).json({ msg: "Nome do usuario não pode ser vazio" });
+            }
+        })
+    );
+
+
+    app.post('/usuario/add',
+        (async (req, res) => {
+            let user = req.body.user_name;
+            let nome = req.body.user_full_name;
+            let password = req.body.user_password;
+            if (user && password) {
+                let existe = await new usuariosDao(req.db).existe(user);
+                if (!existe) {
+                    await new usuariosDao(req.db).add(user, nome, password);
+                    res.sendStatus(201);
+                } else {
+                    res.status(412).json({ msg: "Usuario não pode ser cadastrado" });
+                }
+            } else {
+                res.status(412).json({ msg: "Usuario e senha são obrigatorios" });
+            }
+
+        })
+    );
 };
