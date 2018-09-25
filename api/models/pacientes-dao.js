@@ -1,21 +1,32 @@
 class PacientesDao {
+
     constructor(db) {
         this._db = db;
     }
 
     addPaciente(paciente) {
         return new Promise((resolve, reject) => {
-            this._db.run('INSERT INTO pacientes VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            this._db.run(`INSERT INTO 
+                pacientes (paciente_cns, 
+                    paciente_nome, 
+                    paciente_data_nascimento, 
+                    paciente_cep,
+                    paciente_logradouro,
+                    paciente_numero,
+                    paciente_bairro,
+                    paciente_municipio,
+                    paciente_estado) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 [
-                    paciente.paciente_cns | '',
+                    paciente.paciente_cns,
                     paciente.paciente_nome,
                     paciente.paciente_data_nascimento,
-                    paciente.paciente_cep | '',
-                    paciente.paciente_logradouro | '',
-                    paciente.paciente_numero | '',
-                    paciente.paciente_bairro | '',
-                    paciente.paciente_municipio | '',
-                    paciente.paciente_estado | ''
+                    paciente.paciente_cep,
+                    paciente.paciente_logradouro,
+                    paciente.paciente_numero,
+                    paciente.paciente_bairro,
+                    paciente.paciente_municipio,
+                    paciente.paciente_estado
                 ],
                 (err, rows) => {
                     if (err) {
@@ -28,7 +39,7 @@ class PacientesDao {
     }
 
     getPacientes(page) {
-        const maxRows = 12;
+        const maxRows = 10;
 
         const from = (page - 1) * maxRows;
 
@@ -45,26 +56,31 @@ class PacientesDao {
                     if (err) {
                         return reject('Não foram encontrados pacientes');
                     }
-                    resolve(rows);
+                    if (rows) resolve(rows);
+                    resolve(null);
                 });
         });
     }
 
     updatePaciente(id, paciente) {
+        let date = new Date();
+        const dataAtual = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+        
         return new Promise((resolve, reject) => {
-            this.db.run(
-                `UPDATE pacientes 
-                    SET paciente_cns = ?,
-                    paciente_nome = ?,
-                    paciente_data_nascimento ?,
-                    paciente_cep = ?,
-                    paciente_logradouro = ?,
-                    paciente_numero = ?,
-                    paciente_bairro = ?,
-                    paciente_municipio = ?,
-                    paciente_estado = ?
-                    WHERE paciente_id = ?
-                ` , [
+            this._db.run(
+                `UPDATE pacientes SET 
+                paciente_cns = ?, 
+                paciente_nome = ?, 
+                paciente_data_nascimento ?, 
+                paciente_cep = ?, 
+                paciente_logradouro = ?, 
+                paciente_numero = ?, 
+                paciente_bairro = ?, 
+                paciente_municipio = ?, 
+                paciente_estado = ?, 
+                paciente_atualizado = ? 
+                WHERE paciente_id = ?` , 
+                [
                     paciente.paciente_cns,
                     paciente.paciente_nome,
                     paciente.paciente_data_nascimento,
@@ -73,7 +89,9 @@ class PacientesDao {
                     paciente.paciente_numero,
                     paciente.paciente_bairro,
                     paciente.paciente_municipio,
-                    paciente.paciente_estado
+                    paciente.paciente_estado,
+                    dataAtual,
+                    id
                 ], 
                 (err, rows) => {
                     if(err) {
@@ -142,3 +160,5 @@ class PacientesDao {
         });
     }
 }
+
+module.exports = PacientesDao;
