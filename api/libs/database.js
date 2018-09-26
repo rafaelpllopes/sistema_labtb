@@ -1,6 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('labtb.db');
 const sha256 = require('sha256');
+const zfill = require('./zfill');
 
 const USUARIOS_SCHEMA = `
 CREATE TABLE IF NOT EXISTS usuarios (
@@ -34,18 +35,18 @@ CREATE TABLE IF NOT EXISTS pacientes (
     paciente_atualizado TIMESTAMP
 )
 `;
-/*
+
 const data = new Date();
 
 const INSERT_TESTE_PACIENTES = [
-    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) VALUES ('111111111111111', 'Seila quem', '${data.getFullYear()}-${data.getMonth() + 1}-${data.getDate()}')`,
-    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) VALUES ('222222222222222', 'João alguem', '${data.getFullYear()}-${data.getMonth() + 1}-${data.getDate()}')`,
-    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) VALUES ('333333333333333', 'Super teste', '${data.getFullYear()}-${data.getMonth() + 1}-${data.getDate()}')`,
-    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) VALUES ('444444444444444', 'Maria sem nome', '${data.getFullYear()}-${data.getMonth() + 1}-${data.getDate()}')`,
-    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) VALUES ('555555555555555', 'Goku', '${data.getFullYear()}-${data.getMonth() + 1}-${data.getDate()}')`,
-    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) VALUES ('666666666666666', 'Vegeta', '${data.getFullYear()}-${data.getMonth() + 1}-${data.getDate()}')`
+    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) VALUES ('111111111111111', 'Seila quem', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}')`,
+    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) VALUES ('222222222222222', 'João alguem', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}')`,
+    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) VALUES ('333333333333333', 'Super teste', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}')`,
+    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) VALUES ('444444444444444', 'Maria sem nome', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}')`,
+    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) VALUES ('555555555555555', 'Goku', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}')`,
+    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) VALUES ('666666666666666', 'Vegeta', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}')`
 ];
-*/
+
 
 const LAUDOS_SCHEMA = `
 CREATE TABLE IF NOT EXISTS laudos (
@@ -58,7 +59,6 @@ CREATE TABLE IF NOT EXISTS laudos (
     aspecto_id INTEGER,
     resultado_id INTEGER,
     paciente_id INTEGER NOT NULL,
-    UNIQUE(paciente_id, aspecto_id, resultado_id),
     FOREIGN KEY(paciente_id) REFERENCES pacientes(paciente_id) ON DELETE CASCADE,
     FOREIGN KEY(resultado_id) REFERENCES pacientes(resultado_id) ON DELETE CASCADE,
     FOREIGN KEY(aspecto_id) REFERENCES pacientes(aspecto_id) ON DELETE CASCADE  
@@ -140,25 +140,16 @@ db.serialize(() => {
         .forEach(inserir => db.run(inserir));
     db.run(INSERT_DEFAULT_USUARIO, [sha256.x2('admin')]);
 
-    /*INSERT_TESTE_PACIENTES
-        .forEach(inserir => db.run(inserir));*/
+    //INSERT_TESTE_PACIENTES.forEach(inserir => db.run(inserir));
 
-    /*db.each("SELECT * FROM aspectos", (err, aspectos) => {
-        console.log(aspectos);
-    });
+    //db.each("SELECT * FROM aspectos", (err, aspectos) => console.log(aspectos));
 
 
-    db.each("SELECT * FROM resultados", (err, resultado) => {
-        console.log(resultado);
-    });*/
+    //db.each("SELECT * FROM resultados", (err, resultado) => console.log(resultado));
 
-    /*db.each("SELECT * FROM usuarios", (err, resultado) => {
-        console.log(resultado);
-    });*/
+    //db.each("SELECT * FROM usuarios", (err, resultado) => console.log(resultado));
 
-    /*db.each("SELECT * FROM pacientes", (err, resultado) => {
-        console.log(resultado);
-    });*/
+    //db.each("SELECT * FROM pacientes", (err, resultado) => console.log(resultado));
 });
 
 process.on('SIGINT', () =>

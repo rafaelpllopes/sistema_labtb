@@ -35,6 +35,33 @@ module.exports = app => {
             }
         });
 
+    app.route('/pacientes/nome/:nome')
+        .get(async (req, res) => {
+            const nome = req.params.nome;
+            if (nome) {
+                const pacientes = await new pacientesDao(req.db).findPacienteByName(nome);
+                res.status(200).json(pacientes);
+            } else {
+                res.sendStatus(404);
+            }
+        });
+
+    app.route('/pacientes/cns/:cns')
+        .get(async (req, res) => {
+            const cns = req.params.cns;
+            if (cns) {
+                const cnsNumber = cns.length === 15 ? parseInt(cns) : undefined;
+                if (typeof cnsNumber === 'number' && cnsNumber.toString().length === 15) {
+                    const pacientes = await new pacientesDao(req.db).findPacienteByCns(cns);
+                    res.status(200).json(pacientes);
+                } else {
+                    res.sendStatus(404);
+                }
+            } else {
+                res.sendStatus(404);
+            }
+        });
+
     app.route('/pacientes/:id')
         .get(async (req, res) => {
             const id = req.params.id;
@@ -55,7 +82,6 @@ module.exports = app => {
                         const cns = req.body.paciente_cns;
                         const nome = req.body.paciente_nome;
                         const dataNasc = req.body.paciente_data_nascimento;
-
                         const cnsNumber = cns.length === 15 ? parseInt(cns) : undefined;
 
                         if (typeof cnsNumber === 'number' && cnsNumber.toString().length === 15) {
@@ -63,8 +89,9 @@ module.exports = app => {
                                 if (nome && dataNasc) {
                                     await new pacientesDao(req.db).updatePaciente(id, req.body);
                                     res.sendStatus(202);
+                                    return;
                                 } else {
-                                    res.status(412).json('Nome e data de nascimento são obrigatorios.')
+                                    res.status(412).json('Nome e data de nascimento são obrigatorios.');
                                 }
                             }
                             const cnsExiste = await new pacientesDao(req.db).findPacienteByCns(cns);
@@ -72,14 +99,15 @@ module.exports = app => {
                                 if (nome && dataNasc) {
                                     await new pacientesDao(req.db).updatePaciente(id, req.body);
                                     res.sendStatus(202);
+                                    return;
                                 } else {
-                                    res.status(412).json('Nome e data de nascimento são obrigatorios.')
+                                    res.status(412).json('Nome e data de nascimento são obrigatorios.');
                                 }
                             } else {
                                 res.status(409).json({ msg: "O CNS informado ja esta cadastrado" });
                             }
                         } else {
-                            res.status(412).json({ msg: "CNS deve ter o tamanho de 15 caracteres e deve ser somente numeros" })
+                            res.status(412).json({ msg: "CNS deve ter o tamanho de 15 caracteres e deve ser somente numeros" });
                         }
                     } else {
                         res.sendStatus(412);
@@ -92,13 +120,14 @@ module.exports = app => {
             }
         })
         .delete(async (req, res) => {
-                const id = req.params.id;
-                if (id) {
-                    await new pacientesDao(req.db).deletePaciente(id);
-                    res.sendStatus(202);
-                } else {
-                    res.sendStatus(404);
-                }
+            const id = req.params.id;
+            if (id) {
+                await new pacientesDao(req.db).deletePaciente(id);
+                res.sendStatus(202);
+                return;
+            } else {
+                res.sendStatus(404);
+                return;
             }
-        );
+        });
 };
