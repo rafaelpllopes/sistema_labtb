@@ -12,13 +12,14 @@ module.exports = app => {
                 const cns = req.body.paciente_cns;
                 const nome = req.body.paciente_nome;
                 const dataNasc = req.body.paciente_data_nascimento;
+                const sexo = req.body.paciente_sexo;
 
                 const cnsNumber = cns.length === 15 ? parseInt(cns) : undefined;
 
                 if (typeof cnsNumber === 'number' && cnsNumber.toString().length === 15) {
                     const cnsExiste = await new pacientesDao(req.db).findPacienteByCns(cns);
                     if (!cnsExiste) {
-                        if (nome && dataNasc) {
+                        if (nome && dataNasc && sexo) {
                             await new pacientesDao(req.db).addPaciente(req.body);
                             res.sendStatus(201);
                         } else {
@@ -82,11 +83,12 @@ module.exports = app => {
                         const cns = req.body.paciente_cns;
                         const nome = req.body.paciente_nome;
                         const dataNasc = req.body.paciente_data_nascimento;
+                        const sexo = req.body.paciente_sexo;
                         const cnsNumber = cns.length === 15 ? parseInt(cns) : undefined;
 
                         if (typeof cnsNumber === 'number' && cnsNumber.toString().length === 15) {
                             if (pacienteExiste.paciente_cns === cns) {
-                                if (nome && dataNasc) {
+                                if (nome && dataNasc, sexo) {
                                     await new pacientesDao(req.db).updatePaciente(id, req.body);
                                     res.sendStatus(202);
                                     return;
@@ -96,7 +98,7 @@ module.exports = app => {
                             }
                             const cnsExiste = await new pacientesDao(req.db).findPacienteByCns(cns);
                             if (!cnsExiste) {
-                                if (nome && dataNasc) {
+                                if (nome && dataNasc, sexo) {
                                     await new pacientesDao(req.db).updatePaciente(id, req.body);
                                     res.sendStatus(202);
                                     return;
