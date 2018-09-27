@@ -1,0 +1,18 @@
+<header class="fixed-top">
+  <nav class="navbar navbar-light bg-white">
+    <a class="navbar-brand">
+      <i tabindex="0" (keyup.space)="menu.toggle()" (click)="menu.toggle()" class="fa fa-bars mr-2"></i>
+      Laboratorio
+    </a>
+    <app-menu #menu>
+      <ul class='list-unstyled'>
+        <li>
+          <a>Laudos</a>
+        </li>
+        <li>
+          <a>Pacientes</a>
+        </li>
+      </ul>
+    </app-menu>
+  </nav>
+</header>
