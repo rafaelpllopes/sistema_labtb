@@ -1,77 +1,70 @@
-laudos = [
-    {
-        id: 1,
-        data_entrada: new Date(),
-        nome_paciente: 'teste1',
-        sexo_paciente: 'M',
-        endereco_paciente: {
-            logradouro: 'Rua ...',
-            numero: '1',
-            bairro: '?',
-            cidade: '?',
-            cep: '?'
-        }
-    },
-    {
-        id: 2,
-        data_entrada: new Date(),
-        nome_paciente: 'teste2',
-        sexo_paciente: 'M',
-        endereco_paciente: {
-            logradouro: 'Rua ...',
-            numero: '1',
-            bairro: '?',
-            cidade: '?',
-            cep: '?'
-        }
-    },
-    {
-        id: 3,
-        data_entrada: new Date(),
-        nome_paciente: 'teste3',
-        sexo_paciente: 'M',
-        endereco_paciente: {
-            logradouro: 'Rua ...',
-            numero: '1',
-            bairro: '?',
-            cidade: '?',
-            cep: '?'
-        }
-    },
-]
+const laudosDao = require('../models/laudos-dao');
+
 module.exports = app => {
     app.route('/laudos')
-        .get((req, res) => res.json(laudos))
-        .post((req, res) => {
+        .get(async (req, res) => {
+            const laudos = await new laudosDao(req.db).getLaudos();
+            res.status(200).json(laudos);
+        })
+        .post(async (req, res) => {
+            const paciente = req.body.paciente_id;
             if(req.body) {
-                laudos.push(req.body);
-                res.sendStatus(201);
+                if(paciente) {
+                    await new laudosDao(req.db).addLaudo(req.body);
+                    res.status(200).json({msg: "Laudo cadastrado com sucesso"});
+                } else {
+                    res.status(409).json({msg: "Paciente é obrigatorio"});
+                }
             } else {
                 res.sendStatus(412);
             }
         });
 
     app.route('/laudos/:id')
-        .get((req, res) => {
-            res.json(laudos.find(laudo => laudo.id == req.params.id))
-        })
-        .put((req, res) => {
-            let id = req.params.id;
-            if(id) {
-                laudos[id - 1] = req.body;
-                res.sendStatus(202);
+        .get(async (req, res) => {
+            const id = req.params.id;
+            if (id) {
+                const laudo = await new laudosDao(req.db).getLaudoById(id);
+                if(laudo) {
+                    res.status(200).json(laudo);
+                } else {
+                    res.sendStatus(404);
+                }
             } else {
-                res.sendStatus(412);
+                res.sendStatus(404);
             }
         })
-        .delete((req, res) => {
-            let id = req.params.id;
-            if(id) {
-                let index = laudos.find(laudo => laudo.id == req.params.id);
-                laudos.splice(index, 1);
-                res.sendStatus(202);
+        .put(async (req, res) => {
+            const id = req.params.id;
+            const paciente= req.body.paciente_id;
+            if(id && req.body) {
+                if(paciente) {
+                    const laudo = await new laudosDao(req.db).getLaudoById(id)
+                    if(laudo) {
+                        await new laudosDao(req.db).updateLaudo(id, req.body);
+                        res.status(200).json({msg: "Laudo atualizado com sucesso"});
+                    } else {
+                        res.sendStatus(404);
+                    }
+                } else {
+                    res.status(409).json({msg: "Paciente é obrigatorio"});
+                }
             } else {
-                res.sendStatus(412);
+                res.sendStatus(404);
+            }
+        })
+        .delete(async (req, res) => {
+            const id = req.params.id;
+            if (id) {
+                const laudo = await new laudosDao(req.db).getLaudoById(id);
+                if (laudo) {
+                    await new laudosDao(req.db).deleteLaudo(id);
+                    res.sendStatus(202);
+                } else {
+                    res.sendStatus(404);
+                }
+            } else {
+                res.sendStatus(404);
             }
         });
 };

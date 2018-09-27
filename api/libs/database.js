@@ -39,12 +39,12 @@ CREATE TABLE IF NOT EXISTS pacientes (
 const data = new Date();
 
 const INSERT_TESTE_PACIENTES = [
-    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) VALUES ('111111111111111', 'Seila quem', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}')`,
-    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) VALUES ('222222222222222', 'João alguem', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}')`,
-    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) VALUES ('333333333333333', 'Super teste', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}')`,
-    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) VALUES ('444444444444444', 'Maria sem nome', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}')`,
-    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) VALUES ('555555555555555', 'Goku', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}')`,
-    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) VALUES ('666666666666666', 'Vegeta', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}')`
+    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) SELECT '111111111111111', 'Seila quem', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}' WHERE NOT EXISTS (SELECT * FROM pacientes WHERE paciente_cns = '111111111111111')`,
+    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) SELECT '222222222222222', 'João alguem', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}' WHERE NOT EXISTS (SELECT * FROM pacientes WHERE paciente_cns = '222222222222222')`,
+    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) SELECT '333333333333333', 'Super teste', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}' WHERE NOT EXISTS (SELECT * FROM pacientes WHERE paciente_cns = '333333333333333')`,
+    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) SELECT '444444444444444', 'Maria sem nome', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}' WHERE NOT EXISTS (SELECT * FROM pacientes WHERE paciente_cns = '444444444444444')`,
+    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) SELECT '555555555555555', 'Goku', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}' WHERE NOT EXISTS (SELECT * FROM pacientes WHERE paciente_cns = '555555555555555')`,
+    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) SELECT '666666666666666', 'Vegeta', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}' WHERE NOT EXISTS (SELECT * FROM pacientes WHERE paciente_cns = '666666666666666')`
 ];
 
 
@@ -53,17 +53,33 @@ CREATE TABLE IF NOT EXISTS laudos (
     laudo_id INTEGER PRIMARY KEY AUTOINCREMENT,
     laudo_data_entrada TIMESTAMP DEFAULT (datetime('now','localtime')) NOT NULL, 
     laudo_material VARCHAR(100),
-    laudo_data_coleta TIMESTAMP NOT NULL,
-    laudo_controle INTEGER NOT NULL,
-    laudo_obs TEXT DEFAULT ('') NOT NULL,
+    laudo_data_coleta DATE,
+    laudo_amostras INTEGER,
+    laudo_controle INTEGER,
+    laudo_obs TEXT DEFAULT (''),
     aspecto_id INTEGER,
     resultado_id INTEGER,
     paciente_id INTEGER NOT NULL,
-    FOREIGN KEY(paciente_id) REFERENCES pacientes(paciente_id) ON DELETE CASCADE,
-    FOREIGN KEY(resultado_id) REFERENCES pacientes(resultado_id) ON DELETE CASCADE,
-    FOREIGN KEY(aspecto_id) REFERENCES pacientes(aspecto_id) ON DELETE CASCADE  
+    FOREIGN KEY(paciente_id) REFERENCES pacientes(paciente_id)
 )
 `;
+
+const INSERT_TESTE_LAUDOS = [
+    `INSERT INTO laudos (laudo_data_coleta, laudo_controle, paciente_id)
+        SELECT '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)} ${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}', '1', '1' WHERE NOT EXISTS (SELECT * FROM laudos WHERE laudo_id = '1')`,
+
+    `INSERT INTO laudos (laudo_data_coleta, laudo_controle, paciente_id) 
+        SELECT '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)} ${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}', '1', '1' WHERE NOT EXISTS (SELECT * FROM laudos WHERE laudo_id = '2')`,
+
+    `INSERT INTO laudos (laudo_data_coleta, laudo_controle, paciente_id) 
+        SELECT '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)} ${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}', '1', '1' WHERE NOT EXISTS (SELECT * FROM laudos WHERE laudo_id = '3')`,
+
+    `INSERT INTO laudos (laudo_data_coleta, laudo_controle, paciente_id) 
+        SELECT '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)} ${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}', '1', '3' WHERE NOT EXISTS (SELECT * FROM laudos WHERE laudo_id = '4')`,
+
+    `INSERT INTO laudos (laudo_data_coleta, laudo_controle, paciente_id) 
+        SELECT '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)} ${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}', '1', '2' WHERE NOT EXISTS (SELECT * FROM laudos WHERE laudo_id = '5')`
+];
 
 const ASPECTOS_SCHEMA = `
 CREATE TABLE IF NOT EXISTS aspectos (
@@ -140,8 +156,8 @@ db.serialize(() => {
         .forEach(inserir => db.run(inserir));
     db.run(INSERT_DEFAULT_USUARIO, [sha256.x2('admin')]);
 
-    //INSERT_TESTE_PACIENTES.forEach(inserir => db.run(inserir));
-
+    INSERT_TESTE_PACIENTES.forEach(inserir => db.run(inserir));
+    INSERT_TESTE_LAUDOS.forEach(inserir => db.run(inserir));
     //db.each("SELECT * FROM aspectos", (err, aspectos) => console.log(aspectos));
 
 
@@ -149,7 +165,10 @@ db.serialize(() => {
 
     //db.each("SELECT * FROM usuarios", (err, resultado) => console.log(resultado));
 
-    //db.each("SELECT * FROM pacientes", (err, resultado) => console.log(resultado));
+    //db.each("SELECT paciente_nome FROM pacientes", (err, resultado) => console.log(resultado));
+    //db.each("SELECT paciente_id FROM laudos", (err, resultado) => console.log(resultado));
+
+    //db.each("SELECT l.laudo_id, l.laudo_data_entrada, p.paciente_nome, l.laudo_material, l.laudo_controle FROM laudos l INNER JOIN pacientes p ON p.paciente_id = l.paciente_id", (err, resultado) => console.log(resultado));
 });
 
 process.on('SIGINT', () =>
