@@ -1,24 +1,36 @@
+const jwt = require('jsonwebtoken');
+const wrapAsync = require('../libs/async-wrap');
 const usuariosDao = require('../models/usuarios-dao');
 
 module.exports = app => {
-    app.post('/usuarios',
-        (async (req, res) => {
-            let user = req.body.user_name;
-            let password = req.body.user_password;
+    app.route('/usuario/login')
+        .post(wrapAsync(async (req, res) => {
+            const user = req.body.user_name;
+            const password = req.body.user_password;
+
             if (user && password) {
-                const usuarios = await new usuariosDao(req.db).findUsuarioAndPassword(user, password);
-                res.status(200).json(usuarios);
+                const usuario = await new usuariosDao(req.db).findUsuarioAndPassword(user, password);
+                if (usuario) {
+                    const token = jwt.sign(usuario, req.app.get('secret'), {
+                        expiresIn: 86400
+                    });
+                    res.set('x-access-token', token);
+                    res.status(200).json(usuario);
+                } else {
+                    res.status(401).json({ msg: `Falha na autenticação para o usuario ${user}` })
+                }
+
             } else {
                 res.status(412).json({ msg: "Usuario e senha não podem ser vazio" });
             }
         })
-    );
+        );
 
     app.route('/usuarios/:id')
-        .put(async (req, res) => {
-            let id = req.params.id;
-            let password = req.body.user_password;
-            let nome = req.body.user_full_name;
+        .put(wrapAsync(async (req, res) => {
+            const id = req.params.id;
+            const password = req.body.user_password;
+            const nome = req.body.user_full_name;
 
             if (id && password && nome) {
                 await new usuariosDao(req.db).updateUser(id, password, nome);
@@ -26,20 +38,20 @@ module.exports = app => {
             } else {
                 res.status(412).json({ msg: "Senha não pode ser vazia" });
             }
-        })
-        .get(async (req, res) => {
-            let id = req.params.id;
+        }))
+        .get(wrapAsync(async (req, res) => {
+            const id = req.params.id;
             if (id) {
-                let usuario = await new usuariosDao(req.db).findUserById(req.params.id);
+                const usuario = await new usuariosDao(req.db).findUserById(req.params.id);
                 res.status(200).json(usuario);
             } else {
                 res.sendStatus(404);
             }
-        })
-        .delete(async (req, res) => {
-            let id = req.params.id;
+        }))
+        .delete(wrapAsync(async (req, res) => {
+            const id = req.params.id;
             if (id) {
-                let usuario = await new usuariosDao(req.db).findUserById(id);
+                const usuario = await new usuariosDao(req.db).findUserById(id);
                 if (usuario) {
                     if (usuario.user_name !== 'admin') {
                         await new usuariosDao(req.db).deleteUserById(id);
@@ -54,11 +66,11 @@ module.exports = app => {
             } else {
                 res.sendStatus(404);
             }
-        });
-
-    app.post('/usuario/existe',
-        (async (req, res) => {
-            let user = req.body.user_name;
+        }));
+        
+    app.route('/usuario/existe')
+        .post(wrapAsync((async (req, res) => {
+            const user = req.body.user_name;
             if (user) {
                 const usuarios = await new usuariosDao(req.db).existe(user);
                 res.status(200).json(usuarios);
@@ -66,16 +78,15 @@ module.exports = app => {
                 res.status(412).json({ msg: "Nome do usuario não pode ser vazio" });
             }
         })
-    );
+        ));
 
-
-    app.post('/usuario/add',
-        (async (req, res) => {
-            let user = req.body.user_name;
-            let nome = req.body.user_full_name;
-            let password = req.body.user_password;
+    app.route('/usuarios/add')
+        .post(wrapAsync((async (req, res) => {
+            const user = req.body.user_name;
+            const nome = req.body.user_full_name;
+            const password = req.body.user_password;
             if (user && password) {
-                let existe = await new usuariosDao(req.db).existe(user);
+                const existe = await new usuariosDao(req.db).existe(user);
                 if (!existe) {
                     await new usuariosDao(req.db).add(user, nome, password);
                     res.sendStatus(201);
@@ -87,5 +98,5 @@ module.exports = app => {
             }
 
         })
-    );
+        ));
 };
