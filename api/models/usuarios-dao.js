@@ -16,7 +16,7 @@ class UserDao {
     findUsuarioAndPassword(user_name, password) {
         return new Promise((resolve, reject) => {
             let cryp = sha256.x2(password);
-            this._db.get(`SELECT user_id, user_name FROM usuarios WHERE user_name = ? AND user_password = ?`,
+            this._db.get(`SELECT user_id, user_name, user_full_name FROM usuarios WHERE user_name = ? AND user_password = ?`,
                 [user_name, cryp],
                 (err, rows) => {
                     if (err) {

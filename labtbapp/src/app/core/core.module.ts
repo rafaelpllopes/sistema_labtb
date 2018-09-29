@@ -4,14 +4,17 @@ import { RouterModule } from '@angular/router';
 
 import { HeaderComponent } from './header/header.component';
 import { MenuModule } from '../shared/components/menu/menu.module';
+import { FooterComponent } from './footer/footer.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
     CommonModule,
+    HttpClientModule,
     MenuModule,
     RouterModule
   ],
-  declarations: [HeaderComponent],
-  exports: [HeaderComponent]
+  declarations: [HeaderComponent, FooterComponent],
+  exports: [HeaderComponent, FooterComponent]
 })
 export class CoreModule { }
