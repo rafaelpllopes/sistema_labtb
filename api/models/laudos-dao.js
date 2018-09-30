@@ -40,7 +40,7 @@ class LaudosDao {
     }
 
     getLaudos(page) {
-        const maxRows = 10;
+        const maxRows = 6;
 
         const from = (page - 1) * maxRows;
 
@@ -54,6 +54,7 @@ class LaudosDao {
                 l.laudo_id, 
                 l.laudo_data_entrada, 
                 p.paciente_nome, 
+                p.paciente_sexo,
                 l.laudo_material,
                 l.laudo_amostras,
                 l.laudo_controle 

@@ -5,6 +5,7 @@ const helmet = require("helmet");
 const db = require('./database');
 const usuarios = require('../routes/usuarios');
 const laudos = require('../routes/laudos');
+const pacientes = require('../routes/pacientes');
 const fs = require('fs');
 
 module.exports = app => {
@@ -43,6 +44,7 @@ module.exports = app => {
 
     usuarios(app);
     laudos(app);
+    pacientes(app);
 
     app.use('*', (req, res) => {
         res.status(404).json({ msg: `rota ${req.originalUrl} não existe!` });

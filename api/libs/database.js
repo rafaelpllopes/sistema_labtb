@@ -80,7 +80,43 @@ const INSERT_TESTE_LAUDOS = [
         SELECT '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)} ${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}', '1', '3' WHERE NOT EXISTS (SELECT * FROM laudos WHERE laudo_id = '4')`,
 
     `INSERT INTO laudos (laudo_data_coleta, laudo_controle, paciente_id) 
-        SELECT '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)} ${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}', '1', '2' WHERE NOT EXISTS (SELECT * FROM laudos WHERE laudo_id = '5')`
+        SELECT '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)} ${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}', '1', '2' WHERE NOT EXISTS (SELECT * FROM laudos WHERE laudo_id = '6')`,
+
+    `INSERT INTO laudos (laudo_data_coleta, laudo_controle, paciente_id) 
+        SELECT '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)} ${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}', '1', '2' WHERE NOT EXISTS (SELECT * FROM laudos WHERE laudo_id = '7')`,
+
+    `INSERT INTO laudos (laudo_data_coleta, laudo_controle, paciente_id) 
+        SELECT '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)} ${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}', '1', '2' WHERE NOT EXISTS (SELECT * FROM laudos WHERE laudo_id = '8')`,
+
+    `INSERT INTO laudos (laudo_data_coleta, laudo_controle, paciente_id) 
+        SELECT '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)} ${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}', '1', '2' WHERE NOT EXISTS (SELECT * FROM laudos WHERE laudo_id = '9')`,
+
+    `INSERT INTO laudos (laudo_data_coleta, laudo_controle, paciente_id) 
+        SELECT '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)} ${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}', '1', '2' WHERE NOT EXISTS (SELECT * FROM laudos WHERE laudo_id = '10')`,
+
+    `INSERT INTO laudos (laudo_data_coleta, laudo_controle, paciente_id) 
+        SELECT '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)} ${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}', '1', '2' WHERE NOT EXISTS (SELECT * FROM laudos WHERE laudo_id = '11')`,
+
+    `INSERT INTO laudos (laudo_data_coleta, laudo_controle, paciente_id) 
+        SELECT '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)} ${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}', '1', '2' WHERE NOT EXISTS (SELECT * FROM laudos WHERE laudo_id = '12')`,
+
+    `INSERT INTO laudos (laudo_data_coleta, laudo_controle, paciente_id) 
+        SELECT '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)} ${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}', '1', '2' WHERE NOT EXISTS (SELECT * FROM laudos WHERE laudo_id = '13')`,
+
+    `INSERT INTO laudos (laudo_data_coleta, laudo_controle, paciente_id) 
+        SELECT '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)} ${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}', '1', '2' WHERE NOT EXISTS (SELECT * FROM laudos WHERE laudo_id = '14')`,
+        
+    `INSERT INTO laudos (laudo_data_coleta, laudo_controle, paciente_id) 
+        SELECT '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)} ${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}', '1', '2' WHERE NOT EXISTS (SELECT * FROM laudos WHERE laudo_id = '15')`,
+
+    `INSERT INTO laudos (laudo_data_coleta, laudo_controle, paciente_id) 
+        SELECT '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)} ${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}', '1', '2' WHERE NOT EXISTS (SELECT * FROM laudos WHERE laudo_id = '16')`,
+
+    `INSERT INTO laudos (laudo_data_coleta, laudo_controle, paciente_id) 
+        SELECT '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)} ${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}', '1', '2' WHERE NOT EXISTS (SELECT * FROM laudos WHERE laudo_id = '17')`,
+
+    `INSERT INTO laudos (laudo_data_coleta, laudo_controle, paciente_id) 
+        SELECT '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)} ${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}', '1', '2' WHERE NOT EXISTS (SELECT * FROM laudos WHERE laudo_id = '18')`
 ];
 
 const ASPECTOS_SCHEMA = `

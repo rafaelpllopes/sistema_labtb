@@ -1,16 +1,15 @@
 <header class="fixed-top">
   <nav class="navbar navbar-light bg-white">
     <a class="navbar-brand">
-      <i tabindex="0" (keyup.space)="menu.toggle()" (click)="menu.toggle()" class="fa fa-bars mr-2"></i>
-      Laboratorio
+      <i tabindex="0" (keyup.space)="menu.toggle()" (click)="menu.toggle()" class="fa fa-bars mr-2"> Laboratorio</i>
     </a>
     <app-menu #menu>
       <ul class='list-unstyled'>
         <li>
-          <a><i class="fa fa-archive"></i> Laudos</a>
+          <a [routerLink]="['laudos']"><i class="fa fa-archive"></i> Laudos</a>
         </li>
         <li>
-          <a><i class="fa fa-users"></i> Pacientes</a>
+          <a [routerLink]="['pacientes']"><i class="fa fa-users"></i> Pacientes</a>
         </li>
       </ul>
     </app-menu>

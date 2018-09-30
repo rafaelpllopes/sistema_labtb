@@ -1,0 +1,42 @@
+<a class="btn btn-primary btn-lg" [routerLink]="['novo']"><i class="fa fa-plus-circle"> Novo Laudo</i></a>
+
+<h2 class="text-center text-uppercase">Laudos</h2>
+
+<app-laudos-search (onTyping)="filter = $event" [value]="filter"></app-laudos-search>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Data Entrada</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Sexo</th>
+        <th scope="col">Material</th>
+        <th scope="col">Amostra</th>
+        <th scope="col">Controle</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let laudo of laudos | laudosList: filter, let i = index">
+        <th scope="col">{{ i + 1 }}</th>
+        <td scope="col">{{ laudo?.laudo_data_entrada | date:'dd/MM/yyyy hh:mm:ss' }}</td>
+        <td scope="col">{{ laudo?.paciente_nome }}</td>
+        <td scope="col">{{ laudo?.paciente_sexo }}</td>
+        <td scope="col">{{ laudo?.laudo_material }}</td>
+        <td scope="col">{{ laudo?.laudo_amostras }}ª Amostra</td>
+        <td scope="col">{{ laudo?.laudo_controle }}º mês</td>
+        <td scope="col">
+          <a class="btn btn-warning btn-sm mr-1" [routerLink]="['resultado', laudo.laudo_id]"><i class="fa fa-list-alt">
+              Resultado</i></a>
+          <a class="btn btn-info  btn-sm mr-1" [routerLink]="['detalhes', laudo.laudo_id]"><i class="fa fa-info-circle">
+              Detalhes</i></a>
+          <a class="btn btn-success btn-sm" [routerLink]="['imprimir', laudo.laudo_id]"><i class="fa fa-print">
+              Imprimir</i></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<app-load-list-buttom (click)="load()" [hasMore]="hasMore"></app-load-list-buttom>

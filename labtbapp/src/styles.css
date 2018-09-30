@@ -6,3 +6,7 @@ body {
 .break-word {
     word-break: break-all;
 }
+
+section {
+    padding-bottom: 5em;
+}

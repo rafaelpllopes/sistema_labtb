@@ -3,7 +3,8 @@ const laudosDao = require('../models/laudos-dao');
 module.exports = app => {
     app.route('/laudos')
         .get(async (req, res) => {
-            const laudos = await new laudosDao(req.db).getLaudos();
+            const page = req.query.page;
+            const laudos = await new laudosDao(req.db).getLaudos(page);
             res.status(200).json(laudos);
         })
         .post(async (req, res) => {
