@@ -1,19 +1,28 @@
 <h4 class="text-center text-uppercase">Laudo</h4>
-<form>
+<form [formGroup]="formLaudo" class="form mt-4" (submit)="add()">
   <fieldset>
     <legend>Paciente</legend>
-    <div class="row">
+
+    <div class="form-row align-items-center">
       <div class="form-group col-md-4">
         <label for="cns">CNS</label>
         <input type="number" class="form-control" id="cns" [value]="paciente?.paciente_cns" (keyup)="digitouCns($event.target.value)">
       </div>
+      <div class="input-group col-md-4">
+        <a class="btn btn-success btn-sm"><i class="fa fa-address-card"></i> Cadastrar Paciente</a>
+      </div>
+
       <div class="form-group col-md-12">
         <label for="paciente">Nome</label>
-        <input type="text" class="form-control" id="paciente" [value]="paciente?.paciente_nome" (keyup)="digitouNome($event.target.value)" [readonly]="cnsKeyup" autocomplete="off">
-      <div class="list-group">
-          <button (click)="pacienteSelect(p)" *ngFor="let p of pacientes" class="list-group-item list-group-item-action">{{ p?.paciente_nome }}</button>
+        <input formControlName="paciente" type="text" class="form-control" id="paciente" [value]="paciente?.paciente_nome"
+          (keyup)="digitouNome($event.target.value)" [readonly]="cnsKeyup" autocomplete="off">
+
+        <div class="list-group">
+          <button (click)="pacienteSelect(p)" *ngFor="let p of pacientes" class="list-group-item list-group-item-action">{{
+            p?.paciente_nome }}</button>
         </div>
-        
+
+        <app-vmessage *ngIf="formLaudo.get('paciente').errors?.required" text="Paciente é obrigatorio!"></app-vmessage>
       </div>
     </div>
   </fieldset>
@@ -23,26 +32,26 @@
     <div class="row">
       <div class="form-group col-md-8">
         <label for="material">Material</label>
-        <input type="text" class="form-control" id="material">
+        <input formControlName="material" type="text" class="form-control" id="material">
       </div>
 
       <div class="form-group col-md-4">
         <label for="data-coleta">Data Coleta</label>
-        <input type="date" class="form-control" id="data-coleta">
+        <input formControlName="dataColeta" type="date" class="form-control" id="data-coleta">
       </div>
 
       <div class="form-group col-md-6">
         <label for="diagnostico">Diagnóstico</label>
-        <input type="number" class="form-control" id="diagnostico">
+        <input formControlName="diagnostico" type="number" class="form-control" id="diagnostico">
       </div>
 
       <div class="form-group col-md-6">
         <label for="controle">Controle de Tratamento</label>
-        <input type="number" class="form-control" id="controle">
+        <input formControlName="controle" type="number" class="form-control" id="controle">
       </div>
     </div>
   </fieldset>
 
-  <button class="btn btn-primary btn-lg mr-2">Cadastrar</button>
+  <button [disabled]="formLaudo.invalid" class="btn btn-primary btn-lg mr-2" type="submit">Cadastrar</button>
   <a class="btn btn-danger btn-lg" [routerLink]="['/laudos']">Cancelar</a>
 </form>

@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LaudosList } from './laudos-list/laudos-list';
+import { Laudo } from './laudo';
 
 const API = 'http://localhost:3000';
 
@@ -23,7 +24,7 @@ export class LaudosService {
 
   getLaudoById(id: number) {
     return this.http
-      .get<LaudosList[]>(`${API}/laudos/${id}`);
+      .get<any[]>(`${API}/laudos/${id}`);
   }
 
   getPacienteByCns(cns: number) {
@@ -34,5 +35,30 @@ export class LaudosService {
   getPacienteByName(nome: string) {
     return this.http
       .get<any[]>(`${API}/pacientes/nome/${nome}`);
+  }
+
+  addLaudo(laudo: Laudo) {
+    return this.http
+      .post(`${API}/laudos`, {laudo});
+  }
+
+  updateLaudo(id: number,laudo: Laudo) {
+    return this.http
+      .put(`${API}/laudos/${id}`, {laudo});
+  }
+
+  updateLaudoResultado(id: number,laudo: any) {
+    return this.http
+      .put(`${API}/laudos/resultado/${id}`, {laudo});
+  }
+
+  getResultados() {
+    return this.http
+      .get<any[]>(`${API}/resultados`);
+  }
+
+  getAspectos() {
+    return this.http
+      .get<any[]>(`${API}/aspectos`);
   }
 }

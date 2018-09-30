@@ -59,7 +59,7 @@ class LaudosDao {
                 l.laudo_amostras,
                 l.laudo_controle 
             FROM laudos l 
-                INNER JOIN pacientes p ON p.paciente_id = l.paciente_id 
+                INNER JOIN pacientes p ON p.paciente_id = l.paciente_id ORDER BY l.laudo_id DESC
                 ${limitQuery}
                 `,
                 (err, rows) => {
@@ -77,15 +77,42 @@ class LaudosDao {
             this._db.get(`
             SELECT 
                 l.*,
-                p.* 
+                (SELECT aspecto FROM aspectos WHERE aspectos_id = l.aspecto_id) AS aspecto,
+                (SELECT resultado FROM resultados WHERE resultado_id = l.resultado_id) AS resultado,
+                p.*
             FROM laudos l 
-                INNER JOIN pacientes p ON p.paciente_id = l.paciente_id
+            INNER JOIN pacientes p ON p.paciente_id = l.paciente_id
             WHERE l.laudo_id = ?
             `,
                 [id],
                 (err, rows) => {
                     if (err) {
                         return reject('Não foi encontrado laudo');
+                    }
+                    if (rows) resolve(rows);
+                    resolve(null);
+                });
+        });
+    }
+
+    updateLaudoResultado(id, laudo) {
+        return new Promise((resolve, reject) => {
+            this._db.run(`
+                UPDATE laudos SET 
+                    laudo_obs = ?,
+                    aspecto_id = ?,
+                    resultado_id = ?
+                WHERE laudo_id = ?
+            `,
+                [
+                    laudo.laudo_obs,
+                    laudo.aspecto_id,
+                    laudo.resultado_id,
+                    id
+                ],
+                (err, rows) => {
+                    if (err) {
+                        return reject('Não foi possivel cadastrar o laudo');
                     }
                     if (rows) resolve(rows);
                     resolve(null);

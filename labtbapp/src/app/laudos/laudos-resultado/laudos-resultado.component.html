@@ -1,6 +1,6 @@
-<section *ngIf="laudo$ | async as laudo" class="bottom">
+<section *ngIf="laudo$ | async as laudo">
   <h4 class="text-center text-uppercase">Laudo</h4>
-  <form>
+  <form [formGroup]="formLaudo" (submit)="update()">
     <fieldset>
       <legend>Dados do paciente</legend>
       <div class="row">
@@ -12,16 +12,16 @@
         <div class="form-group col-md-6">
           <label for="hora-entrada">Hora Entrada</label>
           <input type="text" class="form-control" id="hora-entrada" value="{{ laudo.laudo_data_entrada | date:'hh:mm:ss' }}"
-            readonly>
+            disabled readonly>
         </div>
         <div class="form-group col-md-4">
           <label for="cns">CNS</label>
-          <input type="text" class="form-control" id="cns" value="{{ laudo.paciente_cns }}" readonly>
+          <input type="text" class="form-control" id="cns" [value]="laudo.paciente_cns" disabled readonly>
         </div>
         <div class="form-group col-md-4">
           <label for="data-nascimento">Data Nascimento</label>
-          <input type="text" class="form-control" id="data-nascimento" value="{{ laudo.paciente_data_nascimento }}"
-            readonly>
+          <input type="text" class="form-control" id="data-nascimento" [value]="laudo.paciente_data_nascimento"
+            disabled readonly>
         </div>
         <div class="form-group col-md-4">
           <label for="idade">Idade</label>
@@ -30,35 +30,37 @@
         </div>
         <div class="form-group col-md-8">
           <label for="paciente">Paciente</label>
-          <input type="text" class="form-control" id="paciente" value="{{ laudo.paciente_nome }}" readonly>
+          <input type="text" class="form-control" id="paciente" value="{{ laudo.paciente_nome }}" disabled readonly>
         </div>
         <div class="form-group col-md-4">
           <label for="sexo">Sexo</label>
-          <input type="text" class="form-control" id="sexo" value="{{ laudo.paciente_sexo | sexoNome }}" readonly>
+          <input type="text" class="form-control" id="sexo" value="{{ laudo.paciente_sexo | sexoNome }}" disabled
+            readonly>
         </div>
         <div class="form-group col-md-4">
           <label for="cep">CEP</label>
-          <input type="text" class="form-control" id="cep" value="{{ laudo.paciente_cep }}" readonly>
+          <input type="text" class="form-control" id="cep" value="{{ laudo.paciente_cep }}" disabled readonly>
         </div>
         <div class="form-group col-md-6">
           <label for="logradouro">Logradouro</label>
-          <input type="text" class="form-control" id="logradouro" value="{{ laudo.paciente_logradouro }}" readonly>
+          <input type="text" class="form-control" id="logradouro" value="{{ laudo.paciente_logradouro }}" disabled
+            readonly>
         </div>
         <div class="form-group col-md-2">
           <label for="numero">Numero</label>
-          <input type="text" class="form-control" id="numero" value="{{ laudo.paciente_numero }}" readonly>
+          <input type="text" class="form-control" id="numero" value="{{ laudo.paciente_numero }}" disabled readonly>
         </div>
         <div class="form-group col-md-4">
           <label for="bairro">Bairro</label>
-          <input type="text" class="form-control" id="bairro" value="{{ laudo.paciente_bairro }}" readonly>
+          <input type="text" class="form-control" id="bairro" value="{{ laudo.paciente_bairro }}" disabled readonly>
         </div>
         <div class="form-group col-md-4">
           <label for="cidade">Cidade</label>
-          <input type="text" class="form-control" id="cidade" value="{{ laudo.paciente_municipio }}" readonly>
+          <input type="text" class="form-control" id="cidade" value="{{ laudo.paciente_municipio }}" disabled readonly>
         </div>
         <div class="form-group col-md-4">
           <label for="estado">Estado</label>
-          <input type="text" class="form-control" id="estado" value="{{ laudo.paciente_estado }}" readonly>
+          <input type="text" class="form-control" id="estado" value="{{ laudo.paciente_estado }}" disabled readonly>
         </div>
       </div>
     </fieldset>
@@ -68,47 +70,60 @@
       <div class="row">
         <div class="form-group col-md-8">
           <label for="material">Material</label>
-          <input type="text" class="form-control" id="material" value="{{ laudo.laudo_material }}" readonly>
+          <input type="text" class="form-control" id="material" [value]="laudo.laudo_material" disabled readonly>
         </div>
 
         <div class="form-group col-md-4">
           <label for="data-coleta">Data Coleta</label>
-          <input type="text" class="form-control" id="data-coleta" value="{{ laudo.laudo_data_coleta | date:'dd/MM/yyyy' }}"
-            readonly>
+          <input type="text" class="form-control" id="data-coleta" [value]="laudo.laudo_data_coleta | date:'dd/MM/yyyy'"
+            disabled readonly>
         </div>
 
         <div class="form-group col-md-6">
           <label for="diagnostico">Diagnóstico</label>
-          <input type="text" class="form-control" id="diagnostico" value="{{ laudo.laudo_amostras }}ª amostra" readonly>
+          <input type="text" class="form-control" id="diagnostico" value="{{ laudo.laudo_amostras }}ª amostra" disabled
+            readonly>
         </div>
 
         <div class="form-group col-md-6">
           <label for="controle">Controle de Tratamento</label>
-          <input type="text" class="form-control" id="controle" value="{{ laudo.laudo_controle }}ª mês" readonly>
+          <input type="text" class="form-control" id="controle" value="{{ laudo.laudo_controle }}ª mês" disabled
+            readonly>
         </div>
       </div>
     </fieldset>
 
     <fieldset>
       <legend>Resultado da Baciloscopia</legend>
+
       <div class="row">
         <div class="form-group col-md-6">
           <label for="resultado">Resultado</label>
-          <input type="text" class="form-control" id="resultado" value="{{ laudo.resultado_id }}">
+          <select class="custom-select" formControlName="resultado">
+            <option value="" disabled>Selecione um resultado</option>
+            <option *ngFor="let resultado of resultados" [ngValue]="resultado.resultado_id" [selected]="verificaSelect(laudo.resultado_id, resultado.resultado_id)">
+              {{ resultado.resultado }}
+            </option>
+          </select>
         </div>
 
         <div class="form-group col-md-6">
           <label for="aspecto">Aspecto</label>
-          <input type="text" class="form-control" id="aspecto" value="{{ laudo.aspecto_id }}">
+          <select class="custom-select" formControlName="aspecto">
+            <option value="" disabled>Selecione um aspecto</option>
+            <option *ngFor="let aspecto of aspectos" [ngValue]="aspecto.aspectos_id" [selected]="verificaSelect(laudo.aspecto_id, aspecto.aspectos_id)">
+              {{ aspecto.aspecto }}
+            </option>
+          </select>
         </div>
 
         <div class="form-group col-md-12">
           <label for="obs">Observação</label>
-          <textarea class="form-control" id="obs" value="{{ laudo.laudo_obs }}" rows="10"></textarea>
+          <textarea formControlName="obs" class="form-control" id="obs" [value]="laudo.laudo_obs" rows="10"></textarea>
         </div>
       </div>
     </fieldset>
-    <button class="btn btn-primary btn-lg mr-2">Adicionar Resultado</button>
+    <button [disabled]="formLaudo.invalid" class="btn btn-primary btn-lg mr-2" type="submit">Adicionar Resultado</button>
     <a class="btn btn-danger btn-lg" [routerLink]="['/laudos']">Cancelar</a>
   </form>
 </section>
