@@ -13,6 +13,7 @@ export class LaudosDetalhesComponent implements OnInit {
 
   laudo$: Observable<any>;
   id: number;
+  dataSaida: string;
 
   constructor(
     private service: LaudosService,
@@ -23,6 +24,12 @@ export class LaudosDetalhesComponent implements OnInit {
   ngOnInit() {
     this.id = this.activeRoute.snapshot.params.id;
     this.laudo$ = this.service.getLaudoById(this.id);
+  }
+
+  print() {
+    let data = new Date();
+    this.dataSaida = `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()}`;
+    window.print();
   }
 
 }

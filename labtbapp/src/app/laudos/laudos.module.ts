@@ -1,6 +1,4 @@
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { IdadeCalcPipe } from './idade-calc.pipe';
-import { LaudosImprimirComponent } from './laudos-imprimir/laudos-imprimir.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -12,6 +10,7 @@ import { LaudosResultadoComponent } from './laudos-resultado/laudos-resultado.co
 import { SexoNomePipe } from './sexo-nome.pipe';
 import { LaudosAdicionarComponent } from './laudos-adicionar/laudos-adicionar.component';
 import { VmessageModule } from '../shared/vmessage/vmessage.module';
+import { IdadeCalcPipe } from './idade-calc.pipe';
 
 @NgModule({
   imports: [
@@ -25,7 +24,6 @@ import { VmessageModule } from '../shared/vmessage/vmessage.module';
   declarations: [
     LaudosComponent,
     LaudosDetalhesComponent,
-    LaudosImprimirComponent,
     LaudosResultadoComponent,
     LaudosAdicionarComponent,
     IdadeCalcPipe,

@@ -10,3 +10,9 @@ body {
 section {
     padding-bottom: 5em;
 }
+
+@media print {
+    header, footer, nav, aside, button, a {
+       display: none;
+    }    
+ }

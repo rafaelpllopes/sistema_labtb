@@ -5,7 +5,6 @@ import { LaudosComponent } from './laudos.component';
 import { LaudosListComponent } from './laudos-list/laudos-list.component';
 import { LaudosDetalhesComponent } from './laudos-detalhes/laudos-detalhes.component';
 import { LaudosResultadoComponent } from './laudos-resultado/laudos-resultado.component';
-import { LaudosImprimirComponent } from './laudos-imprimir/laudos-imprimir.component';
 import { LaudosListResolver } from './laudos-list/laudos-list.resolver';
 import { LaudosAdicionarComponent } from './laudos-adicionar/laudos-adicionar.component';
 
@@ -28,10 +27,6 @@ const routes: Routes = [
             {
                 path: 'detalhes/:id',
                 component: LaudosDetalhesComponent
-            },
-            {
-                path: 'imprimir/:id',
-                component: LaudosImprimirComponent
             },
             {
                 path: 'novo',

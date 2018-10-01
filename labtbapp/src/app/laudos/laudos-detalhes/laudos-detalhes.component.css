@@ -1,0 +1,44 @@
+@media screen {
+    .flex-container {
+        display: none;
+    }
+    
+    .assinatura {
+        display: none;
+    }    
+}
+
+@media print {
+    h1 {
+       color: #000;
+       background: none;
+    }
+ 
+    nav, aside, button, a {
+       display: none;
+    }
+ 
+    body, article {
+       width: 100%;
+       margin: 0;
+       padding: 0;
+    }
+
+    .flex-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        padding-bottom: 2em;
+    }
+
+    .assinatura {
+        display: block;
+    }
+ 
+    @page {
+       margin-left: 3cm;
+       margin-right: 2cm;
+       margin-bottom: 2cm;
+       margin-top: 3cm;
+    }
+ }

@@ -1,5 +1,10 @@
 <section *ngIf="laudo$ | async as laudo" class="bottom">
-  <h4 class="text-center text-uppercase">Laudo</h4>
+  <div class="flex-container">
+    ​<picture style="flex-grow: 1; height: 15%; width: 15%;">
+      <img src="../../assets/timbre novo.png" class="img-fluid" alt="brasão">
+    </picture>
+  </div>
+  <h4 class="text-center text-uppercase">Baciloscopia Pesquisa de BAAR-TB</h4>
   <form>
     <fieldset>
       <legend>Dados do paciente</legend>
@@ -104,11 +109,26 @@
 
         <div class="form-group col-md-12">
           <label for="obs">Observação</label>
-          <textarea class="form-control" id="obs" [value]="laudo.laudo_obs" rows="10" readonly></textarea>
+          <textarea class="form-control" id="obs" [value]="laudo.laudo_obs" rows="7" readonly></textarea>
         </div>
       </div>
     </fieldset>
 
-    <a class="btn btn-success btn-lg" [routerLink]="['/laudos']">Voltar</a>
+    <div class="assinatura">
+      <div class="row">
+        <div class="form-group col-md-4">
+          <label for="data-saida">Data de Saida</label>
+          <input class="form-control" id="data-saida" [value]="dataSaida" readonly>
+        </div>
+
+        <div class="form-group col-md-8">
+          <label for="data-saida">Assinatura do responsavel pelo exame</label>
+          <input class="form-control" id="data-saida" readonly>
+        </div>
+      </div>
+    </div>
+
+    <a class="btn btn-success btn-lg mr-2" [routerLink]="['/laudos']">Voltar</a>
+    <button class="btn btn-primary btn-lg" (click)="print()">Imprimir</button>
   </form>
 </section>
