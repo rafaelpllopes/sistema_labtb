@@ -10,10 +10,10 @@ consign()
     .then('routes')
     .into(app);
 
-const credenciais = {
+/*const credenciais = {
     key: fs.readFileSync("labtb.key", "utf8"),
     cert: fs.readFileSync("labtb.cert", "utf8")
-};
+};*/
 
 /*https.createServer(credenciais, app)
     .listen(app.get('port'), () =>

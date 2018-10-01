@@ -4,15 +4,11 @@
     <legend>Paciente</legend>
 
     <div class="form-row align-items-center">
-      <div class="form-group col-md-4">
+      <!--<div class="form-group col-md-4">
         <label for="cns">CNS</label>
-        <input type="number" class="form-control" id="cns" [value]="paciente?.paciente_cns" (keyup)="digitouCns($event.target.value)">
-      </div>
-      <div class="input-group col-md-4">
-        <a class="btn btn-success btn-sm"><i class="fa fa-address-card"></i> Cadastrar Paciente</a>
-      </div>
-
-      <div class="form-group col-md-12">
+        <input formControlName="cns" type="number" class="form-control" id="cns" [value]="paciente?.paciente_cns" (keyup)="digitouCns($event.target.value)">
+      </div> -->
+      <div class="form-group col-md-10">
         <label for="paciente">Nome</label>
         <input formControlName="paciente" type="text" class="form-control" id="paciente" [value]="paciente?.paciente_nome"
           (keyup)="digitouNome($event.target.value)" [readonly]="cnsKeyup" autocomplete="off">
@@ -23,6 +19,9 @@
         </div>
 
         <app-vmessage *ngIf="formLaudo.get('paciente').errors?.required" text="Paciente é obrigatorio!"></app-vmessage>
+      </div>
+      <div class="input-group col-md-2">
+        <a class="btn btn-success"><i class="fa fa-address-card"></i> Cadastrar Paciente</a>
       </div>
     </div>
   </fieldset>

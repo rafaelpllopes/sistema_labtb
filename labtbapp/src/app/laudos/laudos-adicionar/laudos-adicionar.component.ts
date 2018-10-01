@@ -34,7 +34,7 @@ export class LaudosAdicionarComponent implements OnInit {
     });
   }
 
-  digitouCns(cns: number) {
+  /*digitouCns(cns: number) {
     if (cns) {
       this.cnsKeyup = true;
       if (cns.toString().length === 15) {
@@ -49,7 +49,7 @@ export class LaudosAdicionarComponent implements OnInit {
       this.cnsKeyup = false;
       this.paciente = null;
     }
-  }
+  }*/
 
   digitouNome(nome: string) {
     if (nome) {
@@ -70,7 +70,7 @@ export class LaudosAdicionarComponent implements OnInit {
   }
 
   add() {
-    if(this.id && this.paciente) {
+    if (this.id && this.paciente) {
       const material = this.formLaudo.get('material').value;
       const dataColeta = this.formLaudo.get('dataColeta').value;
       const diagnostico = this.formLaudo.get('diagnostico').value;
@@ -91,7 +91,7 @@ export class LaudosAdicionarComponent implements OnInit {
         .subscribe(() => {
           this.router.navigate(['laudos']);
         }, error => {
-          console.log(error);          
+          console.log(error);
         });
     }
   }
