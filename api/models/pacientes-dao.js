@@ -45,7 +45,7 @@ class PacientesDao {
     }
 
     getPacientes(page) {
-        const maxRows = 10;
+        const maxRows = 2;
 
         const from = (page - 1) * maxRows;
 
@@ -55,7 +55,7 @@ class PacientesDao {
 
         return new Promise((resolve, reject) => {
             this._db.all(`
-                SELECT * FROM pacientes
+                SELECT * FROM pacientes ORDER BY paciente_nome
                 ${limitQuery} ;
                 `,
                 (err, rows) => {

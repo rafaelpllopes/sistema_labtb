@@ -3,7 +3,8 @@ const pacientesDao = require('../models/pacientes-dao');
 module.exports = app => {
     app.route('/pacientes')
         .get(async (req, res) => {
-            const pacientes = await new pacientesDao(req.db).getPacientes();
+            const page = req.query.page;
+            const pacientes = await new pacientesDao(req.db).getPacientes(page);
             res.status(200).json(pacientes);
         })
         .post(async (req, res) => {
