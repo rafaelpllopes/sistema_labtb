@@ -122,6 +122,7 @@ class LaudosDao {
 
     updateLaudo(id, laudo) {
         return new Promise((resolve, reject) => {
+            console.log(laudo);
             this._db.run(`
                 UPDATE laudos SET 
                     laudo_material = ?,
@@ -130,8 +131,7 @@ class LaudosDao {
                     laudo_controle = ?,
                     laudo_obs = ?,
                     aspecto_id = ?,
-                    resultado_id = ?,
-                    paciente_id = ?
+                    resultado_id = ?
                 WHERE laudo_id = ?
             `,
                 [
@@ -142,7 +142,6 @@ class LaudosDao {
                     laudo.laudo_obs,
                     laudo.aspecto_id,
                     laudo.resultado_id,
-                    laudo.paciente_id,
                     id
                 ],
                 (err, rows) => {

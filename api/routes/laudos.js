@@ -27,13 +27,13 @@ module.exports = app => {
             const id = req.params.id;
             const laudo = req.body.laudo;
             if (id && laudo) {
-                    const existe = await new laudosDao(req.db).getLaudoById(id);
-                    if (existe) {
-                        await new laudosDao(req.db).updateLaudoResultado(id, laudo);
-                        res.status(200).json({ msg: "Resultado adicionado com sucesso" });
-                    } else {
-                        res.sendStatus(404);
-                    }
+                const existe = await new laudosDao(req.db).getLaudoById(id);
+                if (existe) {
+                    await new laudosDao(req.db).updateLaudoResultado(id, laudo);
+                    res.status(200).json({ msg: "Resultado adicionado com sucesso" });
+                } else {
+                    res.sendStatus(404);
+                }
             } else {
                 res.sendStatus(404);
             }
@@ -55,18 +55,14 @@ module.exports = app => {
         })
         .put(async (req, res) => {
             const id = req.params.id;
-            const paciente = req.body.paciente_id;
-            if (id && req.body) {
-                if (paciente) {
-                    const laudo = await new laudosDao(req.db).getLaudoById(id)
-                    if (laudo) {
-                        await new laudosDao(req.db).updateLaudo(id, req.body);
-                        res.status(200).json({ msg: "Laudo atualizado com sucesso" });
-                    } else {
-                        res.sendStatus(404);
-                    }
+            const laudo = req.body.laudo;
+            if (id && laudo) {
+                const existe = await new laudosDao(req.db).getLaudoById(id);
+                if (existe) {
+                    await new laudosDao(req.db).updateLaudo(id, laudo);
+                    res.status(200).json({ msg: "Laudo atualizado com sucesso" });
                 } else {
-                    res.status(409).json({ msg: "Paciente é obrigatorio" });
+                    res.sendStatus(404);
                 }
             } else {
                 res.sendStatus(404);
