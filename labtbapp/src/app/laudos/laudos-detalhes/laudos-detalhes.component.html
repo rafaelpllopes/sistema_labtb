@@ -1,8 +1,6 @@
 <section *ngIf="laudo$ | async as laudo" class="bottom">
-  <div class="flex-container">
-    ​<picture style="flex-grow: 1; height: 15%; width: 15%;">
-      <img src="../../assets/timbre novo.png" class="img-fluid" alt="brasão">
-    </picture>
+  <div class="img-container">
+      <img src="../../assets/timbrev2.1.png" class="img-fluid" alt="header-logo">
   </div>
   <h4 class="text-center text-uppercase">Baciloscopia Pesquisa de BAAR-TB</h4>
   <form>
@@ -78,7 +76,7 @@
 
         <div class="form-group col-md-4">
           <label for="data-coleta">Data Coleta</label>
-          <input type="text" class="form-control" id="data-coleta" value="{{ laudo.laudo_data_coleta | date:'dd/MM/yyyy' }}"
+          <input type="text" class="form-control" id="data-coleta" [value]="laudo.laudo_data_coleta | date:'dd/MM/yyyy'"
             readonly>
         </div>
 

@@ -2,7 +2,7 @@
 
 <h2 class="text-center text-uppercase">Laudos</h2>
 
-<app-laudos-search (onTyping)="filter = $event" [value]="filter"></app-laudos-search>
+<app-search (onTyping)="filter = $event" [value]="filter"></app-search>
 
 <div class="table-responsive">
   <table class="table table-striped">
@@ -19,17 +19,17 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let laudo of laudos | laudosList: filter, let i = index">
+      <tr *ngFor="let laudo of laudos | filterByName: filter, let i = index">
         <th scope="col">{{ i + 1 }}</th>
         <td scope="col">{{ laudo?.laudo_data_entrada | date:'dd/MM/yyyy hh:mm:ss' }}</td>
         <td scope="col">{{ laudo?.paciente_nome }}</td>
-        <td scope="col">{{ laudo?.paciente_sexo }}</td>
+        <td scope="col">{{ laudo?.paciente_sexo | sexoNome }}</td>
         <td scope="col">{{ laudo?.laudo_material }}</td>
         <td scope="col">{{ laudo?.laudo_amostras }}ª Amostra</td>
         <td scope="col">{{ laudo?.laudo_controle }}º mês</td>
         <td scope="col">
           <a class="btn btn-warning btn-sm mr-1" [routerLink]="['resultado', laudo.laudo_id]"><i class="fa fa-list-alt">
-              Resultado</i></a>
+              Editar</i></a>
           <a class="btn btn-info  btn-sm mr-1" [routerLink]="['detalhes', laudo.laudo_id]"><i class="fa fa-info-circle">
               Detalhes</i></a>
         </td>
@@ -37,4 +37,4 @@
     </tbody>
   </table>
 </div>
-<app-load-list-buttom (click)="load()" [hasMore]="hasMore"></app-load-list-buttom>
+<app-buttom-load (click)="load()" [hasMore]="hasMore"></app-buttom-load>

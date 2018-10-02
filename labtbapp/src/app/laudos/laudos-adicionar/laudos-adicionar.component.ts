@@ -4,6 +4,7 @@ import { LaudosService } from '../laudos.service';
 import { debounceTime } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Laudo } from '../laudo';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-laudos-adicionar',
@@ -12,11 +13,13 @@ import { Laudo } from '../laudo';
 })
 export class LaudosAdicionarComponent implements OnInit {
 
-  cnsKeyup: boolean = false;
+  //cnsKeyup: boolean = false;
   paciente: any;
   pacientes: any[];
   formLaudo: FormGroup;
   id: number;
+  resultados$: Observable<any[]>;
+  aspectos$: Observable<any[]>;
 
   constructor(
     private service: LaudosService,
@@ -30,8 +33,14 @@ export class LaudosAdicionarComponent implements OnInit {
       material: [''],
       dataColeta: [''],
       diagnostico: [''],
-      controle: ['']
+      controle: [''],
+      obs: [''],
+      resultado: [''],
+      aspecto: ['']
     });
+
+    this.resultados$ = this.service.getResultados();
+    this.aspectos$ = this.service.getAspectos();
   }
 
   /*digitouCns(cns: number) {
@@ -75,15 +84,18 @@ export class LaudosAdicionarComponent implements OnInit {
       const dataColeta = this.formLaudo.get('dataColeta').value;
       const diagnostico = this.formLaudo.get('diagnostico').value;
       const controle = this.formLaudo.get('controle').value;
+      const obs = this.formLaudo.get('obs').value;
+      const aspecto = this.formLaudo.get('aspecto').value;
+      const resultado = this.formLaudo.get('resultado').value;
 
-      const laudo: Laudo = {
+      const laudo: any = {
         laudo_material: material,
         laudo_data_coleta: dataColeta,
         laudo_amostras: diagnostico,
         laudo_controle: controle,
-        laudo_obs: '',
-        aspecto_id: null,
-        resultado_id: null,
+        laudo_obs: obs,
+        aspecto_id: aspecto,
+        resultado_id: resultado,
         paciente_id: this.id
       }
       this.service

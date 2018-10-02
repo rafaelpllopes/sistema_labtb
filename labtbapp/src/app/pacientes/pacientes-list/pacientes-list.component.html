@@ -1,0 +1,39 @@
+<a class="btn btn-primary btn-lg" [routerLink]="['novo']"><i class="fa fa-plus-circle"> Novo Paciente</i></a>
+
+<h2 class="text-center text-uppercase">Pacientes</h2>
+
+<app-search (onTyping)="filter = $event" [value]="filter"></app-search>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">CNS</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Data de Nascimento</th>
+        <th scope="col">Sexo</th>
+        <th scope="col">Contato(s)</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let paciente of pacientes | filterByName: filter, let i = index">
+        <th scope="col">{{ i + 1 }}</th>
+        <td scope="col">{{ paciente?.paciente_cns }}</td>
+        <td scope="col">{{ paciente?.paciente_nome }}</td>
+        <td scope="col">{{ paciente?.paciente_data_nascimento | date:'dd/MM/yyyy' }}</td>
+        <td scope="col">{{ paciente?.paciente_sexo | sexoNome }}</td>
+        <td scope="col">{{ paciente?.paciente_contatos }}</td>
+        <td scope="col">
+          <a class="btn btn-warning btn-sm mr-1" [routerLink]="['', paciente.paciente_id]"><i class="fa fa-list-alt">
+              Editar</i></a>
+          <a class="btn btn-info  btn-sm mr-1" [routerLink]="['', paciente.paciente_id]"><i class="fa fa-info-circle">
+              Detalhes</i></a>
+          <a class="btn btn-danger  btn-sm mr-1" [routerLink]="['', paciente.paciente_id]"><i class="fa fa-trash"></i></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<app-buttom-load (click)="load()" [hasMore]="hasMore"></app-buttom-load>

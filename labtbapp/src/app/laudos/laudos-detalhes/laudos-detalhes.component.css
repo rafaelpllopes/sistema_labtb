@@ -1,5 +1,5 @@
 @media screen {
-    .flex-container {
+    .img-container {
         display: none;
     }
     
@@ -18,16 +18,14 @@
        display: none;
     }
  
-    body, article {
+    body {
        width: 100%;
        margin: 0;
        padding: 0;
     }
 
-    .flex-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
+    .img-container {
+        display: inline-block;
         padding-bottom: 2em;
     }
 

@@ -7,10 +7,10 @@ import { LaudosRoutingModule } from './laudos.routing.module';
 import { LaudosListModule } from './laudos-list/laudos-list.module';
 import { LaudosDetalhesComponent } from './laudos-detalhes/laudos-detalhes.component';
 import { LaudosResultadoComponent } from './laudos-resultado/laudos-resultado.component';
-import { SexoNomePipe } from './sexo-nome.pipe';
 import { LaudosAdicionarComponent } from './laudos-adicionar/laudos-adicionar.component';
 import { VmessageModule } from '../shared/vmessage/vmessage.module';
-import { IdadeCalcPipe } from './idade-calc.pipe';
+import { IdadeCalcModule } from '../shared/pipes/idade-calc/idade-calc.module';
+import { SexoNomeModule } from '../shared/pipes/sexo-nome/sexo-nome.module';
 
 @NgModule({
   imports: [
@@ -19,15 +19,15 @@ import { IdadeCalcPipe } from './idade-calc.pipe';
     FormsModule,
     LaudosListModule,
     LaudosRoutingModule,
-    VmessageModule
+    VmessageModule,
+    IdadeCalcModule,
+    SexoNomeModule
   ],
   declarations: [
     LaudosComponent,
     LaudosDetalhesComponent,
     LaudosResultadoComponent,
     LaudosAdicionarComponent,
-    IdadeCalcPipe,
-    SexoNomePipe
   ]
 })
 export class LaudosModule { }

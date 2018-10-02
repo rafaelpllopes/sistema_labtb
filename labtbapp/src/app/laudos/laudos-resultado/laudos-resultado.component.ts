@@ -36,6 +36,10 @@ export class LaudosResultadoComponent implements OnInit {
       .subscribe(aspectos => this.aspectos = aspectos);
 
     this.formLaudo = this.formBuilder.group({
+      material: [''],
+      dataColeta: [''],
+      diagnostico: [''],
+      controle: [''],
       resultado: [''],
       aspecto: [''],
       obs: ['']
@@ -44,17 +48,26 @@ export class LaudosResultadoComponent implements OnInit {
 
   update() {
     if (this.id) {
+      const material = this.formLaudo.get('material').value;
+      const dataColeta = this.formLaudo.get('dataColeta').value;
+      const diagnostico = this.formLaudo.get('diagnostico').value;
+      const controle = this.formLaudo.get('controle').value;
       const resultado = this.formLaudo.get('resultado').value;
       const aspecto = this.formLaudo.get('aspecto').value;
       const obs = this.formLaudo.get('obs').value;
+
       const laudo = {
+        laudo_material: material,
+        laudo_data_coleta: dataColeta,
+        laudo_amostras: diagnostico,
+        laudo_controle: controle,
         laudo_obs: obs,
         aspecto_id: aspecto,
         resultado_id: resultado
       }
 
       this.service
-        .updateLaudoResultado(this.id, laudo)
+        .updateLaudo(this.id, laudo)
         .subscribe(() => {
           this.router.navigate(['laudos']);
         }, error => {

@@ -37,12 +37,12 @@ export class LaudosService {
       .get<any[]>(`${API}/pacientes/nome/${nome}`);
   }
 
-  addLaudo(laudo: Laudo) {
+  addLaudo(laudo: any) {
     return this.http
       .post(`${API}/laudos`, {laudo});
   }
 
-  updateLaudo(id: number,laudo: Laudo) {
+  updateLaudo(id: number, laudo: Laudo) {
     return this.http
       .put(`${API}/laudos/${id}`, {laudo});
   }

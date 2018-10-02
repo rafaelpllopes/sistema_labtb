@@ -1,13 +1,13 @@
-import { Component, OnInit, Output, Input, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-laudos-search',
-  templateUrl: './laudos-search.component.html',
-  styleUrls: ['./laudos-search.component.css']
+  selector: 'app-search',
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.css']
 })
-export class LaudosSearchComponent implements OnInit, OnDestroy {
+export class SearchComponent implements OnInit {
 
   @Output() onTyping: EventEmitter<string> = new EventEmitter<string>();
   @Input() value: string = '';

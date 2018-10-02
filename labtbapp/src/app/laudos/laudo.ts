@@ -6,5 +6,4 @@ export interface Laudo {
     laudo_obs: string;
     aspecto_id: number;
     resultado_id: number;
-    paciente_id: number;
 }

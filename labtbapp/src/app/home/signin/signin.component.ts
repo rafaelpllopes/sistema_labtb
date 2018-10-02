@@ -44,7 +44,7 @@ export class SigninComponent implements OnInit {
     let senha = this.loginForm.get('password').value;
     this.authService.autenticar(user, senha)
       .subscribe(() =>
-        this.router.navigateByUrl(this.fromUrl)
+        this.router.navigate(['laudos'])
         ,
         err => {
           console.log(err);
