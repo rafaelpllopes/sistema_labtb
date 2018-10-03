@@ -61,4 +61,9 @@ export class LaudosService {
     return this.http
       .get<any[]>(`${API}/aspectos`);
   }
+
+  deleteLaudo(id: number) {
+    return this.http
+      .delete(`${API}/laudos/${id}`);
+  }
 }

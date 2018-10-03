@@ -9,59 +9,60 @@
       <div class="row">
         <div class="form-group col-md-6">
           <label for="data-entrada">Data Entrada</label>
-          <input type="text" class="form-control" id="data-entrada" value="{{ laudo.laudo_data_entrada | date:'dd/MM/yyyy' }}"
+          <input type="text" class="form-control" id="data-entrada" [value]="laudo.laudo_data_entrada | date:'dd/MM/yyyy'"
             readonly>
         </div>
         <div class="form-group col-md-6">
           <label for="hora-entrada">Hora Entrada</label>
-          <input type="text" class="form-control" id="hora-entrada" value="{{ laudo.laudo_data_entrada | date:'hh:mm:ss' }}"
+          <input type="text" class="form-control" id="hora-entrada" [value]="laudo.laudo_data_entrada | date:'hh:mm:ss'"
             readonly>
         </div>
         <div class="form-group col-md-4">
           <label for="cns">CNS</label>
-          <input type="text" class="form-control" id="cns" value="{{ laudo.paciente_cns }}" readonly>
+          <input type="text" class="form-control" id="cns" [value]="laudo.paciente_cns" readonly>
         </div>
         <div class="form-group col-md-4">
           <label for="data-nascimento">Data Nascimento</label>
-          <input type="text" class="form-control" id="data-nascimento" value="{{ laudo.paciente_data_nascimento }}"
+          <input type="text" class="form-control" id="data-nascimento" [value]="laudo.paciente_data_nascimento"
             readonly>
         </div>
         <div class="form-group col-md-4">
           <label for="idade">Idade</label>
-          <input type="text" class="form-control" id="idade" value="{{ laudo.paciente_data_nascimento | idadeCalc }} ano(s)"
+          <input type="text" aria-describedby="idadeHelp" class="form-control" id="idade" [value]="laudo.paciente_data_nascimento | idadeCalc"
             readonly>
+            <small id="idadeHelp" class="form-text text-muted text-right">ano(s)</small>
         </div>
         <div class="form-group col-md-8">
           <label for="paciente">Paciente</label>
-          <input type="text" class="form-control" id="paciente" value="{{ laudo.paciente_nome }}" readonly>
+          <input type="text" class="form-control" id="paciente" [value]="laudo.paciente_nome" readonly>
         </div>
         <div class="form-group col-md-4">
           <label for="sexo">Sexo</label>
-          <input type="text" class="form-control" id="sexo" value="{{ laudo.paciente_sexo | sexoNome }}" readonly>
+          <input type="text" class="form-control" id="sexo" [value]="laudo.paciente_sexo | sexoNome" readonly>
         </div>
         <div class="form-group col-md-4">
           <label for="cep">CEP</label>
-          <input type="text" class="form-control" id="cep" value="{{ laudo.paciente_cep }}" readonly>
+          <input type="text" class="form-control" id="cep" [value]="laudo.paciente_cep" readonly>
         </div>
         <div class="form-group col-md-6">
           <label for="logradouro">Logradouro</label>
-          <input type="text" class="form-control" id="logradouro" value="{{ laudo.paciente_logradouro }}" readonly>
+          <input type="text" class="form-control" id="logradouro" [value]="laudo.paciente_logradouro" readonly>
         </div>
         <div class="form-group col-md-2">
           <label for="numero">Numero</label>
-          <input type="text" class="form-control" id="numero" value="{{ laudo.paciente_numero }}" readonly>
+          <input type="text" class="form-control" id="numero" [value]="laudo.paciente_numero" readonly>
         </div>
         <div class="form-group col-md-4">
           <label for="bairro">Bairro</label>
-          <input type="text" class="form-control" id="bairro" value="{{ laudo.paciente_bairro }}" readonly>
+          <input type="text" class="form-control" id="bairro" [value]="[laudo.paciente_bairro]" readonly>
         </div>
         <div class="form-group col-md-4">
           <label for="cidade">Cidade</label>
-          <input type="text" class="form-control" id="cidade" value="{{ laudo.paciente_municipio }}" readonly>
+          <input type="text" class="form-control" id="cidade" [value]="laudo.paciente_municipio" readonly>
         </div>
         <div class="form-group col-md-4">
           <label for="estado">Estado</label>
-          <input type="text" class="form-control" id="estado" value="{{ laudo.paciente_estado }}" readonly>
+          <input type="text" class="form-control" id="estado" [value]="laudo.paciente_estado" readonly>
         </div>
       </div>
     </fieldset>
@@ -71,7 +72,7 @@
       <div class="row">
         <div class="form-group col-md-8">
           <label for="material">Material</label>
-          <input type="text" class="form-control" id="material" value="{{ laudo.laudo_material }}" readonly>
+          <input type="text" class="form-control" id="material" [value]="laudo.laudo_material" readonly>
         </div>
 
         <div class="form-group col-md-4">
@@ -82,12 +83,14 @@
 
         <div class="form-group col-md-6">
           <label for="diagnostico">Diagnóstico</label>
-          <input type="text" class="form-control" id="diagnostico" value="{{ laudo.laudo_amostras }}ª amostra" readonly>
+          <input type="text" aria-describedby="diagnosticoHelp" class="form-control" id="diagnostico" [value]="laudo.laudo_amostras" readonly>
+          <small id="diagnosticoHelp" class="form-text text-muted text-right">ª amostra</small>
         </div>
 
         <div class="form-group col-md-6">
           <label for="controle">Controle de Tratamento</label>
-          <input type="text" class="form-control" id="controle" value="{{ laudo.laudo_controle }}ª mês" readonly>
+          <input type="text" aria-describedby="controleHelp" class="form-control" id="controle" [value]="laudo.laudo_controle" readonly>
+          <small id="controleHelp" class="form-text text-muted text-right">º mês</small>
         </div>
       </div>
     </fieldset>
@@ -116,7 +119,7 @@
       <div class="row">
         <div class="form-group col-md-4">
           <label for="data-saida">Data de Saida</label>
-          <input class="form-control" id="data-saida" [value]="dataSaida" readonly>
+          <input class="form-control" id="data-saida" readonly>
         </div>
 
         <div class="form-group col-md-8">
@@ -127,6 +130,7 @@
     </div>
 
     <a class="btn btn-success btn-lg mr-2" [routerLink]="['/laudos']">Voltar</a>
-    <button class="btn btn-primary btn-lg" (click)="print()">Imprimir</button>
+    <button class="btn btn-primary btn-lg mr-2" (click)="print()">Imprimir</button>
+    <button class="btn btn-danger btn-lg" (click)="delete(laudo.laudo_id)">Excluir</button>
   </form>
 </section>

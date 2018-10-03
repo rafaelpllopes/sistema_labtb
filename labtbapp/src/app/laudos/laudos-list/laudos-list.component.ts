@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { LaudosService } from '../laudos.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LaudosList } from './laudos-list';
 
 @Component({
@@ -17,7 +17,8 @@ export class LaudosListComponent implements OnInit {
 
   constructor(
     private laudosService: LaudosService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {

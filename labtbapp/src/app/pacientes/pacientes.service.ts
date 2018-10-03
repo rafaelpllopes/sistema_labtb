@@ -19,4 +19,9 @@ export class PacientesService {
     return this.http
       .get<any[]>(`${API}/pacientes`, { params: PARAMS });
   }
+
+  getPacientesById(id: number) {
+    return this.http
+      .get(`${API}/pacientes/${id}`);
+  }
 }

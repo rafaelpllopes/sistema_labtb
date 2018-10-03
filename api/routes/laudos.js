@@ -74,7 +74,7 @@ module.exports = app => {
                 const laudo = await new laudosDao(req.db).getLaudoById(id);
                 if (laudo) {
                     await new laudosDao(req.db).deleteLaudo(id);
-                    res.sendStatus(202);
+                    res.status(202).json({msg: "Laudo deletado com sucesso"});
                 } else {
                     res.sendStatus(404);
                 }

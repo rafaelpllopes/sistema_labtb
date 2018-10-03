@@ -1,0 +1,76 @@
+<section *ngIf="paciente$ | async as paciente">
+  <form>
+    <fieldset>
+      <legend>Dados do paciente</legend>
+      <div class="row">
+        <div class="form-group col-md-4">
+          <label for="cns">CNS</label>
+          <input type="text" class="form-control" id="cns" [value]="paciente.paciente_cns" readonly>
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="data-nascimento">Data Nascimento</label>
+          <input type="text" class="form-control" id="data-nascimento" [value]="paciente.paciente_data_nascimento | date:'dd/MM/yyyy'"
+            readonly>
+        </div>
+
+        <div class="form-group col-md-8">
+          <label for="nome">Nome</label>
+          <input type="text" class="form-control" id="nome" [value]="paciente.paciente_nome" readonly>
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="sexo">Sexo</label>
+          <input type="text" class="form-control" id="sexo" [value]="paciente.paciente_sexo | sexoNome" readonly>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Contato</legend>
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label for="contato">Contato</label>
+          <input type="text" class="form-control" id="contato" [value]="paciente.paciente_contatos" readonly>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Endereço</legend>
+      <div class="row">
+        <div class="form-group col-md-4">
+          <label for="cep">CEP</label>
+          <input type="text" class="form-control" id="cep" [value]="paciente.paciente_cep" readonly>
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="logradouro">Logradouro</label>
+          <input type="text" class="form-control" id="logradouro" [value]="paciente.paciente_logradouro" readonly>
+        </div>
+
+        <div class="form-group col-md-2">
+          <label for="numero">Numero</label>
+          <input type="text" class="form-control" id="numero" [value]="paciente.paciente_numero" readonly>
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="bairro">Bairro</label>
+          <input type="text" class="form-control" id="bairro" [value]="[paciente.paciente_bairro]" readonly>
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="cidade">Cidade</label>
+          <input type="text" class="form-control" id="cidade" [value]="paciente.paciente_municipio" readonly>
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="estado">Estado</label>
+          <input type="text" class="form-control" id="estado" [value]="paciente.paciente_estado" readonly>
+        </div>
+      </div>
+    </fieldset>
+
+    <a class="btn btn-success btn-lg mr-2" [routerLink]="['/pacientes']">Voltar</a>
+  </form>
+</section>

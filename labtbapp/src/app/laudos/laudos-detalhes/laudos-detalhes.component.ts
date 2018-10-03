@@ -13,7 +13,6 @@ export class LaudosDetalhesComponent implements OnInit {
 
   laudo$: Observable<any>;
   id: number;
-  dataSaida: string;
 
   constructor(
     private service: LaudosService,
@@ -27,9 +26,13 @@ export class LaudosDetalhesComponent implements OnInit {
   }
 
   print() {
-    let data = new Date();
-    this.dataSaida = `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()}`;
     window.print();
+  }
+
+  delete(id) {
+    this.service
+      .deleteLaudo(id)
+      .subscribe(() => this.router.navigate(['laudos']))
   }
 
 }

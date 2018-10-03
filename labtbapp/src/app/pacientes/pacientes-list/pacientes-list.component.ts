@@ -33,5 +33,4 @@ export class PacientesListComponent implements OnInit {
         if (!pacientes.length) this.hasMore = false;
       });
   }
-
 }
