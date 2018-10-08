@@ -24,4 +24,14 @@ export class PacientesService {
     return this.http
       .get(`${API}/pacientes/${id}`);
   }
+
+  add(paciente: any) {
+    return this.http
+      .post(`${API}/pacientes`, { paciente });
+  }
+
+  getCep(cep: number) {
+    return this.http
+    .get(`https://viacep.com.br/ws/${cep}/json`);
+  }
 }

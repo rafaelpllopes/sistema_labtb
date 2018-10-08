@@ -26,7 +26,7 @@
         <td scope="col">{{ paciente?.paciente_sexo | sexoNome }}</td>
         <td scope="col">{{ paciente?.paciente_contatos }}</td>
         <td scope="col">
-          <a class="btn btn-warning btn-sm mr-1" [routerLink]="['', paciente.paciente_id]"><i class="fa fa-list-alt">
+          <a class="btn btn-warning btn-sm mr-1" [routerLink]="['editar', paciente.paciente_id]"><i class="fa fa-list-alt">
               Editar</i></a>
           <a class="btn btn-info  btn-sm mr-1" [routerLink]="['detalhes', paciente.paciente_id]"><i class="fa fa-info-circle">
               Detalhes</i></a>

@@ -8,30 +8,39 @@ module.exports = app => {
             res.status(200).json(pacientes);
         })
         .post(async (req, res) => {
-            if (req.body) {
+            const paciente = req.body.paciente;
+            if (paciente) {
+                const cns = paciente.paciente_cns;
+                const nome = paciente.paciente_nome;
+                const dataNasc = paciente.paciente_data_nascimento;
+                const sexo = paciente.paciente_sexo;
 
-                const cns = req.body.paciente_cns;
-                const nome = req.body.paciente_nome;
-                const dataNasc = req.body.paciente_data_nascimento;
-                const sexo = req.body.paciente_sexo;
-
-                const cnsNumber = cns.length === 15 ? parseInt(cns) : undefined;
-
-                if (typeof cnsNumber === 'number' && cnsNumber.toString().length === 15) {
-                    const cnsExiste = await new pacientesDao(req.db).findPacienteByCns(cns);
-                    if (!cnsExiste) {
-                        if (nome && dataNasc && sexo) {
-                            await new pacientesDao(req.db).addPaciente(req.body);
-                            res.sendStatus(201);
+                if(cns) {
+                    const cnsNumber = cns.length === 15 ? parseInt(cns) : undefined;
+                    if (typeof cnsNumber === 'number' && cnsNumber.toString().length === 15) {
+                        const cnsExiste = await new pacientesDao(req.db).findPacienteByCns(cns);
+                        if (!cnsExiste) {
+                            if (nome && dataNasc && sexo) {
+                                await new pacientesDao(req.db).addPaciente(paciente);
+                                res.status(201).json({msg: "Paciente cadastrado com sucesso"});
+                            } else {
+                                res.status(412).json('Nome, data de nascimento, sexo são obrigatorios.')
+                            }
                         } else {
-                            res.status(412).json('Nome e data de nascimento são obrigatorios.')
+                            res.status(409).json({ msg: "O CNS informado ja esta cadastrado" });
                         }
                     } else {
-                        res.status(409).json({ msg: "O CNS informado ja esta cadastrado" });
+                        res.status(412).json({ msg: "CNS deve ter o tamanho de 15 caracteres e deve ser somente numeros" })
                     }
                 } else {
-                    res.status(412).json({ msg: "CNS deve ter o tamanho de 15 caracteres e deve ser somente numeros" })
+                    if (nome && dataNasc && sexo) {
+                        await new pacientesDao(req.db).addPaciente(paciente);
+                        res.status(201).json({msg: "Paciente cadastrado com sucesso"});
+                    } else {
+                        res.status(412).json('Nome, data de nascimento, sexo são obrigatorios.')
+                    }
                 }
+                
             } else {
                 res.sendStatus(412);
             }

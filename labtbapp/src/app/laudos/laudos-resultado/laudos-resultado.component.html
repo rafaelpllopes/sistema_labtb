@@ -1,19 +1,12 @@
 <section *ngIf="laudo$ | async as laudo">
   <h4 class="text-center text-uppercase">Laudo</h4>
+  <p>
+    Entrada {{ laudo.laudo_data_entrada | date:'dd/MM/yyyy hh:mm:ss' }}
+  </p>
   <form [formGroup]="formLaudo" (submit)="update()">
     <fieldset>
       <legend>Dados do paciente</legend>
       <div class="row">
-        <div class="form-group col-md-6">
-          <label for="data-entrada">Data Entrada</label>
-          <input type="text" class="form-control" id="data-entrada" [value]="laudo.laudo_data_entrada | date:'dd/MM/yyyy'"
-            readonly>
-        </div>
-        <div class="form-group col-md-6">
-          <label for="hora-entrada">Hora Entrada</label>
-          <input type="text" class="form-control" id="hora-entrada" [value]="laudo.laudo_data_entrada | date:'hh:mm:ss'"
-            disabled readonly>
-        </div>
         <div class="form-group col-md-4">
           <label for="cns">CNS</label>
           <input type="text" class="form-control" id="cns" [value]="laudo.paciente_cns" disabled readonly>
@@ -27,7 +20,7 @@
           <label for="idade">Idade</label>
           <input type="text" aria-describedby="idadeHelp" class="form-control" id="idade" [value]="laudo.paciente_data_nascimento | idadeCalc"
             readonly>
-            <small id="idadeHelp" class="form-text text-muted text-right">ano(s)</small>
+          <small id="idadeHelp" class="form-text text-muted text-right">ano(s)</small>
         </div>
         <div class="form-group col-md-8">
           <label for="paciente">Paciente</label>
@@ -35,8 +28,7 @@
         </div>
         <div class="form-group col-md-4">
           <label for="sexo">Sexo</label>
-          <input type="text" class="form-control" id="sexo" [value]="laudo.paciente_sexo | sexoNome" disabled
-            readonly>
+          <input type="text" class="form-control" id="sexo" [value]="laudo.paciente_sexo | sexoNome" disabled readonly>
         </div>
         <div class="form-group col-md-4">
           <label for="cep">CEP</label>
@@ -44,8 +36,7 @@
         </div>
         <div class="form-group col-md-6">
           <label for="logradouro">Logradouro</label>
-          <input type="text" class="form-control" id="logradouro" [value]="laudo.paciente_logradouro" disabled
-            readonly>
+          <input type="text" class="form-control" id="logradouro" [value]="laudo.paciente_logradouro" disabled readonly>
         </div>
         <div class="form-group col-md-2">
           <label for="numero">Numero</label>
@@ -62,6 +53,15 @@
         <div class="form-group col-md-4">
           <label for="estado">Estado</label>
           <input type="text" class="form-control" id="estado" [value]="laudo.paciente_estado" disabled readonly>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" [value]="laudo.paciente_email" readonly>
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="telefone">Telefone</label>
+          <input type="phone" class="form-control" id="telefone" [value]="laudo.paciente_telefone" readonly>
         </div>
       </div>
     </fieldset>
@@ -90,7 +90,7 @@
           <label for="controle">Controle de Tratamento</label>
           <input formControlName="controle" aria-describedby="controleHelp" type="number" class="form-control" id="controle"
             [value]="laudo.laudo_controle">
-            <small id="controleHelp" class="form-text text-muted text-right">º mês</small>
+          <small id="controleHelp" class="form-text text-muted text-right">º mês</small>
         </div>
       </div>
     </fieldset>

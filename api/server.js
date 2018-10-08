@@ -5,7 +5,7 @@ const https = require('https');
 
 const app = express();
 
-consign()
+consign({verbose: false})
     .include('libs/middlewares.js')
     .then('routes')
     .into(app);

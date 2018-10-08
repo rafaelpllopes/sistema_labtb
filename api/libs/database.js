@@ -22,11 +22,12 @@ INSERT INTO usuarios (user_name, user_full_name, user_password)
 const PACIENTES_SCHEMA = `
 CREATE TABLE IF NOT EXISTS pacientes (
     paciente_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    paciente_cns VARCHAR(15) UNIQUE,
+    paciente_cns VARCHAR(15),
     paciente_nome VARCHAR(250) NOT NULL,
     paciente_data_nascimento DATE NOT NULL,
     paciente_sexo CHAR DEFAULT ('F') NOT NULL,
-    paciente_contatos VARCHAR(250),
+    paciente_email VARCHAR(100),
+    paciente_telefone VARCHAR(11),
     paciente_cep VARCHAR(8),
     paciente_logradouro VARCHAR(250),
     paciente_numero VARCHAR(5),
@@ -43,10 +44,10 @@ const data = new Date();
 const INSERT_TESTE_PACIENTES = [
     `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) SELECT '111111111111111', 'Seila quem', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}' WHERE NOT EXISTS (SELECT * FROM pacientes WHERE paciente_cns = '111111111111111')`,
     `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento, paciente_sexo) SELECT '222222222222222', 'João alguem', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}', 'M' WHERE NOT EXISTS (SELECT * FROM pacientes WHERE paciente_cns = '222222222222222')`,
-    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) SELECT '333333333333333', 'Super teste', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}' WHERE NOT EXISTS (SELECT * FROM pacientes WHERE paciente_cns = '333333333333333')`,
+    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento, paciente_sexo) SELECT '333333333333333', 'Super teste', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}', 'M' WHERE NOT EXISTS (SELECT * FROM pacientes WHERE paciente_cns = '333333333333333')`,
     `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) SELECT '444444444444444', 'Maria sem nome', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}' WHERE NOT EXISTS (SELECT * FROM pacientes WHERE paciente_cns = '444444444444444')`,
-    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) SELECT '555555555555555', 'Goku', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}' WHERE NOT EXISTS (SELECT * FROM pacientes WHERE paciente_cns = '555555555555555')`,
-    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento) SELECT '666666666666666', 'Vegeta', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}' WHERE NOT EXISTS (SELECT * FROM pacientes WHERE paciente_cns = '666666666666666')`
+    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento, paciente_sexo) SELECT '555555555555555', 'Goku', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}', 'M' WHERE NOT EXISTS (SELECT * FROM pacientes WHERE paciente_cns = '555555555555555')`,
+    `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento, paciente_sexo) SELECT '666666666666666', 'Vegeta', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}', 'M' WHERE NOT EXISTS (SELECT * FROM pacientes WHERE paciente_cns = '666666666666666')`
 ];
 
 

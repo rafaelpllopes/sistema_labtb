@@ -13,20 +13,22 @@ class PacientesDao {
                     paciente_nome, 
                     paciente_data_nascimento, 
                     paciente_sexo,
-                    paciente_contatos,
+                    paciente_email,
+                    paciente_telefone,
                     paciente_cep,
                     paciente_logradouro,
                     paciente_numero,
                     paciente_bairro,
                     paciente_municipio,
                     paciente_estado) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 [
                     paciente.paciente_cns,
                     paciente.paciente_nome,
                     paciente.paciente_data_nascimento,
                     paciente.paciente_sexo,
-                    paciente.paciente_contatos,
+                    paciente.paciente_email,
+                    paciente.paciente_telefone,
                     paciente.paciente_cep,
                     paciente.paciente_logradouro,
                     paciente.paciente_numero,
@@ -45,7 +47,7 @@ class PacientesDao {
     }
 
     getPacientes(page) {
-        const maxRows = 2;
+        const maxRows = 15;
 
         const from = (page - 1) * maxRows;
 
@@ -78,7 +80,8 @@ class PacientesDao {
                 paciente_nome = '${paciente.paciente_nome}', 
                 paciente_data_nascimento = '${paciente.paciente_data_nascimento}', 
                 paciente_sexo = '${paciente.paciente_sexo}', 
-                paciente_contatos = '${paciente.paciente_contatos}', 
+                paciente_email = '${paciente.paciente_email}', 
+                paciente_telefone = '${paciente.paciente_telefone}', 
                 paciente_cep = '${paciente.paciente_cep}', 
                 paciente_logradouro = '${paciente.paciente_logradouro}', 
                 paciente_numero = '${paciente.paciente_numero}', 

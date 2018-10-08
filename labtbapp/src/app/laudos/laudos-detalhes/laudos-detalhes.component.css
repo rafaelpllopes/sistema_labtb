@@ -14,7 +14,7 @@
        background: none;
     }
  
-    nav, aside, button, a {
+    nav, aside, button, a, header, footer {
        display: none;
     }
  

@@ -14,6 +14,13 @@
             readonly>
         </div>
 
+        <div class="form-group col-md-4">
+          <label for="idade">Idade</label>
+          <input type="text" aria-describedby="idadeHelp" class="form-control" id="idade" [value]="paciente.paciente_data_nascimento | idadeCalc"
+            readonly>
+          <small id="idadeHelp" class="form-text text-muted text-right">ano(s)</small>
+        </div>
+
         <div class="form-group col-md-8">
           <label for="nome">Nome</label>
           <input type="text" class="form-control" id="nome" [value]="paciente.paciente_nome" readonly>
@@ -29,9 +36,14 @@
     <fieldset>
       <legend>Contato</legend>
       <div class="row">
-        <div class="form-group col-md-12">
-          <label for="contato">Contato</label>
-          <input type="text" class="form-control" id="contato" [value]="paciente.paciente_contatos" readonly>
+        <div class="form-group col-md-6">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" [value]="paciente.paciente_email" readonly>
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="telefone">Telefone</label>
+          <input type="phone" class="form-control" id="telefone" [value]="paciente.paciente_telefone" readonly>
         </div>
       </div>
     </fieldset>
