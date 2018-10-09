@@ -21,7 +21,7 @@
         <app-vmessage *ngIf="formLaudo.get('paciente').errors?.required" text="Paciente é obrigatorio!"></app-vmessage>
       </div>
       <div class="input-group col-md-2">
-        <a class="btn btn-success"><i class="fa fa-address-card"></i> Cadastrar Paciente</a>
+        <a class="btn btn-success" [routerLink]="['/pacientes', 'novo']"><i class="fa fa-address-card"></i> Cadastrar Paciente</a>
       </div>
     </div>
   </fieldset>
@@ -42,11 +42,13 @@
       <div class="form-group col-md-6">
         <label for="diagnostico">Diagnóstico</label>
         <input formControlName="diagnostico" type="number" class="form-control" id="diagnostico">
+        <small id="diagnosticoHelp" class="form-text text-muted text-right">ª amostra</small>
       </div>
 
       <div class="form-group col-md-6">
         <label for="controle">Controle de Tratamento</label>
         <input formControlName="controle" type="number" class="form-control" id="controle">
+        <small id="controleHelp" class="form-text text-muted text-right">º mês</small>
       </div>
     </div>
   </fieldset>
@@ -82,6 +84,6 @@
     </div>
   </fieldset>
 
-  <button [disabled]="formLaudo.invalid" class="btn btn-primary btn-lg mr-2" type="submit">Cadastrar</button>
+  <button [disabled]="formLaudo.invalid" class="btn btn-primary btn-lg mr-2" type="submit">Salvar</button>
   <a class="btn btn-danger btn-lg" [routerLink]="['/laudos']">Cancelar</a>
 </form>

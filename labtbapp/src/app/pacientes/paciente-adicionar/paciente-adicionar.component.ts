@@ -50,6 +50,14 @@ export class PacienteAdicionarComponent implements OnInit {
           this.formPaciente.get('nome').setValue(this.paciente.paciente_nome);
           this.formPaciente.get('dataNasc').setValue(this.paciente.paciente_data_nascimento);
           this.formPaciente.get('sexo').setValue(this.paciente.paciente_sexo);
+          this.formPaciente.get('email').setValue(this.paciente.paciente_email);
+          this.formPaciente.get('telefone').setValue(this.paciente.paciente_telefone);
+          this.formPaciente.get('cep').setValue(this.paciente.paciente_cep);
+          this.formPaciente.get('logradouro').setValue(this.paciente.paciente_logradouro);
+          this.formPaciente.get('numero').setValue(this.paciente.paciente_numero);
+          this.formPaciente.get('bairro').setValue(this.paciente.paciente_bairro);
+          this.formPaciente.get('cidade').setValue(this.paciente.paciente_municipio);
+          this.formPaciente.get('estado').setValue(this.paciente.paciente_estado);
         });
     }
   }
@@ -71,10 +79,16 @@ export class PacienteAdicionarComponent implements OnInit {
       paciente_estado: this.formPaciente.get('estado').value
     }
 
-    this.service
-      .add(paciente)
-      .subscribe(() => this.router.navigate(['/pacientes']));
+    if (this.id) {
+      this.service
+        .update(this.id, paciente)
+        .subscribe(() => this.router.navigate(['/pacientes']));
 
+    } else {
+      this.service
+        .add(paciente)
+        .subscribe(() => this.router.navigate(['/pacientes']));
+    }
   }
 
   cepWebService(cep: number) {

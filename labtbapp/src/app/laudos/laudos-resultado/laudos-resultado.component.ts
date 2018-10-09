@@ -11,7 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class LaudosResultadoComponent implements OnInit {
 
-  laudo$: Observable<any>;
+  laudo: any;
   resultados: any[];
   aspectos: any[];
   id: number;
@@ -26,14 +26,7 @@ export class LaudosResultadoComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.activeRoute.snapshot.params.id;
-    this.laudo$ = this.service.getLaudoById(this.id);     
 
-    this.service
-      .getResultados()
-      .subscribe(resultados => this.resultados = resultados);
-    this.service
-      .getAspectos()
-      .subscribe(aspectos => this.aspectos = aspectos);
 
     this.formLaudo = this.formBuilder.group({
       material: [''],
@@ -44,6 +37,26 @@ export class LaudosResultadoComponent implements OnInit {
       aspecto: [''],
       obs: ['']
     });
+
+    this.service
+      .getResultados()
+      .subscribe(resultados => this.resultados = resultados);
+    this.service
+      .getAspectos()
+      .subscribe(aspectos => this.aspectos = aspectos);
+
+
+    this.activeRoute.data.subscribe(
+      data => this.laudo = data.laudo
+    );
+
+    this.formLaudo.get('material').setValue(this.laudo.laudo_material);
+    this.formLaudo.get('dataColeta').setValue(this.laudo.laudo_data_coleta);
+    this.formLaudo.get('diagnostico').setValue(this.laudo.laudo_amostras);
+    this.formLaudo.get('controle').setValue(this.laudo.laudo_controle);
+    this.formLaudo.get('resultado').setValue(this.laudo.resultado_id);
+    this.formLaudo.get('aspecto').setValue(this.laudo.aspecto_id);
+    this.formLaudo.get('obs').setValue(this.laudo.laudo_obs);
   }
 
   update() {

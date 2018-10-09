@@ -1,6 +1,7 @@
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 import { LaudosComponent } from './laudos.component';
 import { LaudosRoutingModule } from './laudos.routing.module';
@@ -21,7 +22,8 @@ import { SexoNomeModule } from '../shared/pipes/sexo-nome/sexo-nome.module';
     LaudosRoutingModule,
     VmessageModule,
     IdadeCalcModule,
-    SexoNomeModule
+    SexoNomeModule,
+    RouterModule
   ],
   declarations: [
     LaudosComponent,
