@@ -8,8 +8,10 @@ class PacientesDao {
 
     addPaciente(paciente) {
         return new Promise((resolve, reject) => {
+            console.log(paciente);
             this._db.run(`INSERT INTO 
-                pacientes (paciente_cns, 
+                pacientes (
+                    paciente_cns, 
                     paciente_nome, 
                     paciente_data_nascimento, 
                     paciente_sexo,
@@ -20,7 +22,8 @@ class PacientesDao {
                     paciente_numero,
                     paciente_bairro,
                     paciente_municipio,
-                    paciente_estado) 
+                    paciente_estado
+                ) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 [
                     paciente.paciente_cns,
@@ -40,6 +43,7 @@ class PacientesDao {
                     if (err) {
                         return reject('Não foi possivel cadastrar o paciente');
                     }
+                    if (rows) resolve(rows);
                     return resolve(null);
                 }
             );
@@ -76,21 +80,36 @@ class PacientesDao {
         return new Promise((resolve, reject) => {
             this._db.run(
                 `UPDATE pacientes SET 
-                paciente_cns = '${paciente.paciente_cns}', 
-                paciente_nome = '${paciente.paciente_nome}', 
-                paciente_data_nascimento = '${paciente.paciente_data_nascimento}', 
-                paciente_sexo = '${paciente.paciente_sexo}', 
-                paciente_email = '${paciente.paciente_email}', 
-                paciente_telefone = '${paciente.paciente_telefone}', 
-                paciente_cep = '${paciente.paciente_cep}', 
-                paciente_logradouro = '${paciente.paciente_logradouro}', 
-                paciente_numero = '${paciente.paciente_numero}', 
-                paciente_bairro = '${paciente.paciente_bairro}', 
-                paciente_municipio = '${paciente.paciente_municipio}', 
-                paciente_estado = '${paciente.paciente_estado}', 
-                paciente_atualizado = '${dataAtual}'
+                paciente_cns = ?, 
+                paciente_nome = ?, 
+                paciente_data_nascimento = ?, 
+                paciente_sexo = ?, 
+                paciente_email = ?, 
+                paciente_telefone = ?, 
+                paciente_cep = ?, 
+                paciente_logradouro = ?, 
+                paciente_numero = ?, 
+                paciente_bairro = ?, 
+                paciente_municipio = ?, 
+                paciente_estado = ?, 
+                paciente_atualizado = ?
                 WHERE paciente_id = ?`,
-                [id],
+                [
+                    paciente.paciente_cns,
+                    paciente.paciente_nome,
+                    paciente.paciente_data_nascimento,
+                    paciente.paciente_sexo,
+                    paciente.paciente_email,
+                    paciente.paciente_telefone,
+                    paciente.paciente_cep,
+                    paciente.paciente_logradouro,
+                    paciente.paciente_numero,
+                    paciente.paciente_bairro,
+                    paciente.paciente_municipio,
+                    paciente.paciente_estado,
+                    dataAtual,
+                    id
+                ],
                 (err, rows) => {
                     if (err) {
                         return reject('Não foi possivel atualizar o paciente');

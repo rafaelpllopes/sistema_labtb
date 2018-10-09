@@ -25,7 +25,7 @@ export class PacienteAdicionarComponent implements OnInit {
   ngOnInit() {
 
     this.formPaciente = this.formBuild.group({
-      cns: [''],
+      cns: ['', [Validators.maxLength(15), Validators.minLength(15)]],
       nome: ['', Validators.required],
       dataNasc: ['', Validators.required],
       sexo: ['', Validators.required],

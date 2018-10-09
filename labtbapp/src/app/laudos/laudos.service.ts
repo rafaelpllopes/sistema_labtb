@@ -2,8 +2,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LaudosList } from './laudos-list/laudos-list';
 import { Laudo } from './laudo';
+import { environment } from 'src/environments/environment';
 
-const API = 'http://localhost:3000';
+const API = environment.API;
 
 @Injectable({
   providedIn: 'root'

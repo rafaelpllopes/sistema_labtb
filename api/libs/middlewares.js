@@ -14,6 +14,7 @@ module.exports = app => {
     app.set('secret', 'segredo');
 
     const corsOptions = {
+        origin: '*',
         methods: ["GET", "POST", "PUT", "DELETE"],
         exposedHeaders: ['x-access-token']
     };

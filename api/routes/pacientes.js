@@ -14,7 +14,6 @@ module.exports = app => {
                 const nome = paciente.paciente_nome;
                 const dataNasc = paciente.paciente_data_nascimento;
                 const sexo = paciente.paciente_sexo;
-
                 if (cns) {
                     const cnsNumber = cns.length === 15 ? parseInt(cns) : undefined;
                     if (typeof cnsNumber === 'number' && cnsNumber.toString().length === 15) {
@@ -97,7 +96,7 @@ module.exports = app => {
                         const cnsNumber = cns.length === 15 ? parseInt(cns) : undefined;
                         if (typeof cnsNumber === 'number' && cnsNumber.toString().length === 15) {
                             const cnsExiste = await new pacientesDao(req.db).findPacienteByCns(cns);
-                            if (!cnsExiste) {
+                            if (cnsExiste) {
                                 if (nome && dataNasc && sexo) {
                                     await new pacientesDao(req.db).updatePaciente(id, paciente);
                                     res.status(202).json({ msg: 'Paciente atualizado com sucesso' });
@@ -105,7 +104,12 @@ module.exports = app => {
                                     res.status(412).json({ msg: 'Nome, data de nascimento e sexo sao obrigatorios' });
                                 }
                             } else {
-                                res.status(409).json({ msg: "O CNS informado ja esta cadastrado" });
+                                if (nome && dataNasc && sexo) {
+                                    await new pacientesDao(req.db).updatePaciente(id, paciente);
+                                    res.status(202).json({ msg: 'Paciente atualizado com sucesso' });
+                                } else {
+                                    res.status(412).json({ msg: 'Nome, data de nascimento e sexo sao obrigatorios' });
+                                }
                             }
                         } else {
                             res.status(412).json({ msg: 'Nome, data de nascimento, sexo são obrigatorios' })

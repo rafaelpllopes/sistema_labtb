@@ -8,6 +8,7 @@
         <input formControlName="cns" type="text" class="form-control" id="cns" [value]="paciente?.paciente_cns"
           maxlength="15" minlength="15">
         <app-vmessage *ngIf="formPaciente.get('cns').errors?.maxLength" text="Tamanho minimo 15 caracteres" class="col-md-12"></app-vmessage>
+        <app-vmessage *ngIf="formPaciente.get('cns').errors?.minLength" text="Tamanho minimo 15 caracteres" class="col-md-12"></app-vmessage>
       </div>
 
       <div class="form-group col-md-8">
