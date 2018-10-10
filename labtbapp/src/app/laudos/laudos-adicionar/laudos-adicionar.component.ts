@@ -1,3 +1,4 @@
+import { AlertService } from 'src/app/shared/components/alert/alert.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { LaudosService } from '../laudos.service';
@@ -24,7 +25,8 @@ export class LaudosAdicionarComponent implements OnInit {
   constructor(
     private service: LaudosService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -102,8 +104,10 @@ export class LaudosAdicionarComponent implements OnInit {
         .addLaudo(laudo)
         .subscribe(() => {
           this.router.navigate(['laudos']);
-        }, error => {
-          console.log(error);
+          this.alertService.success('Laudo adicionado com sucesso');
+        }, err => {
+          console.log(err);
+          this.alertService.danger('Não foi possivel adicionar o laudo');
         });
     }
   }

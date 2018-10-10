@@ -8,17 +8,22 @@ import { LaudosResultadoComponent } from './laudos-resultado/laudos-resultado.co
 import { LaudosListResolver } from './laudos-list/laudos-list.resolver';
 import { LaudosAdicionarComponent } from './laudos-adicionar/laudos-adicionar.component';
 import { LaudosResultadoResolver } from './laudos-resultado/laudos-resultado.resolver';
+import { AuthGuard } from '../core/auth/auth.guard';
 
 const routes: Routes = [
     {
         path: '',
         component: LaudosComponent,
+        canActivate: [AuthGuard],
         children: [
             {
                 path: '',
                 component: LaudosListComponent,
                 resolve: {
                     laudos: LaudosListResolver
+                },
+                data: {
+                    title: 'Lista de laudos'
                 }
             },
             {
@@ -26,15 +31,24 @@ const routes: Routes = [
                 component: LaudosResultadoComponent,
                 resolve: {
                     laudo: LaudosResultadoResolver
+                },
+                data: {
+                    title: 'Editar laudo'
                 }
             },
             {
                 path: 'detalhes/:id',
-                component: LaudosDetalhesComponent
+                component: LaudosDetalhesComponent,
+                data: {
+                    title: 'Detalhe do laudo'
+                }
             },
             {
                 path: 'novo',
-                component: LaudosAdicionarComponent
+                component: LaudosAdicionarComponent,
+                data: {
+                    title: 'Cadastar laudo'
+                }
             }
         ]
     }

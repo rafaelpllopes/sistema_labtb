@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from './core/auth/auth.guard';
+import { GlobalErrorsComponent } from './errors/global-errors/global-errors.component';
+import { NotFoundComponent } from './errors/not-found/not-found.component';
 
 const routes: Routes = [
     {
@@ -13,11 +16,31 @@ const routes: Routes = [
     },
     {
         path: 'pacientes',
-        loadChildren: './pacientes/pacientes.module#PacientesModule'
+        loadChildren: './pacientes/pacientes.module#PacientesModule',
+        canActivate: [AuthGuard]
     },
     {
         path: 'laudos',
-        loadChildren: './laudos/laudos.module#LaudosModule'
+        loadChildren: './laudos/laudos.module#LaudosModule',
+        canActivate: [AuthGuard]
+    },
+    { 
+        path: 'error', 
+        component: GlobalErrorsComponent,
+        data: {
+            title: 'Erro'
+        }
+    },
+    { 
+        path: 'not-found', 
+        component: NotFoundComponent,
+        data: {
+            title: 'Pagina não encontrada'
+        }
+    },
+    { 
+        path: '**', 
+        redirectTo: 'not-found'
     }
 ];
 

@@ -1,3 +1,4 @@
+import { AlertService } from './../../shared/components/alert/alert.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -17,7 +18,8 @@ export class LaudosDetalhesComponent implements OnInit {
   constructor(
     private service: LaudosService,
     private router: Router,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -32,7 +34,13 @@ export class LaudosDetalhesComponent implements OnInit {
   delete(id) {
     this.service
       .deleteLaudo(id)
-      .subscribe(() => this.router.navigate(['laudos']))
+      .subscribe(() => {
+        this.router.navigate(['laudos']);
+        this.alertService.warning('Laudo deletado com sucesso');
+      }, err => {
+        this.alertService.danger('Não foi possivel deletar o laudo');
+        console.log(err);
+      });
   }
 
 }

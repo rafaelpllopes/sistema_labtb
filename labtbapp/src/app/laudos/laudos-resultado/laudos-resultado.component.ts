@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { LaudosService } from '../laudos.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AlertService } from 'src/app/shared/components/alert/alert.service';
 
 @Component({
   selector: 'app-laudos-resultado',
@@ -21,7 +22,8 @@ export class LaudosResultadoComponent implements OnInit {
     private service: LaudosService,
     private router: Router,
     private activeRoute: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -83,7 +85,9 @@ export class LaudosResultadoComponent implements OnInit {
         .updateLaudo(this.id, laudo)
         .subscribe(() => {
           this.router.navigate(['laudos']);
+          this.alertService.success('Laudo atualizado com sucesso');
         }, error => {
+          this.alertService.danger('Não foi possivel editar o laudo');
           console.log(error);
         });
     }

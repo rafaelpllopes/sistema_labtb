@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 import { PacientesService } from '../pacientes.service';
+import { AlertService } from 'src/app/shared/components/alert/alert.service';
 
 @Component({
   selector: 'app-paciente-adicionar',
@@ -19,7 +20,8 @@ export class PacienteAdicionarComponent implements OnInit {
     private service: PacientesService,
     private activatedRoute: ActivatedRoute,
     private formBuild: FormBuilder,
-    private router: Router
+    private router: Router,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -82,12 +84,24 @@ export class PacienteAdicionarComponent implements OnInit {
     if (this.id) {
       this.service
         .update(this.id, paciente)
-        .subscribe(() => this.router.navigate(['/pacientes']));
+        .subscribe(() => {
+          this.router.navigate(['/pacientes']);
+          this.alertService.success('Paciente Atualizado com sucesso');
+        }, err => {
+          console.error(err.message);
+          this.alertService.danger('Não foi possivel editar o cadastro do paciente')
+        });
 
     } else {
       this.service
         .add(paciente)
-        .subscribe(() => this.router.navigate(['/pacientes']));
+        .subscribe(() => {
+          this.router.navigate(['/pacientes']);
+          this.alertService.success('Paciente cadastrado com sucesso');
+        }, err => {
+          console.error(err.message);
+          this.alertService.danger('Não foi possivel cadastrar o paciente');
+        });
     }
   }
 
