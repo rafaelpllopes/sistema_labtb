@@ -9,10 +9,13 @@ import { SearchModule } from '../../shared/components/search/search.module';
 import { ButtomLoadModule } from '../../shared/components/buttom-load/buttom-load.module';
 import { SexoNomeModule } from '../../shared/pipes/sexo-nome/sexo-nome.module';
 import { IdadeCalcModule } from '../../shared/pipes/idade-calc/idade-calc.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     FilterByNameModule,
     SearchModule,
     ButtomLoadModule,

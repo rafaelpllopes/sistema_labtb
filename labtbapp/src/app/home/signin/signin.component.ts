@@ -16,6 +16,7 @@ export class SigninComponent implements OnInit {
 
   loginForm: FormGroup;
   fromUrl: string;
+
   @ViewChild('userNameInput') userNameInput: ElementRef<HTMLInputElement>;
 
   constructor(
@@ -44,7 +45,9 @@ export class SigninComponent implements OnInit {
     let senha = this.loginForm.get('password').value;
     this.authService.autenticar(user, senha)
       .subscribe(() =>
-        this.router.navigate(['laudos'])
+        this.fromUrl
+          ? this.router.navigateByUrl(this.fromUrl)
+          : this.router.navigate(['laudos'])
         ,
         err => {
           console.log(err);

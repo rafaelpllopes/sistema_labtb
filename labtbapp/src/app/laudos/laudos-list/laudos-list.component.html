@@ -2,6 +2,50 @@
 
 <h2 class="text-center text-uppercase">Laudos</h2>
 
+<button class="btn btn-secondary btn-block" (click)="mostrar()"><i aria-hidden="true" class="fa fa-list mr-1">
+    Consultar</i></button>
+<div [ngClass]="{ 'active-search': isShow }">
+  <form [formGroup]="searchForm" class="form mt-4" (submit)="search()">
+    <div class="form-row align-items-center">
+
+      <div class="form-group col-md-3">
+        <label for="cns">CNS</label>
+        <input formControlName="cns" type="text" class="form-control" id="cns" (keyup)="cnsSearch($event.target.value)"
+          maxlength="15" minlength="15" autocomplete="off">
+      </div>
+
+      <div class="form-group col-md-9">
+        <label for="paciente">Nome</label>
+        <input formControlName="paciente" type="text" class="form-control" id="paciente" [readonly]="cnsKeyup"
+          autocomplete="off">
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="aspecto">Mês</label>
+        <select class="custom-select" formControlName="mes">
+          <option value="" disabled>Selecione um mês</option>
+          <option *ngFor="let mes of meses" [ngValue]="mes.numero">
+            {{ mes.nome }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="aspecto">Anos</label>
+        <select class="custom-select" formControlName="ano">
+          <option value="" disabled>Selecione um mês</option>
+          <option *ngFor="let ano of anos" [ngValue]="ano">
+            {{ ano }}
+          </option>
+        </select>
+      </div>
+
+      <button [disabled]="searchForm.invalid" class="btn btn-dark btn-lg mr-2" type="submit">Buscar</button>
+      <button class="btn btn-secundary btn-lg" type="submit" (click)="clear()">Limpar</button>
+    </div>
+  </form>
+</div>
+
 <app-search (onTyping)="filter = $event" [value]="filter"></app-search>
 
 <div class="table-responsive">
