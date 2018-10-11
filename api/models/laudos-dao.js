@@ -167,6 +167,59 @@ class LaudosDao {
                 });
         });
     }
+
+    filterLaudos(cns, nome, dataInicial, dataFinal) {
+        let query = `
+        SELECT 
+            l.laudo_id, 
+            l.laudo_data_entrada, 
+            p.paciente_nome, 
+            p.paciente_sexo,
+            l.laudo_material,
+            l.laudo_amostras,
+            l.laudo_controle 
+        FROM laudos l 
+        INNER JOIN pacientes p ON p.paciente_id = l.paciente_id`;
+
+        if(cns || nome || dataInicial || dataFinal) {
+            query += ' WHERE'
+        }
+
+        if (cns) {
+            query += ` p.paciente_cns = '${cns}'`;
+        }
+
+        if (nome) {
+            if (cns) {
+                query += ` AND p.paciente_nome LIKE '${nome}%'`;
+            } else {
+                query += ` p.paciente_nome LIKE '${nome}%'`;
+            }
+        }
+
+        if (dataInicial && dataFinal) {
+            if (cns || nome) {
+                query += ` AND l.laudo_data_entrada BETWEEN '${dataInicial}' AND '${dataFinal}'`;
+            } else {
+                query += ` l.laudo_data_entrada BETWEEN '${dataInicial}' AND '${dataFinal}'`;
+            }
+        }
+
+        query += ' ORDER BY l.laudo_id DESC';
+
+        return new Promise((resolve, reject) => {
+            this._db.all(
+                query,
+                (err, rows) => {
+                    if (err) {
+                        return reject('Não foi possivel buscar os laudo');
+                    }
+                    if (rows) return resolve(rows);
+                    resolve(null);
+                }
+            );
+        });
+    }
 }
 
 module.exports = LaudosDao;

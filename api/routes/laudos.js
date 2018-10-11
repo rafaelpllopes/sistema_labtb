@@ -22,6 +22,56 @@ module.exports = app => {
             }
         });
 
+    app.route('/laudos/filter')
+        .get(async (req, res) => {
+            const cns = req.query.cns;
+            const nome = req.query.nome;
+            const mes = req.query.mes;
+            const ano = req.query.ano;
+            if (cns || nome || mes && ano) {
+                let dia = '';
+                let dataInicial = '';
+                let dataFinal = '';
+
+                if (mes && ano) {
+                    switch (mes) {
+                        case '01':
+                        case '03':
+                        case '05':
+                        case '07':
+                        case '08':
+                        case '10':
+                        case '12': {
+                            dia = '31';
+                        } break;
+                        case '02': {
+                            if (parseInt(mes) % 4 === 0) {
+                                dia = '29';
+                            } else {
+                                dia = '28';
+                            }
+                        }
+                            break;
+                        default: {
+                            dia = '30';
+                        }
+                    }
+                    dataInicial = `${ano}-${mes}-01`;
+                    dataFinal = `${ano}-${mes}-${dia}`;
+                }
+
+                const laudos = await new laudosDao(req.db).filterLaudos(cns, nome, dataInicial, dataFinal);
+
+                if (laudos) {
+                    res.status(200).json(laudos);
+                } else {
+                    res.sendStatus(412);
+                }
+            } else {
+                res.sendStatus(404);
+            }
+        });
+
     app.route('/laudos/resultado/:id')
         .put(async (req, res) => {
             const id = req.params.id;
@@ -74,7 +124,7 @@ module.exports = app => {
                 const laudo = await new laudosDao(req.db).getLaudoById(id);
                 if (laudo) {
                     await new laudosDao(req.db).deleteLaudo(id);
-                    res.status(202).json({msg: "Laudo deletado com sucesso"});
+                    res.status(202).json({ msg: "Laudo deletado com sucesso" });
                 } else {
                     res.sendStatus(404);
                 }
