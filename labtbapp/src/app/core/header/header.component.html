@@ -7,10 +7,10 @@
     <app-menu #menu>
       <ul class='list-unstyled'>
         <li>
-          <a [routerLink]="['laudos']"><i class="fa fa-archive"></i> Laudos</a>
+          <a [routerLink]="['laudos']" (click)="menu.toggle()"><i class="fa fa-archive"></i> Laudos</a>
         </li>
         <li>
-          <a [routerLink]="['pacientes']"><i class="fa fa-users"></i> Pacientes</a>
+          <a [routerLink]="['pacientes']" (click)="menu.toggle()"><i class="fa fa-users"></i> Pacientes</a>
         </li>
       </ul>
     </app-menu>

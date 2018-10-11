@@ -32,7 +32,7 @@ export class LaudosService {
     return this.http
       .get(`${API}/pacientes/cns/${cns}`);
   }
-  
+
   getPacienteByName(nome: string) {
     return this.http
       .get<any[]>(`${API}/pacientes/nome/${nome}`);
@@ -40,17 +40,17 @@ export class LaudosService {
 
   addLaudo(laudo: any) {
     return this.http
-      .post(`${API}/laudos`, {laudo});
+      .post(`${API}/laudos`, { laudo });
   }
 
   updateLaudo(id: number, laudo: Laudo) {
     return this.http
-      .put(`${API}/laudos/${id}`, {laudo});
+      .put(`${API}/laudos/${id}`, { laudo });
   }
 
-  updateLaudoResultado(id: number,laudo: any) {
+  updateLaudoResultado(id: number, laudo: any) {
     return this.http
-      .put(`${API}/laudos/resultado/${id}`, {laudo});
+      .put(`${API}/laudos/resultado/${id}`, { laudo });
   }
 
   getResultados() {
@@ -66,5 +66,16 @@ export class LaudosService {
   deleteLaudo(id: number) {
     return this.http
       .delete(`${API}/laudos/${id}`);
+  }
+
+  filterLaudos(cns: number, paciente: string, mes: string, ano: string)  {
+    const PARAMS = new HttpParams()
+      .append('cns', cns.toString())
+      .append('nome', paciente)
+      .append('mes', mes)
+      .append('ano', ano);
+
+    return this.http
+      .get<LaudosList[]>(`${API}/laudos/filter`, { params: PARAMS });
   }
 }

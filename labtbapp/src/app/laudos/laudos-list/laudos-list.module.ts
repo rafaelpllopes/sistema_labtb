@@ -10,6 +10,7 @@ import { ButtomLoadModule } from '../../shared/components/buttom-load/buttom-loa
 import { SexoNomeModule } from '../../shared/pipes/sexo-nome/sexo-nome.module';
 import { IdadeCalcModule } from '../../shared/pipes/idade-calc/idade-calc.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { VmessageModule } from 'src/app/shared/vmessage/vmessage.module';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ButtomLoadModule,
     SexoNomeModule,
     RouterModule,
-    IdadeCalcModule
+    IdadeCalcModule,
+    VmessageModule
   ],
   declarations: [
     LaudosListComponent

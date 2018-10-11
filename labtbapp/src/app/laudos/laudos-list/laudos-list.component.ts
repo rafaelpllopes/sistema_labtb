@@ -21,6 +21,7 @@ export class LaudosListComponent implements OnInit {
   isShow: boolean = true;
   meses: any[];
   anos: number[];
+  advantecSearch: boolean;
 
   constructor(
     private laudosService: LaudosService,
@@ -44,7 +45,6 @@ export class LaudosListComponent implements OnInit {
 
     this.meses = this.serviceUteis.getMeses();
     this.anos = this.serviceUteis.getAnos();
-    console.log(this.anos);
   }
 
   load() {
@@ -58,6 +58,7 @@ export class LaudosListComponent implements OnInit {
 
   cnsSearch(cns: number) {
     this.cnsKeyup = true;
+    this.searchForm.get('paciente').setValue('');
     if (cns.toString().length === 0) {
       this.cnsKeyup = false;
     }
@@ -66,17 +67,35 @@ export class LaudosListComponent implements OnInit {
   search() {
     const cns = this.searchForm.get('cns').value;
     const paciente = this.searchForm.get('paciente').value;
+    const mes = this.searchForm.get('mes').value;
+    const ano = this.searchForm.get('ano').value;
 
-    if(cns) {
-      console.log(cns);
-    } else {
-      console.log(paciente);
+    if (cns || paciente || mes && ano) {
+      this.laudosService
+        .filterLaudos(cns, paciente, mes, ano)
+        .subscribe(laudos => {
+          this.advantecSearch = true;
+          this.laudos = laudos;
+        });
     }
   }
 
   clear() {
-    this.searchForm.reset();
+
+    this.searchForm.get('cns').setValue('');
+    this.searchForm.get('paciente').setValue('');
+    this.searchForm.get('mes').setValue('');
+    this.searchForm.get('ano').setValue('');
+
     this.cnsKeyup = false;
+
+    this.laudosService
+      .getLaudos(1)
+      .subscribe(laudos => {
+        this.laudos = laudos;
+        this.hasMore = true;
+        this.advantecSearch = false;
+      });
   }
 
   mostrar() {
