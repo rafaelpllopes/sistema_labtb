@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
-const wrapAsync = require('../libs/async-wrap');
 const usuariosDao = require('../models/usuarios-dao');
+const wrapAsync = require('../libs/async-wrap');
+const auth = require('../libs/auth');
 
 module.exports = app => {
     app.route('/usuario/login')
@@ -27,7 +28,7 @@ module.exports = app => {
         );
 
     app.route('/usuarios/:id')
-        .put(wrapAsync(async (req, res) => {
+        .put(auth, wrapAsync(async (req, res) => {
             const id = req.params.id;
             const password = req.body.user_password;
             const nome = req.body.user_full_name;
@@ -39,7 +40,7 @@ module.exports = app => {
                 res.status(412).json({ msg: "Senha não pode ser vazia" });
             }
         }))
-        .get(wrapAsync(async (req, res) => {
+        .get(auth, wrapAsync(async (req, res) => {
             const id = req.params.id;
             if (id) {
                 const usuario = await new usuariosDao(req.db).findUserById(req.params.id);
@@ -48,7 +49,7 @@ module.exports = app => {
                 res.sendStatus(404);
             }
         }))
-        .delete(wrapAsync(async (req, res) => {
+        .delete(wrapAsync(auth, wrapAsync(async (req, res) => {
             const id = req.params.id;
             if (id) {
                 const usuario = await new usuariosDao(req.db).findUserById(id);
@@ -66,7 +67,7 @@ module.exports = app => {
             } else {
                 res.sendStatus(404);
             }
-        }));
+        })));
         
     app.route('/usuario/existe')
         .post(wrapAsync((async (req, res) => {
@@ -81,7 +82,7 @@ module.exports = app => {
         ));
 
     app.route('/usuarios/add')
-        .post(wrapAsync((async (req, res) => {
+        .post(auth, wrapAsync((async (req, res) => {
             const user = req.body.user_name;
             const nome = req.body.user_full_name;
             const password = req.body.user_password;

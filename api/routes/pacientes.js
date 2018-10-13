@@ -1,13 +1,15 @@
 const pacientesDao = require('../models/pacientes-dao');
+const wrapAsync = require('../libs/async-wrap');
+const auth = require('../libs/auth');
 
 module.exports = app => {
     app.route('/pacientes')
-        .get(async (req, res) => {
+        .get(auth, wrapAsync(async (req, res) => {
             const page = req.query.page;
             const pacientes = await new pacientesDao(req.db).getPacientes(page);
             res.status(200).json(pacientes);
-        })
-        .post(async (req, res) => {
+        }))
+        .post(auth, wrapAsync(async (req, res) => {
             const paciente = req.body.paciente;
             if (paciente) {
                 const cns = paciente.paciente_cns;
@@ -43,19 +45,19 @@ module.exports = app => {
             } else {
                 res.sendStatus(412);
             }
-        });
+        }));
 
     app.route('/pacientes/filter')
-        .get(async (req, res) => {
+        .get(auth, wrapAsync(async (req, res) => {
             const cns = req.query.cns;
             const nome = req.query.nome;
             const sexo = req.query.sexo;
             const pacientes = await new pacientesDao(req.db).getPacientesByFilter(cns, nome, sexo);
             res.status(200).json(pacientes);
-        });
+        }));
 
     app.route('/pacientes/nome/:nome')
-        .get(async (req, res) => {
+        .get(auth, wrapAsync(async (req, res) => {
             const nome = req.params.nome;
             if (nome) {
                 const pacientes = await new pacientesDao(req.db).findPacienteByName(nome);
@@ -63,10 +65,10 @@ module.exports = app => {
             } else {
                 res.sendStatus(404);
             }
-        });
+        }));
 
     app.route('/pacientes/cns/:cns')
-        .get(async (req, res) => {
+        .get(auth, wrapAsync(async (req, res) => {
             const cns = req.params.cns;
             if (cns) {
                 const cnsNumber = cns.length === 15 ? parseInt(cns) : undefined;
@@ -79,10 +81,10 @@ module.exports = app => {
             } else {
                 res.sendStatus(404);
             }
-        });
+        }));
 
     app.route('/pacientes/:id')
-        .get(async (req, res) => {
+        .get(auth, wrapAsync(async (req, res) => {
             const id = req.params.id;
             if (id) {
                 const paciente = await new pacientesDao(req.db).findPacienteById(id);
@@ -90,8 +92,8 @@ module.exports = app => {
             } else {
                 res.sendStatus(404);
             }
-        })
-        .put(async (req, res) => {
+        }))
+        .put(auth, wrapAsync(async (req, res) => {
             const id = req.params.id;
             const paciente = req.body.paciente;
             if (id) {
@@ -135,8 +137,8 @@ module.exports = app => {
             } else {
                 res.sendStatus(404);
             }
-        })
-        .delete(async (req, res) => {
+        }))
+        .delete(auth, wrapAsync(async (req, res) => {
             const id = req.params.id;
             if (id) {
                 await new pacientesDao(req.db).deletePaciente(id);
@@ -146,5 +148,5 @@ module.exports = app => {
                 res.sendStatus(404);
                 return;
             }
-        });
+        }));
 };

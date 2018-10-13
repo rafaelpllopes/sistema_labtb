@@ -1,13 +1,15 @@
 const laudosDao = require('../models/laudos-dao');
+const wrapAsync = require('../libs/async-wrap');
+const auth = require('../libs/auth');
 
 module.exports = app => {
     app.route('/laudos')
-        .get(async (req, res) => {
+        .get(auth, wrapAsync(async (req, res) => {
             const page = req.query.page;
             const laudos = await new laudosDao(req.db).getLaudos(page);
             res.status(200).json(laudos);
-        })
-        .post(async (req, res) => {
+        }))
+        .post(auth, wrapAsync(async (req, res) => {
             const laudo = req.body;
             const paciente = laudo.laudo.paciente_id;
             if (laudo) {
@@ -20,10 +22,10 @@ module.exports = app => {
             } else {
                 res.sendStatus(412);
             }
-        });
+        }));
 
     app.route('/laudos/filter')
-        .get(async (req, res) => {
+        .get(auth, wrapAsync(async (req, res) => {
             const cns = req.query.cns;
             const nome = req.query.nome;
             const mes = req.query.mes;
@@ -70,10 +72,10 @@ module.exports = app => {
             } else {
                 res.sendStatus(404);
             }
-        });
+        }));
 
     app.route('/laudos/resultado/:id')
-        .put(async (req, res) => {
+        .put(auth, wrapAsync(async (req, res) => {
             const id = req.params.id;
             const laudo = req.body.laudo;
             if (id && laudo) {
@@ -87,10 +89,10 @@ module.exports = app => {
             } else {
                 res.sendStatus(404);
             }
-        })
+        }));
 
     app.route('/laudos/:id')
-        .get(async (req, res) => {
+        .get(auth, wrapAsync(async (req, res) => {
             const id = req.params.id;
             if (id) {
                 const laudo = await new laudosDao(req.db).getLaudoById(id);
@@ -102,8 +104,8 @@ module.exports = app => {
             } else {
                 res.sendStatus(404);
             }
-        })
-        .put(async (req, res) => {
+        }))
+        .put(auth, wrapAsync(async (req, res) => {
             const id = req.params.id;
             const laudo = req.body.laudo;
             if (id && laudo) {
@@ -117,8 +119,8 @@ module.exports = app => {
             } else {
                 res.sendStatus(404);
             }
-        })
-        .delete(async (req, res) => {
+        }))
+        .delete(auth, wrapAsync(async (req, res) => {
             const id = req.params.id;
             if (id) {
                 const laudo = await new laudosDao(req.db).getLaudoById(id);
@@ -131,5 +133,5 @@ module.exports = app => {
             } else {
                 res.sendStatus(404);
             }
-        });
+        }));
 };
