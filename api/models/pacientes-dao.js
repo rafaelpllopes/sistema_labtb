@@ -180,6 +180,47 @@ class PacientesDao {
                 });
         });
     }
+
+    getPacientesByFilter(cns, nome, sexo) {
+                
+        let query = 'SELECT * FROM pacientes ORDER BY paciente_nome';
+
+        if (cns || nome || sexo) {
+            query += " WHERE";
+
+            if(cns) {
+                query += ` paciente_cns = ${cns}`;
+            }
+
+            if(nome) {
+                if(cns) {
+                    query += ` AND paciente_nome = ${nome}`;
+                } else {
+                    query += ` paciente_nome = ${nome}`;
+                }
+            }
+
+            if(sexo) {
+                if(cns || nome) {
+                    query += ` AND paciente_sexo = ${sexo}`;
+                } else {
+                    query += ` paciente_sexo = ${sexo}`;
+                }
+            }
+        }
+
+        return new Promise((resolve, reject) => {
+            this._db.all(
+                query,
+                (err, rows) => {
+                    if (err) {
+                        return reject('Não foram encontrados pacientes');
+                    }
+                    if (rows) resolve(rows);
+                    resolve(null);
+                });
+        });
+    }
 }
 
 module.exports = PacientesDao;

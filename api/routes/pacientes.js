@@ -45,6 +45,15 @@ module.exports = app => {
             }
         });
 
+    app.route('/pacientes/filter')
+        .get(async (req, res) => {
+            const cns = req.query.cns;
+            const nome = req.query.nome;
+            const sexo = req.query.sexo;
+            const pacientes = await new pacientesDao(req.db).getPacientesByFilter(cns, nome, sexo);
+            res.status(200).json(pacientes);
+        });
+
     app.route('/pacientes/nome/:nome')
         .get(async (req, res) => {
             const nome = req.params.nome;
