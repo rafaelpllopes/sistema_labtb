@@ -33,7 +33,7 @@ export class PacienteAdicionarComponent implements OnInit {
       sexo: ['', Validators.required],
       email: ['', Validators.email],
       telefone: [''],
-      cep: [''],
+      cep: ['', [ Validators.maxLength(8), Validators.minLength(8)]],
       logradouro: [''],
       numero: [''],
       bairro: [''],
@@ -105,8 +105,9 @@ export class PacienteAdicionarComponent implements OnInit {
     }
   }
 
-  cepWebService(cep: number) {
-    if (cep.toString().length === 8) {
+  cepWebService(cep) {
+    cep = parseInt(cep);
+    if (typeof(cep) === 'number' && cep.toString().length === 8) {
       this.service
         .getCep(cep)
         .subscribe((dados: any) => {

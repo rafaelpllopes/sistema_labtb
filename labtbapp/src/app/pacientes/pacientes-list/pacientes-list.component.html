@@ -2,6 +2,41 @@
 
 <h2 class="text-center text-uppercase">Pacientes</h2>
 
+<button class="btn btn-secondary btn-block" (click)="mostrar()"><i aria-hidden="true" class="fa fa-list mr-1">
+    Busca Avançada</i></button>
+<div [ngClass]="{ 'active-search': isShow }">
+  <form [formGroup]="searchForm" class="form mt-4" (submit)="search()">
+    <div class="form-row align-items-center">
+
+      <div class="form-group col-md-4">
+        <label for="cns">CNS</label>
+        <input formControlName="cns" type="text" class="form-control" id="cns" (keyup)="cnsSearch($event.target.value)"
+          maxlength="15" minlength="15" autocomplete="off">
+        <app-vmessage *ngIf="searchForm.get('cns').invalid" text="Tamanho minimo e maximo é 15 caracteres"></app-vmessage>
+      </div>
+
+      <div class="form-group col-md-9">
+        <label for="nome">Nome</label>
+        <input formControlName="nome" type="text" class="form-control" id="nome" [readonly]="cnsKeyup"
+          autocomplete="off">
+      </div>
+
+      <div class="form-group col-md-3">
+        <label for="sexo">Sexo</label>
+        <select class="custom-select" formControlName="sexo">
+          <option value="" disabled>Selecione um sexo</option>
+          <option value="M">Masculino</option>
+          <option value="F">Feminino</option>
+        </select>
+      </div>
+      <div class="col-md-12">
+        <button [disabled]="searchForm.invalid" class="btn btn-dark btn-lg mr-2" type="submit">Buscar</button>
+        <button (click)="clear()" class="btn btn-secundary btn-lg">Limpar</button>
+      </div>
+    </div>
+  </form>
+</div>
+
 <app-search (onTyping)="filter = $event" [value]="filter"></app-search>
 
 <div class="table-responsive">

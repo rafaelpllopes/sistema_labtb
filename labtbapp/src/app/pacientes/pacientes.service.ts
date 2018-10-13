@@ -36,8 +36,8 @@ export class PacientesService {
       .put(`${API}/pacientes/${id}`, { paciente })
   }
 
-  getCep(cep: number) {
+  getCep(cep: number) {   
     return this.http
-    .get(`https://viacep.com.br/ws/${cep}/json`);
+      .get(`https://viacep.com.br/ws/${cep}/json`);
   }
 }

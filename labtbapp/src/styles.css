@@ -11,6 +11,10 @@ section {
     padding-bottom: 5em;
 }
 
+.active-search {
+    display: none;
+}
+
 @media print {
     header, footer, nav, aside, button, a {
        display: none;

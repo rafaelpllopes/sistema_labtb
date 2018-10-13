@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpSentEvent, HttpProgressEvent, HttpResponse, HttpHeaderResponse, HttpUserEvent } from "@angular/common/http";
 import { Observable } from "rxjs";
 
+
 @Injectable()
 export class RequestInterceptor implements HttpInterceptor {
   constructor(private tokenService: TokenService) { }
@@ -11,11 +12,14 @@ export class RequestInterceptor implements HttpInterceptor {
     | HttpResponse<any> | HttpUserEvent<any>> {
     if (this.tokenService.hasToken()) {
       const token = this.tokenService.getToken();
-      req = req.clone({
-        setHeaders: {
-          'x-access-token': token
-        }
-      });
+      const viaCep: boolean = /https:\/\/viacep.com.br\/ws\/\/*.*/g.test(req.url);
+      if (!viaCep) {
+        req = req.clone({
+          setHeaders: {
+            'x-access-token': token
+          }
+        });
+      }
     }
     return next.handle(req);
   }

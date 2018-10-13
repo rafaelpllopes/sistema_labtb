@@ -53,6 +53,7 @@ class LaudosDao {
             SELECT 
                 l.laudo_id, 
                 l.laudo_data_entrada, 
+                p.paciente_cns,
                 p.paciente_nome, 
                 p.paciente_sexo,
                 l.laudo_material,
@@ -172,7 +173,8 @@ class LaudosDao {
         let query = `
         SELECT 
             l.laudo_id, 
-            l.laudo_data_entrada, 
+            l.laudo_data_entrada,
+            p.paciente_cns,
             p.paciente_nome, 
             p.paciente_sexo,
             l.laudo_material,

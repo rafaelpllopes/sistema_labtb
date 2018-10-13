@@ -1,9 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { LaudosService } from '../laudos.service';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LaudosList } from './laudos-list';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { UteisService } from 'src/app/shared/services/uteis.service';
+
+import { LaudosService } from '../laudos.service';
+import { LaudosList } from './laudos-list';
+import { UteisService } from '../../shared/services/uteis.service';
+import { mesAno } from '../../shared/validators/mes-ano';
 
 @Component({
   selector: 'app-laudos-list',
@@ -41,6 +43,8 @@ export class LaudosListComponent implements OnInit {
       paciente: [''],
       mes: [''],
       ano: ['']
+    }, {
+      validator: mesAno
     });
 
     this.meses = this.serviceUteis.getMeses();
