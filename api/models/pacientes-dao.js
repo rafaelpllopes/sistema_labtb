@@ -183,32 +183,34 @@ class PacientesDao {
 
     getPacientesByFilter(cns, nome, sexo) {
                 
-        let query = 'SELECT * FROM pacientes ORDER BY paciente_nome';
+        let query = 'SELECT * FROM pacientes';
 
         if (cns || nome || sexo) {
             query += " WHERE";
 
             if(cns) {
-                query += ` paciente_cns = ${cns}`;
+                query += ` paciente_cns = '${cns}'`;
             }
 
             if(nome) {
                 if(cns) {
-                    query += ` AND paciente_nome = ${nome}`;
+                    query += ` AND paciente_nome LIKE '${nome}%'`;
                 } else {
-                    query += ` paciente_nome = ${nome}`;
+                    query += `  paciente_nome LIKE '${nome}%'`;
                 }
             }
 
             if(sexo) {
                 if(cns || nome) {
-                    query += ` AND paciente_sexo = ${sexo}`;
+                    query += ` AND paciente_sexo = '${sexo}'`;
                 } else {
-                    query += ` paciente_sexo = ${sexo}`;
+                    query += ` paciente_sexo = '${sexo}'`;
                 }
             }
         }
 
+        query += ' ORDER BY paciente_nome';
+        
         return new Promise((resolve, reject) => {
             this._db.all(
                 query,
