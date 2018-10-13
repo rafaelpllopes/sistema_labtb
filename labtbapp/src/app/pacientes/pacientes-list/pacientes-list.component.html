@@ -70,4 +70,4 @@
     </tbody>
   </table>
 </div>
-<app-buttom-load (click)="load()" [hasMore]="hasMore"></app-buttom-load>
+<app-buttom-load *ngIf="!advantecSearch" (click)="load()" [hasMore]="hasMore"></app-buttom-load>

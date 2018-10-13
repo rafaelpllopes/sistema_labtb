@@ -36,8 +36,18 @@ export class PacientesService {
       .put(`${API}/pacientes/${id}`, { paciente })
   }
 
-  getCep(cep: number) {   
+  getCep(cep: number) {
     return this.http
       .get(`https://viacep.com.br/ws/${cep}/json`);
+  }
+
+  getPacientesByFilter(cns: string, nome: string, sexo: string) {
+    const PARAMS = new HttpParams()
+      .append('cns', cns)
+      .append('nome', nome)
+      .append('sexo', sexo);
+
+    return this.http
+      .get<any[]>(`${API}/pacientes/filter`, { params: PARAMS });
   }
 }

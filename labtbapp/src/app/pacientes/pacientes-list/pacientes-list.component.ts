@@ -50,7 +50,7 @@ export class PacientesListComponent implements OnInit {
 
   cnsSearch(cns: number) {
     this.cnsKeyup = true;
-    this.searchForm.get('paciente').setValue('');
+    this.searchForm.get('nome').setValue('');
     if (cns.toString().length === 0) {
       this.cnsKeyup = false;
     }
@@ -62,7 +62,12 @@ export class PacientesListComponent implements OnInit {
     const sexo = this.searchForm.get('sexo').value;
 
     if (cns || nome || sexo) {
-      console.log(this.searchForm.value);
+      this.service
+        .getPacientesByFilter(cns, nome, sexo)
+        .subscribe(pacientes => {
+          this.advantecSearch = true;
+          this.pacientes = pacientes;
+        });
     }
   }
 
@@ -71,6 +76,17 @@ export class PacientesListComponent implements OnInit {
     this.searchForm.get('cns').setValue('');
     this.searchForm.get('nome').setValue('');
     this.searchForm.get('sexo').setValue('');
+    //this.searchForm.reset();
+
+    this.currentPage = 1;
+
+    this.service
+      .getPacientes(this.currentPage)
+      .subscribe(pacientes =>
+        this.pacientes = pacientes
+      );
+
+    this.advantecSearch = false;
 
     this.cnsKeyup = false;
   }

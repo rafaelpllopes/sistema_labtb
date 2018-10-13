@@ -93,8 +93,10 @@ export class LaudosListComponent implements OnInit {
 
     this.cnsKeyup = false;
 
+    this.currentPage = 1;
+
     this.laudosService
-      .getLaudos(1)
+      .getLaudos(this.currentPage)
       .subscribe(laudos => {
         this.laudos = laudos;
         this.hasMore = true;
