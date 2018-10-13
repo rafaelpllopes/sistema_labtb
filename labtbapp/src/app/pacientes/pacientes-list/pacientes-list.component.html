@@ -25,8 +25,8 @@
         <label for="sexo">Sexo</label>
         <select class="custom-select" formControlName="sexo">
           <option value="" disabled>Selecione um sexo</option>
-          <option value="M">Masculino</option>
-          <option value="F">Feminino</option>
+          <option value="M" [disabled]="cnsKeyup">Masculino</option>
+          <option value="F" [disabled]="cnsKeyup">Feminino</option>
         </select>
       </div>
       <div class="col-md-12">

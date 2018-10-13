@@ -51,6 +51,7 @@ export class PacientesListComponent implements OnInit {
   cnsSearch(cns: number) {
     this.cnsKeyup = true;
     this.searchForm.get('nome').setValue('');
+    this.searchForm.get('sexo').setValue('');
     if (cns.toString().length === 0) {
       this.cnsKeyup = false;
     }
