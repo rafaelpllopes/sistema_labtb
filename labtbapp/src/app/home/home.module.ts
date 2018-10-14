@@ -6,6 +6,7 @@ import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home.routing.module';
 import { SigninComponent } from './signin/signin.component';
 import { VmessageModule } from '../shared/vmessage/vmessage.module';
+import { AlertModule } from '../shared/components/alert/alert.module';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import { VmessageModule } from '../shared/vmessage/vmessage.module';
     ReactiveFormsModule,
     FormsModule,
     VmessageModule,
+    AlertModule,
     HomeRoutingModule
   ],
   declarations: [

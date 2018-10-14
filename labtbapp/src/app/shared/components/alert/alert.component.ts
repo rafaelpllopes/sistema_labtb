@@ -41,7 +41,7 @@ export class AlertComponent {
       case AlertType.WARNING:
         return 'alert alert-warning';
       case AlertType.DANGER:
-        return 'alert alert-dange';
+        return 'alert alert-danger';
       case AlertType.INFO:
         return 'alert alert-info';
 

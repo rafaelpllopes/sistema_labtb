@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { AlertService } from 'src/app/shared/components/alert/alert.service';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -20,12 +20,12 @@ export class SigninComponent implements OnInit {
   @ViewChild('userNameInput') userNameInput: ElementRef<HTMLInputElement>;
 
   constructor(
-    private http: HttpClient,
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private platformDetectorService: PlatformDetectorService
+    private platformDetectorService: PlatformDetectorService,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -33,8 +33,8 @@ export class SigninComponent implements OnInit {
       .subscribe(params => this.fromUrl = params['fromUrl']);
 
     this.loginForm = this.formBuilder.group({
-      userName: ['admin', Validators.required],
-      password: ['admin', Validators.required]
+      userName: ['', Validators.required],
+      password: ['', Validators.required]
     });
 
     this.platformDetectorService.isPlatformBrowser() && this.userNameInput.nativeElement.focus();
@@ -53,7 +53,7 @@ export class SigninComponent implements OnInit {
           console.log(err);
           this.loginForm.reset();
           this.platformDetectorService.isPlatformBrowser() && this.userNameInput.nativeElement.focus();
-          alert('Usuario ou senha invalido');
+          this.alertService.danger('Usuario ou senha invalido');
         });
   }
 }

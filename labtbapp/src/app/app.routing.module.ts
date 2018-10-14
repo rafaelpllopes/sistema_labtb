@@ -24,6 +24,11 @@ const routes: Routes = [
         loadChildren: './laudos/laudos.module#LaudosModule',
         canActivate: [AuthGuard]
     },
+    {
+        path: 'usuarios',
+        loadChildren: './usuarios/usuarios.module#UsuariosModule',
+        canActivate: [AuthGuard]
+    },
     { 
         path: 'error', 
         component: GlobalErrorsComponent,
