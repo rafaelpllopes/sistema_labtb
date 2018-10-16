@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
 import { AuthGuard } from './core/auth/auth.guard';
 import { GlobalErrorsComponent } from './errors/global-errors/global-errors.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
@@ -27,6 +28,11 @@ const routes: Routes = [
     {
         path: 'usuarios',
         loadChildren: './usuarios/usuarios.module#UsuariosModule',
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'relatorios',
+        loadChildren: './relatorios/relatorios.module#RelatoriosModule',
         canActivate: [AuthGuard]
     },
     { 
