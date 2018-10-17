@@ -68,9 +68,9 @@ module.exports = app => {
                 res.sendStatus(404);
             }
         })));
-        
+
     app.route('/usuario/existe')
-        .post(wrapAsync((async (req, res) => {
+        .post(auth, wrapAsync((async (req, res) => {
             const user = req.body.user_name;
             if (user) {
                 const usuarios = await new usuariosDao(req.db).existe(user);
@@ -81,7 +81,12 @@ module.exports = app => {
         })
         ));
 
-    app.route('/usuarios/add')
+    app.route('/usuarios')
+        .get(auth, wrapAsync(async (req, res) => {
+            const page = req.query.page | 1;
+            const users = await new usuariosDao(req.db).getUser(page);
+            res.status(200).json(users);
+        }))
         .post(auth, wrapAsync((async (req, res) => {
             const user = req.body.user_name;
             const nome = req.body.user_full_name;

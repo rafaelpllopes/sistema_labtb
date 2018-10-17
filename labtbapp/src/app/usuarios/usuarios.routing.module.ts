@@ -6,6 +6,8 @@ import { UsuariosComponent } from './usuarios.component';
 import { UsuariosListaComponent } from './usuarios-lista/usuarios-lista.component';
 import { UsuarioDetalhesComponent } from './usuario-detalhes/usuario-detalhes.component';
 import { UsuarioAdicionarComponent } from './usuario-adicionar/usuario-adicionar.component';
+import { UsuariosListResolver } from './usuarios-lista/usuarios-list.resolver';
+import { UsuarioAtualizarComponent } from './usuario-atualizar/usuario-atualizar.component';
 
 const routes: Routes = [
     {
@@ -18,6 +20,9 @@ const routes: Routes = [
                 component: UsuariosListaComponent,
                 data: {
                     title: 'Lista de usuarios'
+                },
+                resolve: {
+                    users: UsuariosListResolver
                 }
             },
             {
@@ -36,9 +41,9 @@ const routes: Routes = [
             },
             {
                 path: 'editar/:id',
-                component: UsuarioAdicionarComponent,
+                component: UsuarioAtualizarComponent,
                 data: {
-                    title: 'Editar usuario'
+                    title: 'Atualizar senha usuario'
                 }
             }
         ]

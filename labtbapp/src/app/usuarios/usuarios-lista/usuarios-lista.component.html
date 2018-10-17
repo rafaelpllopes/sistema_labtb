@@ -1,3 +1,53 @@
-<p>
-  usuarios-lista works!
-</p>
+<a class="btn btn-primary btn-lg" [routerLink]="['novo']"><i class="fa fa-plus-circle"> Novo Usuario</i></a>
+
+<h2 class="text-center text-uppercase">Usuarios</h2>
+
+<button class="btn btn-secondary btn-block" (click)="mostrar()"><i aria-hidden="true" class="fa fa-list mr-1">
+    Busca Avançada</i></button>
+<section [ngClass]="{ 'active-search': isShow }">
+  <form [formGroup]="searchForm" class="form mt-4" (submit)="search()">
+    <div class="form-row align-items-center">
+
+      <div class="form-group col-md-12">
+        <label for="usuario">Usuario</label>
+        <input formControlName="usuario" (keyup)="usuarioTouched()" type="text" class="form-control" id="usuario" [readonly]="searchNome" autocomplete="off">
+      </div>
+
+      <div class="form-group col-md-12">
+        <label for="nome">Nome</label>
+        <input formControlName="nome" (keyup)="nomeTouched()" type="text" class="form-control" id="nome" [readonly]="searchUser" autocomplete="off">
+      </div>
+
+      <div class="col-md-12">
+        <button [disabled]="searchForm.invalid" class="btn btn-dark btn-lg mr-2" type="submit">Buscar</button>
+        <button (click)="clear()" class="btn btn-secundary btn-lg" type="reset">Limpar</button>
+      </div>
+    </div>
+  </form>
+</section>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Usuario</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users, let i = index">
+        <th scope="col">{{ i + 1 }}</th>
+        <td scope="col">{{ user?.user_full_name }}</td>
+        <td scope="col">{{ user?.user_name }}</td>
+        <td scope="col">
+          <a class="btn btn-warning btn-sm mr-1" [routerLink]="['editar', user.user_id]"><i class="fa fa-list-alt">
+              Editar</i></a>
+          <a class="btn btn-info  btn-sm mr-1" [routerLink]="['detalhes', user.user_id]"><i class="fa fa-info-circle">
+              Detalhes</i></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,3 +1,36 @@
-<p>
-  usuario-adicionar works!
-</p>
+<h4 class="text-center text-uppercase">Cadastro de usuario</h4>
+<form [formGroup]="formUser" (submit)="submit()">
+  <div class="row">
+    <div class="form-group col-md-12">
+      <label for="userFullName">Nome completo</label>
+      <input formControlName="userFullName" type="text" class="form-control" id="userFullName" autocomplete="off" minlength="3"
+      maxlength="100">
+      <app-vmessage *ngIf="formUser.get('userFullName').errors?.required" text="Nome completo é obrigatorio"></app-vmessage>
+      <app-vmessage *ngIf="formUser.get('userFullName').errors?.minlength" text="Tamanho minimo são 3 caracteres"></app-vmessage>
+      <app-vmessage *ngIf="formUser.get('userFullName').errors?.maxlength" text="Tamanho maximo são 100 caracteres"></app-vmessage>
+    </div>
+
+    <div class="form-group col-md-6">
+      <label for="userName">Nome do usuario</label>
+      <input formControlName="userName" type="text" class="form-control" id="userName" autocomplete="off" minlength="2"
+        maxlength="50">
+      <app-vmessage *ngIf="formUser.get('userName').errors?.required" text="Nome do usuario é obrigatorio"></app-vmessage>
+      <app-vmessage *ngIf="formUser.get('userName').errors?.lowerCase" text="Usuario deve ser minusculo"></app-vmessage>
+      <app-vmessage *ngIf="formUser.get('userName').errors?.minlength" text="Tamanho minimo são 2 caracteres"></app-vmessage>
+      <app-vmessage *ngIf="formUser.get('userName').errors?.maxlength" text="Tamanho maximo são 50 caracteres"></app-vmessage>
+      <app-vmessage *ngIf="formUser.get('userName').errors?.userNameTaken" text="Usuario já é cadastrado"></app-vmessage>
+    </div>
+
+    <div class="form-group col-md-6">
+      <label for="userPassword">Senha</label>
+      <input formControlName="userPassword" type="text" class="form-control" id="userPassword" autocomplete="off"
+        minlength="8" maxlength="30">
+      <app-vmessage *ngIf="formUser.get('userPassword').errors?.required" text="Senha é obrigatorio"></app-vmessage>
+      <app-vmessage *ngIf="formUser.get('userPassword').errors?.minlength" text="Tamanho minimo são 8 caracteres"></app-vmessage>
+      <app-vmessage *ngIf="formUser.get('userPassword').errors?.maxlength" text="Tamanho maximo são 30 caracteres"></app-vmessage>
+    </div>
+  </div>
+
+  <button [disabled]="formUser.invalid" class="btn btn-primary btn-lg mr-2" type="submit">Salvar</button>
+  <a class="btn btn-danger btn-lg mr-2" [routerLink]="['/usuarios']">Cancelar</a>
+</form>

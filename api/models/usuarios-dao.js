@@ -28,6 +28,30 @@ class UserDao {
         });
     }
 
+    getUser(page) {
+        const maxRows = 15;
+
+        const from = (page - 1) * maxRows;
+
+        let limitQuery = '';
+
+        if (page) limitQuery = `LIMIT ${from}, ${maxRows}`;
+
+        return new Promise((resolve, reject) => {
+            this._db.all(`
+                SELECT user_full_name, user_name, user_id FROM usuarios ORDER BY user_full_name
+                ${limitQuery} ;
+                `,
+                (err, rows) => {
+                    if (err) {
+                        return reject('Não foram encontrados usuarios');
+                    }
+                    if (rows) resolve(rows);
+                    resolve(null);
+                });
+        });
+    }
+
     updateUser(id, password, nome) {
         return new Promise((resolve, reject) => {
             let cryp = sha256.x2(password);

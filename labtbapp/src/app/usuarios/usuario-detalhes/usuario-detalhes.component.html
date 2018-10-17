@@ -1,3 +1,22 @@
-<p>
-  usuario-detalhes works!
-</p>
+<section *ngIf="user$ | async as user">
+  <h4 class="text-center text-uppercase">Detalhes do usuario</h4>
+  <form>
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label for="userFullName">Nome completo</label>
+        <input type="text" class="form-control" id="userFullName" [value]="user?.user_full_name" readonly>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="userName">Nome do usuario</label>
+        <input type="text" class="form-control" id="userName" [value]="user?.user_name" readonly>
+      </div>
+
+      <div class="form-group col-md-6">
+          <label for="userName">Cadastrado</label>
+          <input type="text" class="form-control" id="userName" [value]="user?.user_data_cadastro | date:'dd/MM/yyyy hh:mm:ss'" readonly>
+        </div>
+    </div>
+    <a class="btn btn-success btn-lg mr-2" [routerLink]="['/usuarios']">Voltar</a>
+  </form>
+</section>
