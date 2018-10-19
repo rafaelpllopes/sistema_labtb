@@ -45,7 +45,7 @@ export class UsuariosService {
     return this.http.delete(`${API}/usuarios/${id}`);
   }
 
-  getUsuariosByFilter(nome, usuario) {
+  getUsuariosByFilter(nome: string, usuario: string) {
     const PARAMS = new HttpParams()
       .append('nome', nome)
       .append('usuario', usuario);

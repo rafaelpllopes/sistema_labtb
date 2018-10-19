@@ -97,7 +97,7 @@ module.exports = app => {
 
     app.route('/usuarios')
         .get(auth, wrapAsync(async (req, res) => {
-            const page = req.query.page | 1;
+            const page = req.query.page;
             const users = await new usuariosDao(req.db).getUser(page);
             res.status(200).json(users);
         }))

@@ -124,7 +124,7 @@ class UserDao {
                 }
             }
 
-            this._db.get(query,
+            this._db.all(query,
                 (err, rows) => {
                     if (err) {
                         return reject('Usuario não encontrado');

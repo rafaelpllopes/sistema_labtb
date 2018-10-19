@@ -96,16 +96,14 @@ export class UsuariosListaComponent implements OnInit {
   search() {
     const nome = this.searchForm.get('nome').value;
     const usuario = this.searchForm.get('usuario').value;
+    this.service
+      .getUsuariosByFilter(nome, usuario)
+      .subscribe(usuarios => {
+        console.log(usuario);
+        this.advantecSearch = true;
+        this.users = usuarios;
+      });
 
-    if (nome || usuario) {
-      console.log(nome, usuario)
-      this.service
-        .getUsuariosByFilter(nome, usuario)
-        .subscribe(usuarios => {
-          this.advantecSearch = true;
-          this.users = usuarios;
-        });
-    }
   }
 
 }
