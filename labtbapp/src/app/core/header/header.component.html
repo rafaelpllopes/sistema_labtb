@@ -1,33 +1,34 @@
 <header class="fixed-top">
+  <div *ngIf="(user$ | async) as user">
 
-  <nav class="navbar navbar-light bg-white">
-    <a class="navbar-brand">
-      <i tabindex="0" (keyup.space)="menu.toggle()" (click)="menu.toggle()" class="fa fa-bars mr-2"> Laboratorio</i>
-    </a>
-    <app-menu #menu>
-      <ul class='list-unstyled'>
-        <li>
-          <a [routerLink]="['laudos']" (click)="menu.toggle()"><i class="fa fa-archive"></i> Laudos</a>
-        </li>
-        <li>
-          <a [routerLink]="['pacientes']" (click)="menu.toggle()"><i class="fa fa-address-book"></i> Pacientes</a>
-        </li>
-        <li>
-          <a [routerLink]="['relatorios']" (click)="menu.toggle()"><i class="fa fa-clipboard"></i> Relatorios</a>
-        </li>
-        <li>
-          <a [routerLink]="['usuarios']" (click)="menu.toggle()"><i class="fa fa-users"></i> Usuarios</a>
-        </li>
-      </ul>
-    </app-menu>
-    <div>
-      <div *ngIf="(user$ | async) as user">
+    <nav class="navbar navbar-light bg-white">
+      <a class="navbar-brand">
+        <i tabindex="0" (keyup.space)="menu.toggle()" (click)="menu.toggle()" class="fa fa-bars mr-2"> Laboratorio</i>
+      </a>
+
+      <app-menu #menu>
+        <ul class='list-unstyled'>
+          <li>
+            <a [routerLink]="['laudos']" (click)="menu.toggle()"><i class="fa fa-archive"></i> Laudos</a>
+          </li>
+          <li>
+            <a [routerLink]="['pacientes']" (click)="menu.toggle()"><i class="fa fa-address-book"></i> Pacientes</a>
+          </li>
+          <li>
+            <a [routerLink]="['relatorios']" (click)="menu.toggle()"><i class="fa fa-clipboard"></i> Relatorios</a>
+          </li>
+          <li *ngIf="user.user_id == 1">
+            <a [routerLink]="['usuarios']" (click)="menu.toggle()"><i class="fa fa-users"></i> Usuarios</a>
+          </li>
+        </ul>
+      </app-menu>
+      <div>
         <i class="fa fa-user-circle mr-2"></i>
         <a class="mr-2">{{ user.user_full_name }}</a>
         <a (click)="logout()" class="btn btn-outline-secondary">Logout</a>
       </div>
-    </div>
-  </nav>
+    </nav>
+  </div>
 
   <div class="fixed-top">
     <app-alert></app-alert>

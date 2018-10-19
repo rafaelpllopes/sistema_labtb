@@ -8,12 +8,14 @@ import { UsuarioDetalhesComponent } from './usuario-detalhes/usuario-detalhes.co
 import { UsuarioAdicionarComponent } from './usuario-adicionar/usuario-adicionar.component';
 import { UsuariosListResolver } from './usuarios-lista/usuarios-list.resolver';
 import { UsuarioAtualizarComponent } from './usuario-atualizar/usuario-atualizar.component';
+import { UsuariosGuard } from '../core/auth/usuarios.guard';
 
 const routes: Routes = [
     {
         path: '',
         component: UsuariosComponent,
         canActivate: [AuthGuard],
+        canActivateChild: [UsuariosGuard],
         children: [
             {
                 path: '',

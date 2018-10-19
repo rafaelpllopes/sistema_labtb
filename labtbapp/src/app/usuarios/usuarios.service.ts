@@ -20,14 +20,37 @@ export class UsuariosService {
 
   getUsuarios(page: number) {
     const PARAMS = new HttpParams()
-    .append('page', page.toString());
+      .append('page', page.toString());
 
-  return this.http
-    .get<any[]>(`${API}/usuarios`, { params: PARAMS });
+    return this.http
+      .get<any[]>(`${API}/usuarios`, { params: PARAMS });
   }
 
   getUsuarioById(id: number) {
     return this.http
       .get(`${API}/usuarios/${id}`);
+  }
+
+  addUsuario(usuario: any) {
+    return this.http
+      .post(`${API}/usuarios`, { usuario });
+  }
+
+  updateUsuario(id: number, usuario: any) {
+    return this.http
+      .put(`${API}/usuarios/${id}`, { usuario });
+  }
+
+  deleteUsuario(id: number) {
+    return this.http.delete(`${API}/usuarios/${id}`);
+  }
+
+  getUsuariosByFilter(nome, usuario) {
+    const PARAMS = new HttpParams()
+      .append('nome', nome)
+      .append('usuario', usuario);
+
+    return this.http
+      .get<any[]>(`${API}/usuario/filter`, { params: PARAMS });
   }
 }

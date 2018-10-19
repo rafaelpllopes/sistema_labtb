@@ -11,6 +11,8 @@ import { VmessageModule } from '../shared/vmessage/vmessage.module';
 import { UserNotTakenValidatorService } from './usuario-adicionar/usuario-verifica-exite';
 import { RouterModule } from '@angular/router';
 import { UsuarioAtualizarComponent } from './usuario-atualizar/usuario-atualizar.component';
+import { AlertModule } from '../shared/components/alert/alert.module';
+import { ButtomLoadModule } from '../shared/components/buttom-load/buttom-load.module';
 
 @NgModule({
   imports: [
@@ -19,7 +21,9 @@ import { UsuarioAtualizarComponent } from './usuario-atualizar/usuario-atualizar
     ReactiveFormsModule,
     FormsModule,
     RouterModule,
-    UsuariosRoutingModule
+    UsuariosRoutingModule,
+    AlertModule,
+    ButtomLoadModule
   ],
   declarations: [
     UsuariosComponent,

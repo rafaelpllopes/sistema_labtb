@@ -67,7 +67,7 @@ class UserDao {
         });
     }
 
-    add(user, nome, password) {
+    addUsuario(user, nome, password) {
         return new Promise((resolve, reject) => {
             let cryp = sha256.x2(password);
             this._db.run(`INSERT INTO usuarios (user_name, user_full_name, user_password) VALUES (?, ?, ?)`,
@@ -76,7 +76,8 @@ class UserDao {
                     if (err) {
                         return reject('Não foi possivel cadastrar o usuario');
                     }
-                    return resolve();
+                    if (rows) resolve(rows);
+                    resolve(null);
                 });
         });
     }
@@ -99,6 +100,31 @@ class UserDao {
         return new Promise((resolve, reject) => {
             this._db.get(`SELECT user_id, user_full_name, user_name, user_data_cadastro FROM usuarios WHERE user_id = ?`,
                 [id],
+                (err, rows) => {
+                    if (err) {
+                        return reject('Usuario não encontrado');
+                    }
+                    if (rows) resolve(rows);
+                    resolve(null);
+                });
+        });
+    }
+
+    findUserByFilter(nome, usuario) {
+        return new Promise((resolve, reject) => {
+            let query = `SELECT user_id, user_full_name, user_name FROM usuarios`;
+
+            if(nome || usuario) {
+                query += ` WHERE`;
+
+                if(nome) {
+                    query += ` user_full_name LIKE '${nome}%'`;
+                } else {
+                    query += ` user_name LIKE '${usuario}%'`;
+                }
+            }
+
+            this._db.get(query,
                 (err, rows) => {
                     if (err) {
                         return reject('Usuario não encontrado');
