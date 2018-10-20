@@ -32,15 +32,18 @@ export class LaudosDetalhesComponent implements OnInit {
   }
 
   delete(id) {
-    this.service
-      .deleteLaudo(id)
-      .subscribe(() => {
-        this.router.navigate(['laudos']);
-        this.alertService.warning('Laudo deletado com sucesso');
-      }, err => {
-        this.alertService.danger('Não foi possivel deletar o laudo');
-        console.log(err);
-      });
+    let opc = confirm('Realmente quer excluir o laudo?');
+    if (opc) {
+      this.service
+        .deleteLaudo(id)
+        .subscribe(() => {
+          this.router.navigate(['laudos']);
+          this.alertService.warning('Laudo deletado com sucesso');
+        }, err => {
+          this.alertService.danger('Não foi possivel deletar o laudo');
+          console.log(err);
+        });
+    }
   }
 
 }

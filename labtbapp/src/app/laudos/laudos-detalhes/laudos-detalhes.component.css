@@ -14,19 +14,31 @@
        background: none;
     }
  
+    html, body, span, p, form, img, a, ul, ol, li, table, tr, td, div, section {
+        margin: 0;
+        padding: 0; 
+        border: none; 
+        outline: none;
+        list-style-type: none;
+    }
+
+    form div {
+        padding-right: 0.2em;
+        padding-left: 0.2em;
+    }
+
     nav, aside, button, a, header, footer {
        display: none;
     }
  
     body {
        width: 100%;
-       margin: 0;
-       padding: 0;
+       height: 100%;
     }
 
     .img-container {
         display: inline-block;
-        padding-bottom: 1em;
+        padding-bottom: 0.5em;
     }
 
     .assinatura {
@@ -34,9 +46,10 @@
     }
  
     @page {
-       margin-left: 3cm;
-       margin-right: 2cm;
-       margin-bottom: 2cm;
-       margin-top: 3cm;
+       page-break-after: auto;
+       margin-left: 1cm;
+       margin-right: 1cm;
+       margin-bottom: 1cm;
+       margin-top: 1cm;
     }
  }

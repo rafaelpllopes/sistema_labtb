@@ -68,18 +68,21 @@ export class UsuariosListaComponent implements OnInit {
   }
 
   drop(id: number) {
-    if (id) {
-      this.service
-        .deleteUsuario(id)
-        .subscribe(() => {
-          this.aviso
-            .warning('Usuario excluido com sucesso');
-          this.users = this.users
-            .filter(user => user.user_id != id);
-        }, erro => {
-          console.log(erro);
-          this.aviso.danger(erro.error.msg);
-        })
+    let opc = confirm('Realmente quer excluir o usuario');
+    if (opc) {
+      if (id) {
+        this.service
+          .deleteUsuario(id)
+          .subscribe(() => {
+            this.aviso
+              .warning('Usuario excluido com sucesso');
+            this.users = this.users
+              .filter(user => user.user_id != id);
+          }, erro => {
+            console.log(erro);
+            this.aviso.danger(erro.error.msg);
+          })
+      }
     }
   }
 

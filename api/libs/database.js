@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS pacientes (
 )
 `;
 
+/*
 const data = new Date();
 
 const INSERT_TESTE_PACIENTES = [
@@ -49,6 +50,7 @@ const INSERT_TESTE_PACIENTES = [
     `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento, paciente_sexo) SELECT '555555555555555', 'Goku', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}', 'M' WHERE NOT EXISTS (SELECT * FROM pacientes WHERE paciente_cns = '555555555555555')`,
     `INSERT INTO pacientes (paciente_cns, paciente_nome, paciente_data_nascimento, paciente_sexo) SELECT '666666666666666', 'Vegeta', '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)}', 'M' WHERE NOT EXISTS (SELECT * FROM pacientes WHERE paciente_cns = '666666666666666')`
 ];
+*/
 
 
 const LAUDOS_SCHEMA = `
@@ -66,7 +68,7 @@ CREATE TABLE IF NOT EXISTS laudos (
     FOREIGN KEY(paciente_id) REFERENCES pacientes(paciente_id)
 )
 `;
-
+/*
 const INSERT_TESTE_LAUDOS = [
     `INSERT INTO laudos (laudo_data_coleta, laudo_controle, paciente_id)
         SELECT '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)} ${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}', '1', '1' WHERE NOT EXISTS (SELECT * FROM laudos WHERE laudo_id = '1')`,
@@ -119,6 +121,7 @@ const INSERT_TESTE_LAUDOS = [
     `INSERT INTO laudos (laudo_data_coleta, laudo_controle, paciente_id) 
         SELECT '${data.getFullYear()}-${zfill(data.getMonth() + 1, 2)}-${zfill(data.getDate(), 2)} ${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}', '1', '2' WHERE NOT EXISTS (SELECT * FROM laudos WHERE laudo_id = '18')`
 ];
+*/
 
 const ASPECTOS_SCHEMA = `
 CREATE TABLE IF NOT EXISTS aspectos (
@@ -195,8 +198,8 @@ db.serialize(() => {
         .forEach(inserir => db.run(inserir));
     db.run(INSERT_DEFAULT_USUARIO, [sha256.x2('admin')]);
 
-    INSERT_TESTE_PACIENTES.forEach(inserir => db.run(inserir));
-    INSERT_TESTE_LAUDOS.forEach(inserir => db.run(inserir));
+    /*INSERT_TESTE_PACIENTES.forEach(inserir => db.run(inserir));
+    INSERT_TESTE_LAUDOS.forEach(inserir => db.run(inserir));*/
     //db.each("SELECT * FROM aspectos", (err, aspectos) => console.log(aspectos));
 
 
