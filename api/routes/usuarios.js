@@ -59,7 +59,7 @@ module.exports = app => {
                         await new usuariosDao(req.db).deleteUserById(id);
                         res.status(202).json({ msg: "Usuario deletado com sucesso" });
                     } else {
-                        res.status(409).json({ msg: "Administrador não pode ser removido" });
+                        res.status(403).json({ msg: "Administrador não pode ser removido" });
                     }
                 } else {
                     res.sendStatus(412);

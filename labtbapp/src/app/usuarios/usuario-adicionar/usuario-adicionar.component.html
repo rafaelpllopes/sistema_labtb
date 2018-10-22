@@ -28,6 +28,7 @@
       <app-vmessage *ngIf="formUser.get('userPassword').errors?.required" text="Senha é obrigatorio"></app-vmessage>
       <app-vmessage *ngIf="formUser.get('userPassword').errors?.minlength" text="Tamanho minimo são 8 caracteres"></app-vmessage>
       <app-vmessage *ngIf="formUser.get('userPassword').errors?.maxlength" text="Tamanho maximo são 30 caracteres"></app-vmessage>
+      <app-vmessage *ngIf="formUser.get('userPassword').errors?.pattern" text="Caracteres permitidos letras maiusculas e minusculas, numeros e especias (! @ # $ % & * ( ) _ - = + ?)"></app-vmessage>
     </div>
   </div>
 

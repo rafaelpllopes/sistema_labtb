@@ -8,6 +8,7 @@ const laudos = require('../routes/laudos');
 const pacientes = require('../routes/pacientes');
 const resultados = require('../routes/resultados');
 const aspectos = require('../routes/aspectos');
+const index = require('../routes/index');
 const fs = require('fs');
 
 module.exports = app => {
@@ -45,6 +46,7 @@ module.exports = app => {
         next();
     });
 
+    index(app);
     usuarios(app);
     laudos(app);
     pacientes(app);

@@ -92,7 +92,6 @@ export class UsuariosListaComponent implements OnInit {
       .subscribe(usuarios => {
         this.users = this.users.concat(usuarios);
         if (!usuarios.length) this.hasMore = false;
-        console.log(this.currentPage);
       });
   }
 
@@ -102,7 +101,6 @@ export class UsuariosListaComponent implements OnInit {
     this.service
       .getUsuariosByFilter(nome, usuario)
       .subscribe(usuarios => {
-        console.log(usuario);
         this.advantecSearch = true;
         this.users = usuarios;
       });

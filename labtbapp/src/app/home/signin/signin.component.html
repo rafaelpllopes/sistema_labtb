@@ -9,6 +9,7 @@
       <div class="form-group">
         <input formControlName="password" type="password" class="form-control" placeholder="Senha do usuario">
         <app-vmessage *ngIf="loginForm.get('password').errors?.required" text="Senha é obrigatorio!"></app-vmessage>
+        <app-vmessage *ngIf="loginForm.get('password').errors?.pattern" text="Caracteres permitidos letras maiusculas e minusculas, numeros e especias (! @ # $ % & * ( ) _ - = + ?)"></app-vmessage>
       </div>
     
       <button [disabled]="loginForm.invalid" class="btn btn-primary btn-block" type="submit">login</button>

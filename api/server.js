@@ -5,19 +5,21 @@ const https = require('https');
 
 const app = express();
 
-consign({verbose: false})
+app.use(express.static(__dirname + '/public'));
+
+consign({ verbose: false })
     .include('libs/middlewares.js')
     .then('routes')
     .into(app);
 
-/*const credenciais = {
+const credenciais = {
     key: fs.readFileSync("labtb.key", "utf8"),
     cert: fs.readFileSync("labtb.cert", "utf8")
-};*/
+};
 
-/*https.createServer(credenciais, app)
+https.createServer(credenciais, app)
     .listen(app.get('port'), () =>
-        console.log(`API rodando na porta ${app.get('port')}`));*/
+        console.log(`API rodando na porta ${app.get('port')}`));
 
-app.listen(app.get('port'), () =>
-    console.log(`API rodando na porta ${app.get('port')}`));
+/*app.listen(app.get('port'), () =>
+    console.log(`API rodando na porta ${app.get('port')}`));*/

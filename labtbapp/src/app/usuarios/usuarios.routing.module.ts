@@ -45,7 +45,7 @@ const routes: Routes = [
                 path: 'editar/:id',
                 component: UsuarioAtualizarComponent,
                 data: {
-                    title: 'Atualizar senha usuario'
+                    title: 'Editar usuario'
                 }
             }
         ]

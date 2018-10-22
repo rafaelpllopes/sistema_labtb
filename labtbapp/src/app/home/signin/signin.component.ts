@@ -34,7 +34,10 @@ export class SigninComponent implements OnInit {
 
     this.loginForm = this.formBuilder.group({
       userName: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['', [
+        Validators.required, 
+        Validators.pattern('[A-Za-z0-9!@#$%&*()-+?]*')
+      ]]
     });
 
     this.platformDetectorService.isPlatformBrowser() && this.userNameInput.nativeElement.focus();

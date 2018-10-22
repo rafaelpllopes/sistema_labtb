@@ -30,7 +30,8 @@ export class UsuarioAtualizarComponent implements OnInit {
       userPassword: ['', [
         Validators.required,
         Validators.minLength(8),
-        Validators.maxLength(30)
+        Validators.maxLength(30),
+        Validators.pattern('[A-Za-z0-9!@#$%&*()-+?]*')
       ]],
       userFullName: ['', [
         Validators.required,

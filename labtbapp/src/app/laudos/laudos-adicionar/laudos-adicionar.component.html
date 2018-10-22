@@ -11,7 +11,7 @@
       <div class="form-group col-md-10">
         <label for="paciente">Nome</label>
         <input formControlName="paciente" type="text" class="form-control" id="paciente" [value]="paciente?.paciente_nome"
-          (keyup)="digitouNome($event.target.value)" [readonly]="cnsKeyup" autocomplete="off">
+          (keyup)="digitouNome($event.target.value)" autocomplete="off">
 
         <div class="list-group">
           <button (click)="pacienteSelect(p)" *ngFor="let p of pacientes" class="list-group-item list-group-item-action">{{
@@ -21,7 +21,8 @@
         <app-vmessage *ngIf="formLaudo.get('paciente').errors?.required" text="Paciente é obrigatorio!"></app-vmessage>
       </div>
       <div class="input-group col-md-2">
-        <a class="btn btn-success" [routerLink]="['/pacientes', 'novo']"><i class="fa fa-address-card"></i> Cadastrar Paciente</a>
+        <a class="btn btn-success" [routerLink]="['/pacientes', 'novo']"><i class="fa fa-address-card"></i> Cadastrar
+          Paciente</a>
       </div>
     </div>
   </fieldset>
