@@ -1,3 +1,5 @@
+import { mesAno } from './../../shared/validators/mes-ano';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RelatoriosProducaoComponent implements OnInit {
 
-  constructor() { }
+  producaoForm: FormGroup;
+
+  constructor(
+    private build: FormBuilder
+  ) { }
 
   ngOnInit() {
+    this.producaoForm = this.build.group({
+      ano: [''],
+      mes: ['']
+    }, {
+      validator: mesAno
+    });
   }
 
 }

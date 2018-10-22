@@ -1,3 +1,34 @@
-<p>
-  relatorios-producao works!
-</p>
+<div class="container">
+  <h2 class="text-center text-uppercase">Produção</h2>
+  <form [formGroup]="producaoForm" class="form mt-4" (submit)="search()">
+    <div class="form-row align-items-center">
+
+      <div class="form-group col-md-6">
+        <label for="aspecto">Mês</label>
+        <select class="custom-select" formControlName="mes">
+          <option value="" disabled>Selecione um mês</option>
+          <!--<option *ngFor="let mes of meses" [ngValue]="mes.numero">
+            {{ mes.nome }}
+          </option> -->
+        </select>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="aspecto">Ano</label>
+        <select class="custom-select" formControlName="ano">
+          <option value="" disabled>Selecione um ano</option>
+          <!--<option *ngFor="let ano of anos" [ngValue]="ano">
+            {{ ano }}
+          </option>-->
+        </select>
+      </div>
+      <div class="col-md-12 text-center">
+        <app-vmessage *ngIf="producaoForm.errors?.mesAno" text="Mês e ano devem ser selecionados"></app-vmessage>
+      </div>
+
+      <div class="col-md-12">
+        <button [disabled]="producaoForm.invalid" class="btn btn-primary btn-block" type="submit">Gerar</button>
+      </div>
+    </div>
+  </form>
+</div>
