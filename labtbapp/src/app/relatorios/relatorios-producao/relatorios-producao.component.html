@@ -1,15 +1,15 @@
 <div class="container">
   <h2 class="text-center text-uppercase">Produção</h2>
-  <form [formGroup]="producaoForm" class="form mt-4" (submit)="search()">
+  <form [formGroup]="producaoForm" class="form mt-4" (submit)="buscar()">
     <div class="form-row align-items-center">
 
       <div class="form-group col-md-6">
         <label for="aspecto">Mês</label>
         <select class="custom-select" formControlName="mes">
           <option value="" disabled>Selecione um mês</option>
-          <!--<option *ngFor="let mes of meses" [ngValue]="mes.numero">
+          <option *ngFor="let mes of meses" [ngValue]="mes.numero">
             {{ mes.nome }}
-          </option> -->
+          </option>
         </select>
       </div>
 
@@ -17,18 +17,48 @@
         <label for="aspecto">Ano</label>
         <select class="custom-select" formControlName="ano">
           <option value="" disabled>Selecione um ano</option>
-          <!--<option *ngFor="let ano of anos" [ngValue]="ano">
+          <option *ngFor="let ano of anos" [ngValue]="ano">
             {{ ano }}
-          </option>-->
+          </option>
         </select>
       </div>
       <div class="col-md-12 text-center">
-        <app-vmessage *ngIf="producaoForm.errors?.mesAno" text="Mês e ano devem ser selecionados"></app-vmessage>
+        <app-vmessage *ngIf="producaoForm.get('ano').errors?.required" text="Ano deve ser selecionado"></app-vmessage>
+        <app-vmessage *ngIf="producaoForm.get('mes').errors?.required" text="Mês deve ser selecionado"></app-vmessage>
       </div>
-
       <div class="col-md-12">
         <button [disabled]="producaoForm.invalid" class="btn btn-primary btn-block" type="submit">Gerar</button>
       </div>
+
     </div>
   </form>
+
+  <section *ngIf="producoes$ | async as producoes">  
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <caption *ngIf="mes && ano">{{ mes.nome }} de {{ ano }}</caption>
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Amostra(s)</th>
+            <th scope="col">Municipio</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let producao of producoes">
+          
+            <th scope="col">{{ i + 1 }}</th>
+            <td>producao.quantidade</td>
+            <td>producao.municipio</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th colspan="2">Total</th>
+            <th>producao.total</th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </section>
 </div>
