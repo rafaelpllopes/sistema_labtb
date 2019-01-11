@@ -52,11 +52,11 @@ const INSERT_TESTE_PACIENTES = [
 ];
 */
 
-
 const LAUDOS_SCHEMA = `
 CREATE TABLE IF NOT EXISTS laudos (
     laudo_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    laudo_data_entrada TIMESTAMP DEFAULT (datetime('now','localtime')) NOT NULL, 
+    laudo_data_entrada TIMESTAMP DEFAULT (datetime('now','localtime')) NOT NULL,
+    laudo_numero_geral INTEGER,
     laudo_material VARCHAR(100),
     laudo_data_coleta DATE,
     laudo_amostras INTEGER,
@@ -68,6 +68,39 @@ CREATE TABLE IF NOT EXISTS laudos (
     FOREIGN KEY(paciente_id) REFERENCES pacientes(paciente_id)
 )
 `;
+
+const MATERIAIS_SCHEMA = `
+CREATE TABLE IF NOT EXISTS materiais (
+    material_id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    material VARCHAR(100) NOT NULL,
+    unique(material)
+)
+`;
+
+const INSERT_DEFAULT_MATERIAIS = [
+    `
+INSERT INTO materiais (material) 
+    SELECT 'ESCARRO' WHERE NOT EXISTS (SELECT * FROM materiais WHERE material = 'ESCARRO')
+`
+];
+
+const UNIDADES_SCHEMA = `
+CREATE TABLE IF NOT EXISTS unidades (
+    unidade_id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    unidade VARCHAR(100) NOT NULL,
+    cnes VARCHAR(30),
+    unique(unidade),
+    unique(cnes)
+)
+`;
+
+const INSERT_DEFAULT_UNIDADES = [
+    `
+INSERT INTO unidades (unidade) 
+    SELECT 'Secretaria Municipal de Saúde de Itapeva/SP' WHERE NOT EXISTS (SELECT * FROM unidades WHERE unidade = 'Secretaria Municipal de Saúde de Itapeva/SP')
+`
+];
+
 /*
 const INSERT_TESTE_LAUDOS = [
     `INSERT INTO laudos (laudo_data_coleta, laudo_controle, paciente_id)
@@ -192,10 +225,18 @@ db.serialize(() => {
     db.run(LAUDOS_SCHEMA);
     db.run(ASPECTOS_SCHEMA);
     db.run(RESULTADOS_SCHEMA);
+    db.run(MATERIAIS_SCHEMA);
+    db.run(UNIDADES_SCHEMA);
+
     INSERT_DEFAULT_ASPECTOS
+        .forEach(inserir => db.run(inserir));
+    INSERT_DEFAULT_MATERIAIS
         .forEach(inserir => db.run(inserir));
     INSERT_DEFAULT_RESULTADOS
         .forEach(inserir => db.run(inserir));
+    INSERT_DEFAULT_UNIDADES
+        .forEach(inserir => db.run(inserir));
+
     db.run(INSERT_DEFAULT_USUARIO, [sha256.x2('admin')]);
 
     /*INSERT_TESTE_PACIENTES.forEach(inserir => db.run(inserir));
