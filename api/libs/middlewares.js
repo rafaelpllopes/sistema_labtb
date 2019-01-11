@@ -9,6 +9,8 @@ const pacientes = require('../routes/pacientes');
 const resultados = require('../routes/resultados');
 const reports = require('../routes/reports');
 const aspectos = require('../routes/aspectos');
+const materiais = require('../routes/materiais');
+const unidades = require('../routes/unidades');
 const index = require('../routes/index');
 const fs = require('fs');
 
@@ -53,6 +55,8 @@ module.exports = app => {
     pacientes(app);
     resultados(app);
     aspectos(app);
+    materiais(app);
+    unidades(app);
     reports(app);
 
     app.use('*', (req, res) => {

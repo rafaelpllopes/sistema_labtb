@@ -10,9 +10,9 @@ class LaudosDao {
                 laudos (
                     laudo_numero_geral,
                     laudo_data_coleta,
+                    laudo_tipo,
                     laudo_amostras,
                     laudo_obs,
-                    tipo_amostra_id,
                     material_id,
                     unidade_id,
                     aspecto_id,
@@ -24,9 +24,9 @@ class LaudosDao {
                 [
                     laudo.laudo_numero_geral,
                     laudo.laudo_data_coleta,
+                    laudo.laudo_tipo,
                     laudo.laudo_amostras,
-                    laudo.laudo_controle,
-                    laudo.tipo_amostra_id,
+                    laudo.laudo_obs,
                     laudo.material_id,
                     laudo.unidade_id,
                     laudo.aspecto_id,
@@ -74,6 +74,7 @@ class LaudosDao {
                     if (err) {
                         return reject('Não foram encontrados laudos');
                     }
+                    console.log(rows);
                     if (rows) resolve(rows);
                     resolve(null);
                 });
@@ -139,7 +140,7 @@ class LaudosDao {
                     laudo_data_coleta = ?,
                     laudo_amostras = ?,
                     laudo_obs = ?,
-                    tipo_amostra_id = ?
+                    laudo_tipo = ?
                     material_id = ?,
                     unidade_id = ?,
                     aspecto_id = ?,
@@ -151,7 +152,7 @@ class LaudosDao {
                     laudo.laudo_data_coleta,
                     laudo.laudo_amostras,
                     laudo.laudo_obs,
-                    laudo.tipo_amostra_id,
+                    laudo.laudo_tipo,
                     laudo.material_id,
                     laudo.unidade_id,
                     laudo.aspecto_id,

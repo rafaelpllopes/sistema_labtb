@@ -58,9 +58,9 @@ CREATE TABLE IF NOT EXISTS laudos (
     laudo_data_entrada TIMESTAMP DEFAULT (datetime('now','localtime')) NOT NULL,
     laudo_numero_geral INTEGER,
     laudo_data_coleta DATE,
-    laudo_amostras INTEGER,
+    laudo_tipo VARCHAR(50) NOT NULL,
+    laudo_amostras INTEGER NOT NULL,
     laudo_obs TEXT DEFAULT (''),
-    tipo_amostra_id INTEGER DEFAULT 1,
     material_id INTEGER,
     unidade_id INTEGER,
     aspecto_id INTEGER,
@@ -247,7 +247,6 @@ db.serialize(() => {
     db.run(RESULTADOS_SCHEMA);
     db.run(MATERIAIS_SCHEMA);
     db.run(UNIDADES_SCHEMA);
-    db.run(TIPO_AMOSTRA_SCHEMA);
 
     INSERT_DEFAULT_ASPECTOS
         .forEach(inserir => db.run(inserir));
@@ -256,8 +255,6 @@ db.serialize(() => {
     INSERT_DEFAULT_RESULTADOS
         .forEach(inserir => db.run(inserir));
     INSERT_DEFAULT_UNIDADES
-        .forEach(inserir => db.run(inserir));
-    INSERT_DEFAULT_TIPO_AMOSTRA
         .forEach(inserir => db.run(inserir));
 
     db.run(INSERT_DEFAULT_USUARIO, [sha256.x2('admin')]);

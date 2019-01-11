@@ -8,7 +8,6 @@ class PacientesDao {
 
     addPaciente(paciente) {
         return new Promise((resolve, reject) => {
-            console.log(paciente);
             this._db.run(`INSERT INTO 
                 pacientes (
                     paciente_cns, 

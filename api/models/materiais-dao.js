@@ -6,7 +6,7 @@ class MateriasDao {
 
     getMaterias() {
         return new Promise((resolve, reject) => {
-            this._db.all(`SELECT * FROM materias`, (err, rows) => {
+            this._db.all(`SELECT * FROM materiais`, (err, rows) => {
                 if (err) {
                     return reject('Não foi possivel carregar as materias');
                 }
