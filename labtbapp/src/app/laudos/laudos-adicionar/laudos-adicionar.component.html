@@ -8,8 +8,8 @@
         <label for="cns">CNS</label>
         <input formControlName="cns" type="number" class="form-control" id="cns" [value]="paciente?.paciente_cns" (keyup)="digitouCns($event.target.value)">
       </div> -->
-      <div class="form-group col-md-10">
-        <label for="paciente">Nome</label>
+      <div class="form-group col-md-7">
+        <label for="paciente">Nome*</label>
         <input formControlName="paciente" type="text" class="form-control" id="paciente" [value]="paciente?.paciente_nome"
           (keyup)="digitouNome($event.target.value)" autocomplete="off">
 
@@ -20,39 +20,73 @@
 
         <app-vmessage *ngIf="formLaudo.get('paciente').errors?.required" text="Paciente é obrigatorio!"></app-vmessage>
       </div>
-      <div class="input-group col-md-2">
+
+      <div *ngIf="unidades$ | async as  unidades" class="form-group col-md-5">
+        <label for="unidade">Unidade*</label>
+        <select class="custom-select" formControlName="unidade">
+          <option value="" disabled>Selecione uma unidade</option>
+          <option *ngFor="let unidade of unidades" [ngValue]="unidade.unidade_id">
+            {{ unidade.unidade }}
+          </option>
+        </select>
+        <app-vmessage *ngIf="formLaudo.get('unidade').errors?.required" text="Unidade é obrigatorio!"></app-vmessage>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="numero-geral">Numero Geral</label>
+        <input formControlName="numeroGeral" type="text" class="form-control" id="numero-geral" [value]="laudo?.laudo_numero_geral">
+      </div>
+      <!--<div class="input-group col-md-2">
         <a class="btn btn-success" [routerLink]="['/pacientes', 'novo']"><i class="fa fa-address-card"></i> Cadastrar
           Paciente</a>
-      </div>
+      </div>-->
     </div>
   </fieldset>
 
   <fieldset>
     <legend>Exame</legend>
     <div class="row">
-      <div class="form-group col-md-8">
-        <label for="material">Material</label>
-        <input formControlName="material" type="text" class="form-control" id="material">
+      <div *ngIf="materiais$ | async as  materiais" class="form-group col-md-8">
+        <label for="aspecto">Material*</label>
+        <select class="custom-select" formControlName="material">
+          <option value="" disabled>Selecione um material</option>
+          <option *ngFor="let material of materiais" [ngValue]="material.material_id">
+            {{ material.material }}
+          </option>
+        </select>
+        <app-vmessage *ngIf="formLaudo.get('material').errors?.required" text="Material é obrigatorio!"></app-vmessage>
       </div>
 
       <div class="form-group col-md-4">
         <label for="data-coleta">Data da Coleta</label>
         <input formControlName="dataColeta" type="date" id="data-coleta" placeholder="Data da Coleta" class="form-control">
       </div>
-
-      <div class="form-group col-md-6">
-        <label for="diagnostico">Diagnóstico</label>
-        <input formControlName="diagnostico" type="number" class="form-control" id="diagnostico">
-        <small id="diagnosticoHelp" class="form-text text-muted text-right">ª amostra</small>
-      </div>
-
-      <div class="form-group col-md-6">
-        <label for="controle">Controle de Tratamento</label>
-        <input formControlName="controle" type="number" class="form-control" id="controle">
-        <small id="controleHelp" class="form-text text-muted text-right">º mês</small>
-      </div>
     </div>
   </fieldset>
+
+  <fieldset class="col-md-12">
+    <legend>Tipo*</legend>
+    <div class="form-check">
+      <input formControlName="tipo" class="form-check-input" type="radio" name="tipo" id="diagnostico" value="DIAGNÓSTICO"
+        [checked]="laudo?.laudo_tipo === 'DIAGNÓSTICO'">
+      <label class="form-check-label" for="diagnostico">
+        DIAGNÓSTICO
+      </label>
+    </div>
+    <div class="form-check">
+      <input formControlName="tipo" class="form-check-input" type="radio" name="tipo" id="controle" value="CONTROLE DE TRATAMENTO"
+        [checked]="laudo?.laudo_tipo === 'CONTROLE DE TRATAMENTO'">
+      <label class="form-check-label" for="controle">
+        CONTROLE DE TRATAMENTO
+      </label>
+    </div>
+    <app-vmessage *ngIf="formLaudo.get('tipo').errors?.required" text="Tipo é obrigatorio!" class="col-md-12"></app-vmessage>
+  </fieldset>
+
+  <div class="form-group col-md-6">
+    <label for="amostras">Amostras*</label>
+    <input formControlName="amostras" type="text" class="form-control" id="amostras" [value]="laudo?.laudo_amostras">
+    <app-vmessage *ngIf="formLaudo.get('amostras').errors?.required" text="Quantidade de amostras é obrigatorio!" class="col-md-12"></app-vmessage>
+  </div>
 
   <fieldset>
     <legend>Resultado da Baciloscopia</legend>

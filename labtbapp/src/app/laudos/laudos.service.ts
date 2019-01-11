@@ -63,6 +63,16 @@ export class LaudosService {
       .get<any[]>(`${API}/aspectos`);
   }
 
+  getUnidades() {
+    return this.http
+      .get<any[]>(`${API}/unidades`);
+  }
+
+  getMateriais() {
+    return this.http
+      .get<any[]>(`${API}/materiais`);
+  }
+
   deleteLaudo(id: number) {
     return this.http
       .delete(`${API}/laudos/${id}`);

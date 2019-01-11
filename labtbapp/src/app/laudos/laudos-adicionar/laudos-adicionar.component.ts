@@ -21,6 +21,8 @@ export class LaudosAdicionarComponent implements OnInit {
   id: number;
   resultados$: Observable<any[]>;
   aspectos$: Observable<any[]>;
+  materiais$: Observable<any[]>;
+  unidades$: Observable<any[]>;
 
   constructor(
     private service: LaudosService,
@@ -32,10 +34,12 @@ export class LaudosAdicionarComponent implements OnInit {
   ngOnInit() {
     this.formLaudo = this.formBuilder.group({
       paciente: ['', Validators.required],
-      material: [''],
+      numeroGeral: [''],
+      material: ['', Validators.required],
+      tipo: ['', Validators.required],
+      amostras: ['', Validators.required],
+      unidade: ['', Validators.required],
       dataColeta: [''],
-      diagnostico: [''],
-      controle: [''],
       obs: [''],
       resultado: [''],
       aspecto: ['']
@@ -43,6 +47,8 @@ export class LaudosAdicionarComponent implements OnInit {
 
     this.resultados$ = this.service.getResultados();
     this.aspectos$ = this.service.getAspectos();
+    this.materiais$ = this.service.getMateriais();
+    this.unidades$ = this.service.getUnidades();
   }
 
   /*digitouCns(cns: number) {
@@ -82,19 +88,23 @@ export class LaudosAdicionarComponent implements OnInit {
 
   add() {
     if (this.id && this.paciente) {
+      const numeroGeral = this.formLaudo.get('numeroGeral').value;
       const material = this.formLaudo.get('material').value;
       const dataColeta = this.formLaudo.get('dataColeta').value;
-      const diagnostico = this.formLaudo.get('diagnostico').value;
-      const controle = this.formLaudo.get('controle').value;
+      const amostras = this.formLaudo.get('amostras').value;
+      const tipo = this.formLaudo.get('tipo').value;
+      const unidade = this.formLaudo.get('unidade').value;
       const obs = this.formLaudo.get('obs').value;
       const aspecto = this.formLaudo.get('aspecto').value;
       const resultado = this.formLaudo.get('resultado').value;
 
       const laudo: any = {
-        laudo_material: material,
+        material_id: material,
         laudo_data_coleta: dataColeta,
-        laudo_amostras: diagnostico,
-        laudo_controle: controle,
+        laudo_numero_geral: numeroGeral,
+        laudo_amostras: amostras,
+        unidade_id: unidade,
+        laudo_tipo: tipo,
         laudo_obs: obs,
         aspecto_id: aspecto,
         resultado_id: resultado,

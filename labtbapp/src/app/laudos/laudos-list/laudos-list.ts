@@ -4,7 +4,7 @@ export interface LaudosList {
     paciente_cns: string;
     paciente_nome: string;
     paciente_sexo: string;
-    laudo_material: string;
-    laudo_amostra: number;
-    laudo_controle: number;
+    paciente_municipio: string;
+    material: string;
+    unidade: string;
 }
