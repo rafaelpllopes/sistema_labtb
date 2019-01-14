@@ -1,20 +1,23 @@
 <h4 class="text-center text-uppercase">Laudo</h4>
-<p>
-  Entrada {{ laudo.laudo_data_entrada | date:'dd/MM/yyyy hh:mm:ss' }}
-</p>
+
 <form [formGroup]="formLaudo" (submit)="update()">
   <fieldset>
     <legend>Dados do paciente</legend>
     <div class="row">
+      <div class="form-group col-md-3">
+        <label for="entrada">Entrada</label>
+        <input type="text" class="form-control" id="entrada" [value]="laudo.laudo_data_entrada | date:'dd/MM/yyyy hh:mm:ss'" readonly>
+      </div>
       <div class="form-group col-md-4">
         <label for="cns">CNS</label>
         <input type="text" class="form-control" id="cns" [value]="laudo?.paciente_cns" readonly>
       </div>
-      <div class="form-group col-md-4">
+      <div class="form-group col-md-3">
         <label for="data-nascimento">Data Nascimento</label>
-        <input type="text" class="form-control" id="data-nascimento" [value]="laudo?.paciente_data_nascimento | date:'dd/MM/yyyy'" readonly>
+        <input type="text" class="form-control" id="data-nascimento" [value]="laudo?.paciente_data_nascimento | date:'dd/MM/yyyy'"
+          readonly>
       </div>
-      <div class="form-group col-md-4">
+      <div class="form-group col-md-2">
         <label for="idade">Idade</label>
         <input type="text" aria-describedby="idadeHelp" class="form-control" id="idade" [value]="laudo?.paciente_data_nascimento | idadeCalc"
           readonly>
@@ -52,43 +55,68 @@
         <label for="estado">Estado</label>
         <input type="text" class="form-control" id="estado" [value]="laudo?.paciente_estado" disabled readonly>
       </div>
-      <div class="form-group col-md-6">
-        <label for="email">Email</label>
-        <input type="email" class="form-control" id="email" [value]="laudo?.paciente_email" readonly>
-      </div>
-
-      <div class="form-group col-md-6">
-        <label for="telefone">Telefone</label>
-        <input type="phone" class="form-control" id="telefone" [value]="laudo?.paciente_telefone" readonly>
-      </div>
     </div>
   </fieldset>
-
   <fieldset>
     <legend>Exame</legend>
     <div class="row">
-      <div class="form-group col-md-8">
-        <label for="material">Material</label>
-        <input formControlName="material" type="text" class="form-control" id="material" [value]="laudo?.laudo_material">
+      <div *ngIf="unidades$ | async as  unidades" class="form-group col-md-8">
+        <label for="unidade">Unidade*</label>
+        <select class="custom-select" formControlName="unidade">
+          <option value="" disabled>Selecione uma unidade</option>
+          <option *ngFor="let unidade of unidades" [ngValue]="unidade.unidade_id" [selected]="verificaSelect(laudo?.unidade_id, unidade?.unidade_id)">
+            {{ unidade.unidade }}
+          </option>
+        </select>
+        <app-vmessage *ngIf="formLaudo.get('unidade').errors?.required" text="Unidade é obrigatorio!"></app-vmessage>
+      </div>
+
+      <div class="form-group col-md-4">
+        <label for="numero-geral">Numero Geral</label>
+        <input formControlName="numeroGeral" type="text" class="form-control" id="numero-geral" [value]="laudo?.laudo_numero_geral">
+      </div>
+
+      <div *ngIf="materiais$ | async as  materiais" class="form-group col-md-8">
+        <label for="aspecto">Material*</label>
+        <select class="custom-select" formControlName="material">
+          <option value="" disabled>Selecione um material</option>
+          <option *ngFor="let material of materiais" [ngValue]="material.material_id" [selected]="verificaSelect(laudo?.material_id, material?.material_id)">
+            {{ material.material }}
+          </option>
+        </select>
+        <app-vmessage *ngIf="formLaudo.get('material').errors?.required" text="Material é obrigatorio!"></app-vmessage>
       </div>
 
       <div class="form-group col-md-4">
         <label for="data-coleta">Data da Coleta</label>
-        <input formControlName="dataColeta" type="date" id="data-coleta" placeholder="Data da Coleta" class="form-control" [value]="laudo?.laudo_data_coleta">
+        <input formControlName="dataColeta" type="date" id="data-coleta" placeholder="Data da Coleta" class="form-control"
+          [value]="laudo?.laudo_data_coleta">
       </div>
 
-      <div class="form-group col-md-6">
-        <label for="diagnostico">diagnostico de Tratamento</label>
-        <input formControlName="diagnostico" aria-describedby="diagnosticoHelp" type="number" class="form-control" id="diagnostico"
-          [value]="laudo?.laudo_amostras">
-        <small id="diagnosticoHelp" class="form-text text-muted text-right">ª amostra</small>
-      </div>
+      <fieldset class="col-md-12">
+        <legend>Tipo*</legend>
+        <div class="form-check">
+          <input formControlName="tipo" class="form-check-input" type="radio" name="tipo" id="diagnostico" value="DIAGNÓSTICO"
+            [checked]="laudo?.laudo_tipo === 'DIAGNÓSTICO'">
+          <label class="form-check-label" for="diagnostico">
+            DIAGNÓSTICO
+          </label>
+        </div>
+        <div class="form-check">
+          <input formControlName="tipo" class="form-check-input" type="radio" name="tipo" id="controle" value="CONTROLE DE TRATAMENTO"
+            [checked]="laudo?.laudo_tipo === 'CONTROLE DE TRATAMENTO'">
+          <label class="form-check-label" for="controle">
+            CONTROLE DE TRATAMENTO
+          </label>
+        </div>
+        <app-vmessage *ngIf="formLaudo.get('tipo').errors?.required" text="Tipo é obrigatorio!" class="col-md-12"></app-vmessage>
+      </fieldset>
 
       <div class="form-group col-md-6">
-        <label for="controle">Controle de Tratamento</label>
-        <input formControlName="controle" aria-describedby="controleHelp" type="number" class="form-control" id="controle"
-          [value]="laudo?.laudo_controle">
-        <small id="controleHelp" class="form-text text-muted text-right">º mês</small>
+        <label for="amostras">Amostras*</label>
+        <input formControlName="amostras" type="text" class="form-control" id="amostras" [value]="laudo?.laudo_amostras">
+        <app-vmessage *ngIf="formLaudo.get('amostras').errors?.required" text="Quantidade de amostras é obrigatorio!"
+          class="col-md-12"></app-vmessage>
       </div>
     </div>
   </fieldset>

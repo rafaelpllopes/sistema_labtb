@@ -4,7 +4,6 @@ import { Component, OnInit } from '@angular/core';
 import { LaudosService } from '../laudos.service';
 import { debounceTime } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Laudo } from '../laudo';
 import { Observable } from 'rxjs';
 
 @Component({
