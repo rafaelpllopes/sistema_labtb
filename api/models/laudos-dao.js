@@ -74,7 +74,6 @@ class LaudosDao {
                     if (err) {
                         return reject('Não foram encontrados laudos');
                     }
-                    console.log(rows);
                     if (rows) resolve(rows);
                     resolve(null);
                 });
@@ -133,26 +132,25 @@ class LaudosDao {
 
     updateLaudo(id, laudo) {
         return new Promise((resolve, reject) => {
-            console.log(laudo);
             this._db.run(`
                 UPDATE laudos SET 
                     laudo_numero_geral = ?,
                     laudo_data_coleta = ?,
+                    laudo_tipo = ?,
                     laudo_amostras = ?,
                     laudo_obs = ?,
-                    laudo_tipo = ?
                     material_id = ?,
                     unidade_id = ?,
                     aspecto_id = ?,
-                    resultado_id = ?,
+                    resultado_id = ?
                 WHERE laudo_id = ?
             `,
                 [
                     laudo.laudo_numero_geral,
                     laudo.laudo_data_coleta,
+                    laudo.laudo_tipo,
                     laudo.laudo_amostras,
                     laudo.laudo_obs,
-                    laudo.laudo_tipo,
                     laudo.material_id,
                     laudo.unidade_id,
                     laudo.aspecto_id,
@@ -161,6 +159,7 @@ class LaudosDao {
                 ],
                 (err, rows) => {
                     if (err) {
+                        console.log(err);
                         return reject('Não foi possivel cadastrar o laudo');
                     }
                     if (rows) resolve(rows);
