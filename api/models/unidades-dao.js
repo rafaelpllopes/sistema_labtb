@@ -6,7 +6,7 @@ class UnidadesDao {
 
     getUnidades() {
         return new Promise((resolve, reject) => {
-            this._db.all(`SELECT * FROM unidades`, (err, rows) => {
+            this._db.all(`SELECT * FROM unidades ORDER BY unidade`, (err, rows) => {
                 if (err) {
                     return reject('Não foi possivel carregar as unidades');
                 }
