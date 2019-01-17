@@ -41,21 +41,21 @@
           <tr>
             <th scope="col">#</th>
             <th scope="col">Amostra(s)</th>
-            <th scope="col">Municipio</th>
+            <th scope="col">Unidade</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let producao of producoes">
+          <tr *ngFor="let producao of producoes, let i = index">
           
             <th scope="col">{{ i + 1 }}</th>
-            <td>producao.quantidade</td>
-            <td>producao.municipio</td>
+            <td>{{ producao.quantidade }}</td>
+            <td>{{ producao.unidade }}</td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
             <th colspan="2">Total</th>
-            <th>producao.total</th>
+            <th>{{ total.total }}</th>
           </tr>
         </tfoot>
       </table>
