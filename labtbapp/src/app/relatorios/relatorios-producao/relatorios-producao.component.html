@@ -32,9 +32,15 @@
 
     </div>
   </form>
-  <button *ngIf="producoes$" [disabled]="producaoForm.invalid" class="btn btn-success btn-lg mt-2" (click)='downloadPDF()'>Download</button>
+  <div class="text-right">
+    <button *ngIf="producoes$" [disabled]="producaoForm.invalid" class="btn btn-success btn-lg mt-2 mb-2" (click)='downloadPDF()'>Baixar</button>
+  </div>
+
   <section *ngIf="producoes$ | async as producoes" id='pdf'>
-    <p>Gerado: {{ dataHora() | date:'dd/MM/yyyy hh:mm:ss' }}</p>
+    <div class="img-container">
+      <img src="../../assets/timbrev2.1.png" class="img-fluid" alt="header-logo">
+    </div>
+    <p class="mt-4">Gerado: {{ dataHora() | date:'dd/MM/yyyy hh:mm:ss' }}</p>
     <h4 class="text-center mt-4">Relatório de produção das unidades por ano e mês</h4>
     <div class="table-responsive">
       <table class="table table-striped">
@@ -64,8 +70,8 @@
     </div>
     <div class="text-center">
       <p>Laboratórios de Baciloscopia Pesquisa de BAAR-TB
-          <br>Secretaria Municipal de Saúde
-          <br>Itapeva/SP
+        <br>Secretaria Municipal de Saúde
+        <br>Itapeva/SP
       </p>
     </div>
 
