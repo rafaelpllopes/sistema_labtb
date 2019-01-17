@@ -2,6 +2,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
+import * as jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 import { UteisService } from './../../shared/services/uteis.service';
 import { RelatoriosService } from '../relatorios.service';
@@ -12,7 +14,6 @@ import { RelatoriosService } from '../relatorios.service';
   styleUrls: ['./relatorios-producao.component.css']
 })
 export class RelatoriosProducaoComponent implements OnInit {
-
   producaoForm: FormGroup;
   anos: number[];
   meses: any[];
@@ -47,6 +48,27 @@ export class RelatoriosProducaoComponent implements OnInit {
     this.service
       .totalAnoMes(this.ano, mes)
       .subscribe(total => this.total = total);
+  }
+
+  downloadPDF() {
+    let data = document.getElementById('pdf'); 
+    html2canvas(data)
+      .then(canvas => {
+        let imgWidth = 203;
+        let pageHeight = 290;
+        let imgHeight = canvas.height * imgWidth/canvas.width;
+        let heightLeft = imgHeight;
+
+        const contentDataURL = canvas.toDataURL('image/png');
+        let pdf = new jsPDF('p', 'mm', 'a4');
+        let position = 10;
+        pdf.addImage(contentDataURL, 'PNG', 3, position, imgWidth, imgHeight);
+        pdf.save(`procução_${this.producaoForm.get('mes').value}-${this.ano}.pdf`);
+      });
+  }
+
+  dataHora() {
+    return new Date();
   }
 
 }
