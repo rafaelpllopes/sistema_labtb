@@ -15,7 +15,7 @@ class AspectosDao {
             this._db.all(`SELECT u.unidade, SUM(l.laudo_amostras) as qtd
                 FROM laudos l
                 INNER JOIN unidades u ON u.unidade_id = l.unidade_id
-                WHERE l.laudo_data_entrada BETWEEN '01-${mes}-${ano} 00:00:00' AND '${dia(mes)}-${mes}-${ano} 23:59:59' 
+                WHERE l.laudo_data_entrada BETWEEN '${ano}-${mes}-01 00:00:00' AND '${ano}-${mes}-${dia(mes)} 23:59:59' 
                 GROUP BY u.unidade
                 `, (err, rows) => {
                 if (err) {
@@ -31,7 +31,7 @@ class AspectosDao {
         return new Promise((resolve, reject) => {
             this._db.all(`SELECT SUM(laudo_amostras) as total
                 FROM laudos
-                WHERE laudo_data_entrada BETWEEN '01-${mes}-${ano} 00:00:00' AND '${dia(mes)}-${mes}-${ano} 23:59:59' 
+                WHERE laudo_data_entrada BETWEEN '${ano}-${mes}-01 00:00:00' AND '${ano}-${mes}-${dia(mes)} 23:59:59' 
                 `, (err, rows) => {
                 if (err) {
                     return reject('Não foi possivel carregar os resultados');
