@@ -12,7 +12,7 @@ class AspectosDao {
 
     getProducaoAnoMes(ano, mes) {
         return new Promise((resolve, reject) => {
-            this._db.all(`SELECT u.unidade, SUM(l.laudo_amostras) as qtd
+            this._db.all(`SELECT u.unidade, COUNT(l.laudo_id) as qtd
                 FROM laudos l
                 INNER JOIN unidades u ON u.unidade_id = l.unidade_id
                 WHERE l.laudo_data_entrada BETWEEN '${ano}-${mes}-01 00:00:00' AND '${ano}-${mes}-${dia(mes)} 23:59:59' 
@@ -29,7 +29,7 @@ class AspectosDao {
 
     getProducaoTotalAnoMes(ano, mes) {
         return new Promise((resolve, reject) => {
-            this._db.all(`SELECT SUM(laudo_amostras) as total
+            this._db.all(`SELECT COUNT(laudo_id) as total
                 FROM laudos
                 WHERE laudo_data_entrada BETWEEN '${ano}-${mes}-01 00:00:00' AND '${ano}-${mes}-${dia(mes)} 23:59:59' 
                 `, (err, rows) => {

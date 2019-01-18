@@ -113,7 +113,7 @@
       </fieldset>
 
       <div class="form-group col-md-6">
-        <label for="amostras">Amostras*</label>
+        <label for="amostras">Nº da Amostra</label>
         <input formControlName="amostras" type="text" class="form-control" id="amostras" [value]="laudo?.laudo_amostras">
         <app-vmessage *ngIf="formLaudo.get('amostras').errors?.required" text="Quantidade de amostras é obrigatorio!"
           class="col-md-12"></app-vmessage>

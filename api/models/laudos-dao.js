@@ -56,7 +56,8 @@ class LaudosDao {
             this._db.all(`
             SELECT 
                 l.laudo_id, 
-                l.laudo_data_entrada, 
+                l.laudo_data_entrada,
+                l.laudo_amostras, 
                 p.paciente_cns,
                 p.paciente_nome, 
                 p.paciente_sexo,
@@ -186,7 +187,8 @@ class LaudosDao {
         let query = `
         SELECT 
             l.laudo_id, 
-            l.laudo_data_entrada, 
+            l.laudo_data_entrada,
+            l.laudo_amostras,
             p.paciente_cns,
             p.paciente_nome, 
             p.paciente_sexo,
