@@ -1,121 +1,124 @@
-<h4 class="text-center text-uppercase">Laudo</h4>
-<form [formGroup]="formLaudo" class="form mt-4" (submit)="add()">
-  <fieldset>
-    <legend>Paciente</legend>
+<section class="container">
+  <h4 class="text-center text-uppercase">Laudo</h4>
+  <form [formGroup]="formLaudo" class="form mt-4" (submit)="add()">
+    <fieldset>
+      <legend>Paciente</legend>
 
-    <div class="form-row align-items-center">
-      <!--<div class="form-group col-md-4">
+      <div class="form-row align-items-center">
+        <!--<div class="form-group col-md-4">
         <label for="cns">CNS</label>
         <input formControlName="cns" type="number" class="form-control" id="cns" [value]="paciente?.paciente_cns" (keyup)="digitouCns($event.target.value)">
       </div> -->
-      <div class="form-group col-md-7">
-        <label for="paciente">Nome*</label>
-        <input formControlName="paciente" type="text" class="form-control" id="paciente" [value]="paciente?.paciente_nome"
-          (keyup)="digitouNome($event.target.value)" autocomplete="off">
+        <div class="form-group col-md-7">
+          <label for="paciente">Nome*</label>
+          <input formControlName="paciente" type="text" class="form-control" id="paciente" [value]="paciente?.paciente_nome"
+            (keyup)="digitouNome($event.target.value)" autocomplete="off">
 
-        <div class="list-group">
-          <button (click)="pacienteSelect(p)" *ngFor="let p of pacientes" class="list-group-item list-group-item-action">{{
-            p?.paciente_nome }}</button>
+          <div class="list-group">
+            <button (click)="pacienteSelect(p)" *ngFor="let p of pacientes" class="list-group-item list-group-item-action">{{
+              p?.paciente_nome }}</button>
+          </div>
+          <app-vmessage *ngIf="formLaudo.get('paciente').errors?.required" text="Paciente é obrigatorio!"></app-vmessage>
         </div>
-        <app-vmessage *ngIf="formLaudo.get('paciente').errors?.required" text="Paciente é obrigatorio!"></app-vmessage>
-      </div>
 
-      <div *ngIf="unidades$ | async as  unidades" class="form-group col-md-5">
-        <label for="unidade">Unidade*</label>
-        <select class="custom-select" formControlName="unidade">
-          <option value="" disabled>Selecione uma unidade</option>
-          <option *ngFor="let unidade of unidades" [ngValue]="unidade.unidade_id">
-            {{ unidade.unidade }}
-          </option>
-        </select>
-        <app-vmessage *ngIf="formLaudo.get('unidade').errors?.required" text="Unidade é obrigatorio!"></app-vmessage>
-      </div>
-      <div class="form-group col-md-3">
-        <label for="numero-geral">Numero Geral</label>
-        <input formControlName="numeroGeral" type="text" class="form-control" id="numero-geral">
-      </div>
-      <!--<div class="input-group col-md-2">
+        <div *ngIf="unidades$ | async as  unidades" class="form-group col-md-5">
+          <label for="unidade">Unidade*</label>
+          <select class="custom-select" formControlName="unidade">
+            <option value="" disabled>Selecione uma unidade</option>
+            <option *ngFor="let unidade of unidades" [ngValue]="unidade.unidade_id">
+              {{ unidade.unidade }}
+            </option>
+          </select>
+          <app-vmessage *ngIf="formLaudo.get('unidade').errors?.required" text="Unidade é obrigatorio!"></app-vmessage>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="numero-geral">Numero Geral</label>
+          <input formControlName="numeroGeral" type="text" class="form-control" id="numero-geral">
+        </div>
+        <!--<div class="input-group col-md-2">
         <a class="btn btn-success" [routerLink]="['/pacientes', 'novo']"><i class="fa fa-address-card"></i> Cadastrar
           Paciente</a>
       </div>-->
-    </div>
-  </fieldset>
-
-  <fieldset>
-    <legend>Exame</legend>
-    <div class="row">
-      <div *ngIf="materiais$ | async as  materiais" class="form-group col-md-8">
-        <label for="aspecto">Material*</label>
-        <select class="custom-select" formControlName="material">
-          <option value="" disabled>Selecione um material</option>
-          <option *ngFor="let material of materiais" [ngValue]="material.material_id">
-            {{ material.material }}
-          </option>
-        </select>
-        <app-vmessage *ngIf="formLaudo.get('material').errors?.required" text="Material é obrigatorio!"></app-vmessage>
       </div>
+    </fieldset>
 
-      <div class="form-group col-md-4">
-        <label for="data-coleta">Data da Coleta</label>
-        <input formControlName="dataColeta" type="date" id="data-coleta" placeholder="Data da Coleta" class="form-control">
+    <fieldset>
+      <legend>Exame</legend>
+      <div class="row">
+        <div *ngIf="materiais$ | async as  materiais" class="form-group col-md-8">
+          <label for="aspecto">Material*</label>
+          <select class="custom-select" formControlName="material">
+            <option value="" disabled>Selecione um material</option>
+            <option *ngFor="let material of materiais" [ngValue]="material.material_id">
+              {{ material.material }}
+            </option>
+          </select>
+          <app-vmessage *ngIf="formLaudo.get('material').errors?.required" text="Material é obrigatorio!"></app-vmessage>
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="data-coleta">Data da Coleta</label>
+          <input formControlName="dataColeta" type="date" id="data-coleta" placeholder="Data da Coleta" class="form-control">
+        </div>
       </div>
-    </div>
-  </fieldset>
+    </fieldset>
 
-  <fieldset class="col-md-12">
-    <legend>Tipo*</legend>
-    <div class="form-check">
-      <input formControlName="tipo" class="form-check-input" type="radio" name="tipo" id="diagnostico" value="DIAGNÓSTICO">
-      <label class="form-check-label" for="diagnostico">
-        DIAGNÓSTICO
-      </label>
-    </div>
-    <div class="form-check">
-      <input formControlName="tipo" class="form-check-input" type="radio" name="tipo" id="controle" value="CONTROLE DE TRATAMENTO">
-      <label class="form-check-label" for="controle">
-        CONTROLE DE TRATAMENTO
-      </label>
-    </div>
-    <app-vmessage *ngIf="formLaudo.get('tipo').errors?.required" text="Tipo é obrigatorio!" class="col-md-12"></app-vmessage>
-  </fieldset>
-
-  <div class="form-group col-md-6">
-    <label for="amostras">Nº da Amostra*</label>
-    <input formControlName="amostras" type="text" class="form-control" id="amostras">
-    <app-vmessage *ngIf="formLaudo.get('amostras').errors?.required" text="Quantidade de amostras é obrigatorio!" class="col-md-12"></app-vmessage>
-  </div>
-
-  <fieldset>
-    <legend>Resultado da Baciloscopia</legend>
-
-    <div class="row">
-      <div *ngIf="resultados$ | async as resultados" class="form-group col-md-6">
-        <label for="resultado">Resultado</label>
-        <select class="custom-select" formControlName="resultado">
-          <option value="" disabled>Selecione um resultado</option>
-          <option *ngFor="let resultado of resultados" [ngValue]="resultado.resultado_id">
-            {{ resultado.resultado }}
-          </option>
-        </select>
+    <fieldset class="col-md-12">
+      <legend>Tipo*</legend>
+      <div class="form-check">
+        <input formControlName="tipo" class="form-check-input" type="radio" name="tipo" id="diagnostico" value="DIAGNÓSTICO">
+        <label class="form-check-label" for="diagnostico">
+          DIAGNÓSTICO
+        </label>
       </div>
-
-      <div *ngIf="aspectos$ | async as  aspectos" class="form-group col-md-6">
-        <label for="aspecto">Aspecto</label>
-        <select class="custom-select" formControlName="aspecto">
-          <option value="" disabled>Selecione um aspecto</option>
-          <option *ngFor="let aspecto of aspectos" [ngValue]="aspecto.aspectos_id">
-            {{ aspecto.aspecto }}
-          </option>
-        </select>
+      <div class="form-check">
+        <input formControlName="tipo" class="form-check-input" type="radio" name="tipo" id="controle" value="CONTROLE DE TRATAMENTO">
+        <label class="form-check-label" for="controle">
+          CONTROLE DE TRATAMENTO
+        </label>
       </div>
+      <app-vmessage *ngIf="formLaudo.get('tipo').errors?.required" text="Tipo é obrigatorio!" class="col-md-12"></app-vmessage>
+    </fieldset>
 
-      <div class="form-group col-md-12">
-        <label for="obs">Observação</label>
-        <textarea formControlName="obs" class="form-control" id="obs" rows="10"></textarea>
-      </div>
+    <div class="form-group col-md-6">
+      <label for="amostras">Nº da Amostra*</label>
+      <input formControlName="amostras" type="text" class="form-control" id="amostras">
+      <app-vmessage *ngIf="formLaudo.get('amostras').errors?.required" text="Quantidade de amostras é obrigatorio!"
+        class="col-md-12"></app-vmessage>
     </div>
-  </fieldset>
 
-  <button [disabled]="formLaudo.invalid" class="btn btn-primary btn-lg mr-2" type="submit">Salvar</button>
-  <a class="btn btn-danger btn-lg" [routerLink]="['/laudos']">Cancelar</a>
-</form>
+    <fieldset>
+      <legend>Resultado da Baciloscopia</legend>
+
+      <div class="row">
+        <div *ngIf="resultados$ | async as resultados" class="form-group col-md-6">
+          <label for="resultado">Resultado</label>
+          <select class="custom-select" formControlName="resultado">
+            <option value="" disabled>Selecione um resultado</option>
+            <option *ngFor="let resultado of resultados" [ngValue]="resultado.resultado_id">
+              {{ resultado.resultado }}
+            </option>
+          </select>
+        </div>
+
+        <div *ngIf="aspectos$ | async as  aspectos" class="form-group col-md-6">
+          <label for="aspecto">Aspecto</label>
+          <select class="custom-select" formControlName="aspecto">
+            <option value="" disabled>Selecione um aspecto</option>
+            <option *ngFor="let aspecto of aspectos" [ngValue]="aspecto.aspectos_id">
+              {{ aspecto.aspecto }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group col-md-12">
+          <label for="obs">Observação</label>
+          <textarea formControlName="obs" class="form-control" id="obs" rows="10"></textarea>
+        </div>
+      </div>
+    </fieldset>
+
+    <button [disabled]="formLaudo.invalid" class="btn btn-primary btn-lg mr-2" type="submit">Salvar</button>
+    <a class="btn btn-danger btn-lg" [routerLink]="['/laudos']">Cancelar</a>
+  </form>
+</section>

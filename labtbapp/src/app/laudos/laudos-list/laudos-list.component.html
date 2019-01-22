@@ -1,94 +1,96 @@
-<a class="btn btn-primary btn-lg" [routerLink]="['novo']"><i class="fa fa-plus-circle"> Novo Laudo</i></a>
+<section class="container-fluid">
+  <a class="btn btn-primary btn-lg" [routerLink]="['novo']"><i class="fa fa-plus-circle"> Novo Laudo</i></a>
 
-<h2 class="text-center text-uppercase">Laudos</h2>
+  <h2 class="text-center text-uppercase">Laudos</h2>
 
-<button class="btn btn-secondary btn-block" (click)="mostrar()"><i aria-hidden="true" class="fa fa-list mr-1">
-    Busca Avançada</i></button>
-<div [ngClass]="{ 'active-search': isShow }">
-  <form [formGroup]="searchForm" class="form mt-4" (submit)="search()">
-    <div class="form-row align-items-center">
+  <button class="btn btn-secondary btn-block" (click)="mostrar()"><i aria-hidden="true" class="fa fa-list mr-1">
+      Busca Avançada</i></button>
+  <div [ngClass]="{ 'active-search': isShow }">
+    <form [formGroup]="searchForm" class="form mt-4" (submit)="search()">
+      <div class="form-row align-items-center">
 
-      <div class="form-group col-md-3">
-        <label for="cns">CNS</label>
-        <input formControlName="cns" type="text" class="form-control" id="cns" (keyup)="cnsSearch($event.target.value)"
-          maxlength="15" minlength="15" autocomplete="off">
-        <app-vmessage *ngIf="searchForm.get('cns').invalid" text="Tamanho minimo e maximo é 15 caracteres"></app-vmessage>
+        <div class="form-group col-md-3">
+          <label for="cns">CNS</label>
+          <input formControlName="cns" type="text" class="form-control" id="cns" (keyup)="cnsSearch($event.target.value)"
+            maxlength="15" minlength="15" autocomplete="off">
+          <app-vmessage *ngIf="searchForm.get('cns').invalid" text="Tamanho minimo e maximo é 15 caracteres"></app-vmessage>
+        </div>
+
+        <div class="form-group col-md-9">
+          <label for="paciente">Nome</label>
+          <input formControlName="paciente" type="text" class="form-control" id="paciente" [readonly]="cnsKeyup"
+            autocomplete="off">
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="aspecto">Mês</label>
+          <select class="custom-select" formControlName="mes">
+            <option value="" disabled>Selecione um mês</option>
+            <option *ngFor="let mes of meses" [ngValue]="mes.numero">
+              {{ mes.nome }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="aspecto">Ano</label>
+          <select class="custom-select" formControlName="ano">
+            <option value="" disabled>Selecione um ano</option>
+            <option *ngFor="let ano of anos" [ngValue]="ano">
+              {{ ano }}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-12 text-center">
+          <app-vmessage *ngIf="searchForm.errors?.mesAno" text="Mês e ano devem ser selecionados"></app-vmessage>
+        </div>
+
+        <div class="col-md-12">
+          <button [disabled]="searchForm.invalid" class="btn btn-dark btn-lg mr-2" type="submit">Buscar</button>
+          <button (click)="clear()" class="btn btn-secundary btn-lg">Limpar</button>
+        </div>
       </div>
+    </form>
+  </div>
 
-      <div class="form-group col-md-9">
-        <label for="paciente">Nome</label>
-        <input formControlName="paciente" type="text" class="form-control" id="paciente" [readonly]="cnsKeyup"
-          autocomplete="off">
-      </div>
+  <app-search (onTyping)="filter = $event" [value]="filter"></app-search>
 
-      <div class="form-group col-md-6">
-        <label for="aspecto">Mês</label>
-        <select class="custom-select" formControlName="mes">
-          <option value="" disabled>Selecione um mês</option>
-          <option *ngFor="let mes of meses" [ngValue]="mes.numero">
-            {{ mes.nome }}
-          </option>
-        </select>
-      </div>
-
-      <div class="form-group col-md-6">
-        <label for="aspecto">Ano</label>
-        <select class="custom-select" formControlName="ano">
-          <option value="" disabled>Selecione um ano</option>
-          <option *ngFor="let ano of anos" [ngValue]="ano">
-            {{ ano }}
-          </option>
-        </select>
-      </div>
-      <div class="col-md-12 text-center">
-        <app-vmessage *ngIf="searchForm.errors?.mesAno" text="Mês e ano devem ser selecionados"></app-vmessage>
-      </div>
-
-      <div class="col-md-12">
-        <button [disabled]="searchForm.invalid" class="btn btn-dark btn-lg mr-2" type="submit">Buscar</button>
-        <button (click)="clear()" class="btn btn-secundary btn-lg">Limpar</button>
-      </div>
-    </div>
-  </form>
-</div>
-
-<app-search (onTyping)="filter = $event" [value]="filter"></app-search>
-
-<div class="table-responsive">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Data Entrada</th>
-        <th scope="col">CNS</th>
-        <th scope="col">Nome</th>
-        <th scope="col">Sexo</th>
-        <th scope="col">Municipio</th>
-        <th scope="col">Material</th>
-        <th scope="col">Unidade</th>
-        <th scope="col">N° da Amostra</th>
-        <th scope="col"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let laudo of laudos | filterByName: filter, let i = index">
-        <th scope="col">{{ i + 1 }}</th>
-        <td scope="col">{{ laudo?.laudo_data_entrada | date:'dd/MM/yyyy hh:mm:ss' }}</td>
-        <td scope="col">{{ laudo?.paciente_cns }}</td>
-        <td scope="col">{{ laudo?.paciente_nome }}</td>
-        <td scope="col">{{ laudo?.paciente_sexo | sexoNome }}</td>
-        <td scope="col">{{ laudo?.paciente_municipio }}</td>
-        <td scope="col">{{ laudo?.material }}</td>
-        <td scope="col">{{ laudo?.unidade }}</td>
-        <td scope="col">{{ laudo?.laudo_amostras }}</td>
-        <td scope="col">
-          <a class="btn btn-warning btn-sm mr-1" [routerLink]="['resultado', laudo.laudo_id]"><i class="fa fa-list-alt">
-              Editar</i></a>
-          <a class="btn btn-info  btn-sm mr-1" [routerLink]="['detalhes', laudo.laudo_id]"><i class="fa fa-info-circle">
-              Detalhes</i></a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<app-buttom-load *ngIf="!advantecSearch" (click)="load()" [hasMore]="hasMore"></app-buttom-load>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Data Entrada</th>
+          <th scope="col">CNS</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Sexo</th>
+          <th scope="col">Municipio</th>
+          <th scope="col">Material</th>
+          <th scope="col">Unidade</th>
+          <th scope="col">N° da Amostra</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let laudo of laudos | filterByName: filter, let i = index">
+          <th scope="col">{{ i + 1 }}</th>
+          <td scope="col">{{ laudo?.laudo_data_entrada | date:'dd/MM/yyyy hh:mm:ss' }}</td>
+          <td scope="col">{{ laudo?.paciente_cns }}</td>
+          <td scope="col">{{ laudo?.paciente_nome }}</td>
+          <td scope="col">{{ laudo?.paciente_sexo | sexoNome }}</td>
+          <td scope="col">{{ laudo?.paciente_municipio }}</td>
+          <td scope="col">{{ laudo?.material }}</td>
+          <td scope="col">{{ laudo?.unidade }}</td>
+          <td scope="col">{{ laudo?.laudo_amostras }}</td>
+          <td scope="col">
+            <a class="btn btn-warning btn-sm mr-1" [routerLink]="['resultado', laudo.laudo_id]"><i class="fa fa-list-alt">
+                Editar</i></a>
+            <a class="btn btn-info  btn-sm mr-1" [routerLink]="['detalhes', laudo.laudo_id]"><i class="fa fa-info-circle">
+                Detalhes</i></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <app-buttom-load *ngIf="!advantecSearch" (click)="load()" [hasMore]="hasMore"></app-buttom-load>
+</section>

@@ -1,143 +1,145 @@
-<section *ngIf="laudo$ | async as laudo" class="bottom">
-  <div class="img-container">
-    <img src="../../assets/timbrev2.1.png" class="img-fluid" alt="header-logo">
-  </div>
-  <h4 class="text-center text-uppercase">Baciloscopia Pesquisa de BAAR-TB</h4>
-  <p>
-    Entrada {{ laudo.laudo_data_entrada | date:'dd/MM/yyyy hh:mm:ss' }}
-  </p>
-  <form>
-    <fieldset>
-      <legend>Dados do paciente</legend>
-      <div class="row">
-        <div class="form-group col-md-4">
-          <label for="numero-geral">Numero Geral</label>
-          <input type="text" class="form-control" id="numero-geral" [value]="laudo.laudo_numero_geral" readonly>
-        </div>
+<div class="container">
+  <section *ngIf="laudo$ | async as laudo" class="bottom">
+    <div class="img-container">
+      <img src="../../assets/timbrev2.1.png" class="img-fluid" alt="header-logo">
+    </div>
+    <h4 class="text-center text-uppercase">Baciloscopia Pesquisa de BAAR-TB</h4>
+    <p>
+      Entrada {{ laudo.laudo_data_entrada | date:'dd/MM/yyyy hh:mm:ss' }}
+    </p>
+    <form>
+      <fieldset>
+        <legend>Dados do paciente</legend>
+        <div class="row">
+          <div class="form-group col-md-4">
+            <label for="numero-geral">Numero Geral</label>
+            <input type="text" class="form-control" id="numero-geral" [value]="laudo.laudo_numero_geral" readonly>
+          </div>
 
-        <div class="form-group col-md-8">
-          <label for="unidae">Unidade</label>
-          <input type="text" class="form-control" id="unidade" [value]="laudo.unidade" readonly>
-        </div>
+          <div class="form-group col-md-8">
+            <label for="unidae">Unidade</label>
+            <input type="text" class="form-control" id="unidade" [value]="laudo.unidade" readonly>
+          </div>
 
-        <div class="form-group col-md-4">
-          <label for="cns">CNS</label>
-          <input type="text" class="form-control" id="cns" [value]="laudo.paciente_cns" readonly>
+          <div class="form-group col-md-4">
+            <label for="cns">CNS</label>
+            <input type="text" class="form-control" id="cns" [value]="laudo.paciente_cns" readonly>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="data-nascimento">Data Nascimento</label>
+            <input type="text" class="form-control" id="data-nascimento" [value]="laudo.paciente_data_nascimento | date:'dd/MM/yyyy' "
+              readonly>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="idade">Idade</label>
+            <input type="text" aria-describedby="idadeHelp" class="form-control" id="idade" [value]="laudo.paciente_data_nascimento | idadeCalc"
+              readonly>
+            <small id="idadeHelp" class="form-text text-muted text-right">ano(s)</small>
+          </div>
+          <div class="form-group col-md-8">
+            <label for="paciente">Paciente</label>
+            <input type="text" class="form-control" id="paciente" [value]="laudo.paciente_nome" readonly>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="sexo">Sexo</label>
+            <input type="text" class="form-control" id="sexo" [value]="laudo.paciente_sexo | sexoNome" readonly>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="cep">CEP</label>
+            <input type="text" class="form-control" id="cep" [value]="laudo.paciente_cep" readonly>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="logradouro">Logradouro</label>
+            <input type="text" class="form-control" id="logradouro" [value]="laudo.paciente_logradouro" readonly>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="numero">Numero</label>
+            <input type="text" class="form-control" id="numero" [value]="laudo.paciente_numero" readonly>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="bairro">Bairro</label>
+            <input type="text" class="form-control" id="bairro" [value]="[laudo.paciente_bairro]" readonly>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="cidade">Cidade</label>
+            <input type="text" class="form-control" id="cidade" [value]="laudo.paciente_municipio" readonly>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="estado">Estado</label>
+            <input type="text" class="form-control" id="estado" [value]="laudo.paciente_estado" readonly>
+          </div>
         </div>
-        <div class="form-group col-md-4">
-          <label for="data-nascimento">Data Nascimento</label>
-          <input type="text" class="form-control" id="data-nascimento" [value]="laudo.paciente_data_nascimento | date:'dd/MM/yyyy' "
-            readonly>
-        </div>
-        <div class="form-group col-md-4">
-          <label for="idade">Idade</label>
-          <input type="text" aria-describedby="idadeHelp" class="form-control" id="idade" [value]="laudo.paciente_data_nascimento | idadeCalc"
-            readonly>
-          <small id="idadeHelp" class="form-text text-muted text-right">ano(s)</small>
-        </div>
-        <div class="form-group col-md-8">
-          <label for="paciente">Paciente</label>
-          <input type="text" class="form-control" id="paciente" [value]="laudo.paciente_nome" readonly>
-        </div>
-        <div class="form-group col-md-4">
-          <label for="sexo">Sexo</label>
-          <input type="text" class="form-control" id="sexo" [value]="laudo.paciente_sexo | sexoNome" readonly>
-        </div>
-        <div class="form-group col-md-4">
-          <label for="cep">CEP</label>
-          <input type="text" class="form-control" id="cep" [value]="laudo.paciente_cep" readonly>
-        </div>
-        <div class="form-group col-md-6">
-          <label for="logradouro">Logradouro</label>
-          <input type="text" class="form-control" id="logradouro" [value]="laudo.paciente_logradouro" readonly>
-        </div>
-        <div class="form-group col-md-2">
-          <label for="numero">Numero</label>
-          <input type="text" class="form-control" id="numero" [value]="laudo.paciente_numero" readonly>
-        </div>
-        <div class="form-group col-md-4">
-          <label for="bairro">Bairro</label>
-          <input type="text" class="form-control" id="bairro" [value]="[laudo.paciente_bairro]" readonly>
-        </div>
-        <div class="form-group col-md-4">
-          <label for="cidade">Cidade</label>
-          <input type="text" class="form-control" id="cidade" [value]="laudo.paciente_municipio" readonly>
-        </div>
-        <div class="form-group col-md-4">
-          <label for="estado">Estado</label>
-          <input type="text" class="form-control" id="estado" [value]="laudo.paciente_estado" readonly>
-        </div>
-      </div>
-    </fieldset>
+      </fieldset>
 
-    <fieldset>
-      <legend>Exame</legend>
-      <div class="row">
-        <div class="form-group col-md-8">
-          <label for="material">Material</label>
-          <input type="text" class="form-control" id="material" [value]="laudo.material" readonly>
-        </div>
+      <fieldset>
+        <legend>Exame</legend>
+        <div class="row">
+          <div class="form-group col-md-8">
+            <label for="material">Material</label>
+            <input type="text" class="form-control" id="material" [value]="laudo.material" readonly>
+          </div>
 
-        <div class="form-group col-md-4">
-          <label for="data-coleta">Data Coleta</label>
-          <input type="text" class="form-control" id="data-coleta" [value]="laudo.laudo_data_coleta | date:'dd/MM/yyyy'"
-            readonly>
-        </div>
+          <div class="form-group col-md-4">
+            <label for="data-coleta">Data Coleta</label>
+            <input type="text" class="form-control" id="data-coleta" [value]="laudo.laudo_data_coleta | date:'dd/MM/yyyy'"
+              readonly>
+          </div>
 
-        <div class="form-group col-md-8">
-          <label for="tipo">Tipo</label>
-          <input type="text" aria-describedby="tipoHelp" class="form-control" id="tipo" [value]="laudo.laudo_tipo"
-            readonly>
-        </div>
+          <div class="form-group col-md-8">
+            <label for="tipo">Tipo</label>
+            <input type="text" aria-describedby="tipoHelp" class="form-control" id="tipo" [value]="laudo.laudo_tipo"
+              readonly>
+          </div>
 
-        <div class="form-group col-md-4">
-          <label for="diagnostico">N° da Amostra</label>
-          <input type="text" aria-describedby="diagnosticoHelp" class="form-control" id="diagnostico" [value]="laudo.laudo_amostras"
-            readonly>
-          <small id="diagnosticoHelp" class="form-text text-muted text-right">ª amostra</small>
+          <div class="form-group col-md-4">
+            <label for="diagnostico">N° da Amostra</label>
+            <input type="text" aria-describedby="diagnosticoHelp" class="form-control" id="diagnostico" [value]="laudo.laudo_amostras"
+              readonly>
+            <small id="diagnosticoHelp" class="form-text text-muted text-right">ª amostra</small>
+          </div>
         </div>
-      </div>
-    </fieldset>
+      </fieldset>
 
-    <fieldset>
-      <div class="row">
-        <div class="form-group col-md-6">
-          <label for="resultado">Resultado</label>
-          <input type="text" class="form-control" id="resultado" [value]="laudo.resultado" readonly>
-        </div>
+      <fieldset>
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label for="resultado">Resultado</label>
+            <input type="text" class="form-control" id="resultado" [value]="laudo.resultado" readonly>
+          </div>
 
-        <div class="form-group col-md-6">
-          <label for="aspecto">Aspecto</label>
-          <input type="text" class="form-control" id="aspecto" [value]="laudo.aspecto" readonly>
-        </div>
+          <div class="form-group col-md-6">
+            <label for="aspecto">Aspecto</label>
+            <input type="text" class="form-control" id="aspecto" [value]="laudo.aspecto" readonly>
+          </div>
 
-        <div class="form-group col-md-12">
-          <label for="obs">Observação</label>
-          <textarea class="form-control" id="obs" [value]="laudo.laudo_obs" rows="8" readonly></textarea>
+          <div class="form-group col-md-12">
+            <label for="obs">Observação</label>
+            <textarea class="form-control" id="obs" [value]="laudo.laudo_obs" rows="8" readonly></textarea>
+          </div>
         </div>
-      </div>
-    </fieldset>
+      </fieldset>
 
-    <div class="assinatura">
-      <div class="row">
-        <div class="form-group col-md-2">
-          <label for="data-saida">Data de Saida</label>
-          <input class="form-control" id="data-saida" value="____/____/______" readonly>
-        </div>
+      <div class="assinatura">
+        <div class="row">
+          <div class="form-group col-md-2">
+            <label for="data-saida">Data de Saida</label>
+            <input class="form-control" id="data-saida" value="____/____/______" readonly>
+          </div>
 
-        <div class="form-group col-md-5">
-          <label for="responsavel">Responsavel pelo exame</label>
-          <input class="form-control" id="responsavel" readonly>
-        </div>
-        <div class="form-group col-md-5">
+          <div class="form-group col-md-5">
+            <label for="responsavel">Responsavel pelo exame</label>
+            <input class="form-control" id="responsavel" readonly>
+          </div>
+          <div class="form-group col-md-5">
             <label for="tecnico">Responsavel Técnico</label>
             <input class="form-control" id="tecnico" readonly>
           </div>
+        </div>
       </div>
-    </div>
 
-    <button class="btn btn-primary btn-lg mr-2" (click)="print()">Imprimir</button>
-    <a class="btn btn-success btn-lg mr-2" [routerLink]="['/laudos']">Voltar</a>
-    <button class="btn btn-danger btn-lg" (click)="delete(laudo.laudo_id)">Excluir</button>
-  </form>
-</section>
+      <button class="btn btn-primary btn-lg mr-2" (click)="print()">Imprimir</button>
+      <a class="btn btn-success btn-lg mr-2" [routerLink]="['/laudos']">Voltar</a>
+      <button class="btn btn-danger btn-lg" (click)="delete(laudo.laudo_id)">Excluir</button>
+    </form>
+  </section>
+</div>
