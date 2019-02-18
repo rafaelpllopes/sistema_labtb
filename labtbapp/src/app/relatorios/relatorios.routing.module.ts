@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../core/auth/auth.guard';
 import { RelatoriosComponent } from './relatorios.component';
 import { RelatoriosProducaoComponent } from './relatorios-producao/relatorios-producao.component';
-import { RelatoriosLaudosComponent } from './relatorios-laudos/relatorios-laudos.component';
+import { InformeMensalComponent } from './informe-mensal/informe-mensal.component';
 
 const routes: Routes = [
     {
@@ -13,12 +13,16 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         children: [
             {
-                path: 'producao',
-                component: RelatoriosProducaoComponent
+                path: '',
+                redirectTo: 'producao',
             },
             {
-                path: 'laudos',
-                component: RelatoriosLaudosComponent
+                path: 'producao',
+                component: RelatoriosProducaoComponent,
+            },
+            {
+                path: 'informe-mensal',
+                component: InformeMensalComponent
             }
         ]
     }
