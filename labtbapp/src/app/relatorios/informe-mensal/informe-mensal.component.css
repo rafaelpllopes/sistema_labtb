@@ -1,0 +1,6 @@
+.linha-assinatura {
+    border-top: 0.1em solid black;
+    width: 25%;
+    position: relative;
+    left: 75%;
+}
