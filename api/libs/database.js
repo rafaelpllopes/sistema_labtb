@@ -354,7 +354,7 @@ INSERT INTO resultados (resultado)
 `
 ];
 
-db.serialize(() => {
+async function run() {
     db.run("PRAGMA foreign_keys=ON");
     db.run(USUARIOS_SCHEMA);
     db.run(PACIENTES_SCHEMA);
@@ -370,10 +370,15 @@ db.serialize(() => {
         .forEach(inserir => db.run(inserir));
     INSERT_DEFAULT_RESULTADOS
         .forEach(inserir => db.run(inserir));
-    INSERT_DEFAULT_UNIDADES
-        .forEach(inserir => db.run(inserir));
+    /*INSERT_DEFAULT_UNIDADES
+        .forEach(inserir => db.run(inserir));*/
 
     db.run(INSERT_DEFAULT_USUARIO, [sha256.x2('admin')]);
+
+    const UPDATES = await updateUnidades();
+
+    UPDATES
+        .forEach(update => db.run(update));
 
     /*INSERT_TESTE_PACIENTES.forEach(inserir => db.run(inserir));
     INSERT_TESTE_LAUDOS.forEach(inserir => db.run(inserir));*/
@@ -388,6 +393,10 @@ db.serialize(() => {
     //db.each("SELECT paciente_id FROM laudos", (err, resultado) => console.log(resultado));
 
     //db.each("SELECT l.laudo_id, l.laudo_data_entrada, p.paciente_nome, l.laudo_material, l.laudo_controle FROM laudos l INNER JOIN pacientes p ON p.paciente_id = l.paciente_id", (err, resultado) => console.log(resultado));
+}
+
+db.serialize(() => {
+    run();
 });
 
 process.on('SIGINT', () =>
@@ -396,5 +405,18 @@ process.on('SIGINT', () =>
         process.exit(0);
     })
 );
+
+async function updateUnidades() {
+    unidades = await new Promise((resolve, reject) => db.all('SELECT * FROM unidades', (err, rows) => resolve(rows)));
+    let novo = '';
+    let resposta = [];
+
+    for (unidade of unidades) {
+        novo = unidade.unidade.trimRight().replace('\t', '').replace('\n', '').replace('\n\t', '');
+        resposta.push(`UPDATE unidades SET unidade='${novo}' WHERE unidade_id='${unidade.unidade_id}'`);
+    }
+
+    return resposta;
+}
 
 module.exports = db;

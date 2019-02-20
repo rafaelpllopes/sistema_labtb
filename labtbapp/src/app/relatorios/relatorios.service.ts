@@ -21,4 +21,9 @@ export class RelatoriosService {
       .post(`${API}/reports/totalanomes`, { ano, mes })
   }
 
+  informeMensal(ano, mes) {
+    return this.http
+      .post(`${API}/reports/informe-mensal`, { ano, mes });
+  }
+
 }
