@@ -1,156 +1,168 @@
-<h4 class="text-center text-uppercase">Laudo</h4>
+<section class="container">
+  <h4 class="text-center text-uppercase">Laudo</h4>
 
-<form [formGroup]="formLaudo" (submit)="update()">
-  <fieldset>
-    <legend>Dados do paciente</legend>
-    <div class="row">
-      <div class="form-group col-md-3">
-        <label for="entrada">Entrada</label>
-        <input type="text" class="form-control" id="entrada" [value]="laudo.laudo_data_entrada | date:'dd/MM/yyyy hh:mm:ss'" readonly>
-      </div>
-      <div class="form-group col-md-4">
-        <label for="cns">CNS</label>
-        <input type="text" class="form-control" id="cns" [value]="laudo?.paciente_cns" readonly>
-      </div>
-      <div class="form-group col-md-3">
-        <label for="data-nascimento">Data Nascimento</label>
-        <input type="text" class="form-control" id="data-nascimento" [value]="laudo?.paciente_data_nascimento | date:'dd/MM/yyyy'"
-          readonly>
-      </div>
-      <div class="form-group col-md-2">
-        <label for="idade">Idade</label>
-        <input type="text" aria-describedby="idadeHelp" class="form-control" id="idade" [value]="laudo?.paciente_data_nascimento | idadeCalc"
-          readonly>
-        <small id="idadeHelp" class="form-text text-muted text-right">ano(s)</small>
-      </div>
-      <div class="form-group col-md-8">
-        <label for="paciente">Paciente</label>
-        <input type="text" class="form-control" id="paciente" [value]="laudo?.paciente_nome" readonly>
-      </div>
-      <div class="form-group col-md-4">
-        <label for="sexo">Sexo</label>
-        <input type="text" class="form-control" id="sexo" [value]="laudo?.paciente_sexo | sexoNome" readonly>
-      </div>
-      <div class="form-group col-md-4">
-        <label for="cep">CEP</label>
-        <input type="text" class="form-control" id="cep" [value]="laudo?.paciente_cep" disabled readonly>
-      </div>
-      <div class="form-group col-md-6">
-        <label for="logradouro">Logradouro</label>
-        <input type="text" class="form-control" id="logradouro" [value]="laudo?.paciente_logradouro" disabled readonly>
-      </div>
-      <div class="form-group col-md-2">
-        <label for="numero">Numero</label>
-        <input type="text" class="form-control" id="numero" [value]="laudo?.paciente_numero" disabled readonly>
-      </div>
-      <div class="form-group col-md-4">
-        <label for="bairro">Bairro</label>
-        <input type="text" class="form-control" id="bairro" [value]="laudo?.paciente_bairro" disabled readonly>
-      </div>
-      <div class="form-group col-md-4">
-        <label for="cidade">Cidade</label>
-        <input type="text" class="form-control" id="cidade" [value]="laudo?.paciente_municipio" disabled readonly>
-      </div>
-      <div class="form-group col-md-4">
-        <label for="estado">Estado</label>
-        <input type="text" class="form-control" id="estado" [value]="laudo?.paciente_estado" disabled readonly>
-      </div>
-    </div>
-  </fieldset>
-  <fieldset>
-    <legend>Exame</legend>
-    <div class="row">
-      <div *ngIf="unidades$ | async as  unidades" class="form-group col-md-8">
-        <label for="unidade">Unidade*</label>
-        <select class="custom-select" formControlName="unidade">
-          <option value="" disabled>Selecione uma unidade</option>
-          <option *ngFor="let unidade of unidades" [ngValue]="unidade.unidade_id" [selected]="verificaSelect(laudo?.unidade_id, unidade?.unidade_id)">
-            {{ unidade.unidade }}
-          </option>
-        </select>
-        <app-vmessage *ngIf="formLaudo.get('unidade').errors?.required" text="Unidade é obrigatorio!"></app-vmessage>
-      </div>
-
-      <div class="form-group col-md-4">
-        <label for="numero-geral">Numero Geral</label>
-        <input formControlName="numeroGeral" type="text" class="form-control" id="numero-geral" [value]="laudo?.laudo_numero_geral">
-      </div>
-
-      <div *ngIf="materiais$ | async as  materiais" class="form-group col-md-8">
-        <label for="aspecto">Material*</label>
-        <select class="custom-select" formControlName="material">
-          <option value="" disabled>Selecione um material</option>
-          <option *ngFor="let material of materiais" [ngValue]="material.material_id" [selected]="verificaSelect(laudo?.material_id, material?.material_id)">
-            {{ material.material }}
-          </option>
-        </select>
-        <app-vmessage *ngIf="formLaudo.get('material').errors?.required" text="Material é obrigatorio!"></app-vmessage>
-      </div>
-
-      <div class="form-group col-md-4">
-        <label for="data-coleta">Data da Coleta</label>
-        <input formControlName="dataColeta" type="date" id="data-coleta" placeholder="Data da Coleta" class="form-control"
-          [value]="laudo?.laudo_data_coleta">
-      </div>
-
-      <fieldset class="col-md-12">
-        <legend>Tipo*</legend>
-        <div class="form-check">
-          <input formControlName="tipo" class="form-check-input" type="radio" name="tipo" id="diagnostico" value="DIAGNÓSTICO"
-            [checked]="laudo?.laudo_tipo === 'DIAGNÓSTICO'">
-          <label class="form-check-label" for="diagnostico">
-            DIAGNÓSTICO
-          </label>
+  <form [formGroup]="formLaudo" (submit)="update()">
+    <fieldset>
+      <legend>Dados do paciente</legend>
+      <div class="row">
+        <div class="form-group col-md-3">
+          <label for="entrada">Entrada</label>
+          <input type="text" class="form-control" id="entrada"
+            [value]="laudo.laudo_data_entrada | date:'dd/MM/yyyy hh:mm:ss'" readonly>
         </div>
-        <div class="form-check">
-          <input formControlName="tipo" class="form-check-input" type="radio" name="tipo" id="controle" value="CONTROLE DE TRATAMENTO"
-            [checked]="laudo?.laudo_tipo === 'CONTROLE DE TRATAMENTO'">
-          <label class="form-check-label" for="controle">
-            CONTROLE DE TRATAMENTO
-          </label>
+        <div class="form-group col-md-4">
+          <label for="cns">CNS</label>
+          <input type="text" class="form-control" id="cns" [value]="laudo?.paciente_cns" readonly>
         </div>
-        <app-vmessage *ngIf="formLaudo.get('tipo').errors?.required" text="Tipo é obrigatorio!" class="col-md-12"></app-vmessage>
-      </fieldset>
-
-      <div class="form-group col-md-6">
-        <label for="amostras">Nº da Amostra</label>
-        <input formControlName="amostras" type="text" class="form-control" id="amostras" [value]="laudo?.laudo_amostras">
-        <app-vmessage *ngIf="formLaudo.get('amostras').errors?.required" text="Quantidade de amostras é obrigatorio!"
-          class="col-md-12"></app-vmessage>
+        <div class="form-group col-md-3">
+          <label for="data-nascimento">Data Nascimento</label>
+          <input type="text" class="form-control" id="data-nascimento"
+            [value]="laudo?.paciente_data_nascimento | date:'dd/MM/yyyy'" readonly>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="idade">Idade</label>
+          <input type="text" aria-describedby="idadeHelp" class="form-control" id="idade"
+            [value]="laudo?.paciente_data_nascimento | idadeCalc" readonly>
+          <small id="idadeHelp" class="form-text text-muted text-right">ano(s)</small>
+        </div>
+        <div class="form-group col-md-8">
+          <label for="paciente">Paciente</label>
+          <input type="text" class="form-control" id="paciente" [value]="laudo?.paciente_nome" readonly>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="sexo">Sexo</label>
+          <input type="text" class="form-control" id="sexo" [value]="laudo?.paciente_sexo | sexoNome" readonly>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="cep">CEP</label>
+          <input type="text" class="form-control" id="cep" [value]="laudo?.paciente_cep" disabled readonly>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="logradouro">Logradouro</label>
+          <input type="text" class="form-control" id="logradouro" [value]="laudo?.paciente_logradouro" disabled
+            readonly>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="numero">Numero</label>
+          <input type="text" class="form-control" id="numero" [value]="laudo?.paciente_numero" disabled readonly>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="bairro">Bairro</label>
+          <input type="text" class="form-control" id="bairro" [value]="laudo?.paciente_bairro" disabled readonly>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="cidade">Cidade</label>
+          <input type="text" class="form-control" id="cidade" [value]="laudo?.paciente_municipio" disabled readonly>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="estado">Estado</label>
+          <input type="text" class="form-control" id="estado" [value]="laudo?.paciente_estado" disabled readonly>
+        </div>
       </div>
-    </div>
-  </fieldset>
+    </fieldset>
+    <fieldset>
+      <legend>Exame</legend>
+      <div class="row">
+        <div *ngIf="unidades$ | async as  unidades" class="form-group col-md-8">
+          <label for="unidade">Unidade*</label>
+          <select class="custom-select" formControlName="unidade">
+            <option value="" disabled>Selecione uma unidade</option>
+            <option *ngFor="let unidade of unidades" [ngValue]="unidade.unidade_id"
+              [selected]="verificaSelect(laudo?.unidade_id, unidade?.unidade_id)">
+              {{ unidade.unidade }}
+            </option>
+          </select>
+          <app-vmessage *ngIf="formLaudo.get('unidade').errors?.required" text="Unidade é obrigatorio!"></app-vmessage>
+        </div>
 
-  <fieldset>
-    <legend>Resultado da Baciloscopia</legend>
+        <div class="form-group col-md-4">
+          <label for="numero-geral">Numero Geral</label>
+          <input formControlName="numeroGeral" type="text" class="form-control" id="numero-geral"
+            [value]="laudo?.laudo_numero_geral">
+        </div>
 
-    <div class="row">
-      <div class="form-group col-md-6">
-        <label for="resultado">Resultado</label>
-        <select class="custom-select" formControlName="resultado">
-          <option value="" disabled>Selecione um resultado</option>
-          <option *ngFor="let resultado of resultados" [ngValue]="resultado?.resultado_id" [selected]="verificaSelect(laudo?.resultado_id, resultado?.resultado_id)">
-            {{ resultado.resultado }}
-          </option>
-        </select>
+        <div *ngIf="materiais$ | async as  materiais" class="form-group col-md-8">
+          <label for="aspecto">Material*</label>
+          <select class="custom-select" formControlName="material">
+            <option value="" disabled>Selecione um material</option>
+            <option *ngFor="let material of materiais" [ngValue]="material.material_id"
+              [selected]="verificaSelect(laudo?.material_id, material?.material_id)">
+              {{ material.material }}
+            </option>
+          </select>
+          <app-vmessage *ngIf="formLaudo.get('material').errors?.required" text="Material é obrigatorio!">
+          </app-vmessage>
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="data-coleta">Data da Coleta</label>
+          <input formControlName="dataColeta" type="date" id="data-coleta" placeholder="Data da Coleta"
+            class="form-control" [value]="laudo?.laudo_data_coleta">
+        </div>
+
+        <fieldset class="col-md-12">
+          <legend>Tipo*</legend>
+          <div class="form-check">
+            <input formControlName="tipo" class="form-check-input" type="radio" name="tipo" id="diagnostico"
+              value="DIAGNÓSTICO" [checked]="laudo?.laudo_tipo === 'DIAGNÓSTICO'">
+            <label class="form-check-label" for="diagnostico">
+              DIAGNÓSTICO
+            </label>
+          </div>
+          <div class="form-check">
+            <input formControlName="tipo" class="form-check-input" type="radio" name="tipo" id="controle"
+              value="CONTROLE DE TRATAMENTO" [checked]="laudo?.laudo_tipo === 'CONTROLE DE TRATAMENTO'">
+            <label class="form-check-label" for="controle">
+              CONTROLE DE TRATAMENTO
+            </label>
+          </div>
+          <app-vmessage *ngIf="formLaudo.get('tipo').errors?.required" text="Tipo é obrigatorio!" class="col-md-12">
+          </app-vmessage>
+        </fieldset>
+
+        <div class="form-group col-md-6">
+          <label for="amostras">Nº da Amostra</label>
+          <input formControlName="amostras" type="text" class="form-control" id="amostras"
+            [value]="laudo?.laudo_amostras">
+          <app-vmessage *ngIf="formLaudo.get('amostras').errors?.required" text="Quantidade de amostras é obrigatorio!"
+            class="col-md-12"></app-vmessage>
+        </div>
       </div>
+    </fieldset>
 
-      <div class="form-group col-md-6">
-        <label for="aspecto">Aspecto</label>
-        <select class="custom-select" formControlName="aspecto">
-          <option value="" disabled>Selecione um aspecto</option>
-          <option *ngFor="let aspecto of aspectos" [ngValue]="aspecto?.aspectos_id" [selected]="verificaSelect(laudo?.aspecto_id, aspecto?.aspectos_id)">
-            {{ aspecto.aspecto }}
-          </option>
-        </select>
-      </div>
+    <fieldset>
+      <legend>Resultado da Baciloscopia</legend>
 
-      <div class="form-group col-md-12">
-        <label for="obs">Observação</label>
-        <textarea formControlName="obs" class="form-control" id="obs" [value]="laudo?.laudo_obs" rows="10"></textarea>
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label for="resultado">Resultado</label>
+          <select class="custom-select" formControlName="resultado">
+            <option value="" disabled>Selecione um resultado</option>
+            <option *ngFor="let resultado of resultados" [ngValue]="resultado?.resultado_id"
+              [selected]="verificaSelect(laudo?.resultado_id, resultado?.resultado_id)">
+              {{ resultado.resultado }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="aspecto">Aspecto</label>
+          <select class="custom-select" formControlName="aspecto">
+            <option value="" disabled>Selecione um aspecto</option>
+            <option *ngFor="let aspecto of aspectos" [ngValue]="aspecto?.aspectos_id"
+              [selected]="verificaSelect(laudo?.aspecto_id, aspecto?.aspectos_id)">
+              {{ aspecto.aspecto }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group col-md-12">
+          <label for="obs">Observação</label>
+          <textarea formControlName="obs" class="form-control" id="obs" [value]="laudo?.laudo_obs" rows="10"></textarea>
+        </div>
       </div>
-    </div>
-  </fieldset>
-  <button [disabled]="formLaudo.invalid" class="btn btn-primary btn-lg mr-2" type="submit">Salvar</button>
-  <a class="btn btn-danger btn-lg" [routerLink]="['/laudos']">Cancelar</a>
-</form>
+    </fieldset>
+    <button [disabled]="formLaudo.invalid" class="btn btn-primary btn-lg mr-2" type="submit">Salvar</button>
+    <a class="btn btn-danger btn-lg" [routerLink]="['/laudos']">Cancelar</a>
+  </form>
+</section>
