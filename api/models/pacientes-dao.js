@@ -50,7 +50,7 @@ class PacientesDao {
     }
 
     getPacientes(page) {
-        const maxRows = 15;
+        const maxRows = 100;
 
         const from = (page - 1) * maxRows;
 

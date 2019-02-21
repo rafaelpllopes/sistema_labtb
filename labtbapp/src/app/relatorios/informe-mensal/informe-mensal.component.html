@@ -33,6 +33,7 @@
   </form>
 
   <section *ngIf="informes$ | async as informes" id='pdf'>
+    <button class="btn btn-success btn-lg mt-4" (click)="print()">Imprimir</button>
     <div class="img-container">
       <img src="../../assets/timbrev2.1.png" class="img-fluid" alt="header-logo">
     </div>

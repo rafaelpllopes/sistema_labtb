@@ -46,4 +46,8 @@ export class InformeMensalComponent implements OnInit {
   data() {
     return new Date();
   }
+
+  print() {
+    window.print();
+  }
 }

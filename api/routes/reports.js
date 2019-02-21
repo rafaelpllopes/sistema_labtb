@@ -42,15 +42,16 @@ function filtrar(amostras1, amostras2, tratamentos, positivos, total) {
         });
     }
 
-    for (let i = 0; i < total; i++) {
-        for (unidade of unidades) {
-            let ehItapeva = verificarMunicipio(unidade);
 
-            amostra1 = ehItapeva ? amostras1.filter(a1 => a1.unidade === unidade) : amostras1;
-            amostra2 = ehItapeva ? amostras2.filter(a2 => a2.unidade === unidade) : amostras2;
-            controle = ehItapeva ? tratamentos.filter(t => t.unidade === unidade) : tratamentos;
-            positivo = ehItapeva ? positivos.filter(p => p.unidade === unidade) : positivos;
+    for (unidade of unidades) {
+        let ehItapeva = !verificarMunicipio(unidade);
 
+        amostra1 = ehItapeva ? amostras1 : amostras1.filter(a1 => a1.unidade === unidade);
+        amostra2 = ehItapeva ? amostras2 : amostras2.filter(a2 => a2.unidade === unidade);
+        controle = ehItapeva ? tratamentos : tratamentos.filter(t => t.unidade === unidade);
+        positivo = ehItapeva ? positivos : positivos.filter(p => p.unidade === unidade);
+        
+        for (let i = 0; i < total; i++) {
             amostra1 = amostra1[i] ? amostra1[i].qtd : 0;
             amostra2 = amostra2[i] ? amostra2[i].qtd : 0;
             controle = controle[i] ? controle[i].qtd : 0;
@@ -147,6 +148,5 @@ module.exports = app => {
             } else {
                 res.status(412).send();
             }
-
         }));
 };

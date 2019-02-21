@@ -49,8 +49,8 @@ class ReportsDao {
                 INNER JOIN unidades u ON u.unidade_id = l.unidade_id
                 WHERE l.laudo_data_entrada BETWEEN '${ano}-${mes}-01 00:00:00' AND '${ano}-${mes}-${dia(mes)} 23:59:59'
                 AND l.laudo_tipo = 'DIAGNÓSTICO'
-                AND l.laudo_amostras = ${numeroAmostra}
-                GROUP BY u.unidade, l.laudo_amostras
+                AND l.laudo_amostras = '${numeroAmostra}'
+                GROUP BY u.unidade
                 `, (err, rows) => {
                 if (err) {
                     return reject('Não foi possivel carregar os resultados');
@@ -92,6 +92,18 @@ class ReportsDao {
                 `, (err, rows) => {
                 if (err) {
                     return reject('Não foi possivel carregar os resultados');
+                }
+                const resultados = rows;
+                return resolve(resultados);
+            });
+        });
+    }
+
+    getTotalUnidades() {
+        return new Promise((resolve, reject) => {
+            this._db.get(`SELECT COUNT(unidade_id) AS total FROM unidades`, (err, rows) => {
+                if (err) {
+                    return reject('Não foi possivel pegar o total de unidades');
                 }
                 const resultados = rows;
                 return resolve(resultados);
