@@ -20,7 +20,7 @@ const credenciais = {
 https.createServer(credenciais, app)
     .listen(app.get('port'), () =>
         console.log(`API rodando na porta ${app.get('port')}`));
-/*
-app.listen(app.get('port'), () =>
-    console.log(`API rodando na porta ${app.get('port')}`));
-*/
+
+/*app.listen(app.get('port'), () =>
+    console.log(`API rodando na porta ${app.get('port')}`));*/
+

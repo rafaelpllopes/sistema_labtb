@@ -37,10 +37,13 @@ export class InformeMensalComponent implements OnInit {
 
   buscar() {
     this.ano = this.informeForm.get('ano').value;
-    let mes = this.informeForm.get('mes').value;
+    const mes = this.informeForm.get('mes').value;
     this.mes = this.meses.find(mes => mes.numero == this.informeForm.get('mes').value);
     this.informes$ = this.service
       .informeMensal(this.ano, mes);
   }
 
+  data() {
+    return new Date();
+  }
 }

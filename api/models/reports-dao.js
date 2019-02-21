@@ -5,7 +5,7 @@ const producaoConverter = row => ({
     unidade: row.unidade.replace('\n', '').trim()
 });
 
-class AspectosDao {
+class ReportsDao {
     constructor(db) {
         this._db = db;
     }
@@ -100,4 +100,4 @@ class AspectosDao {
     }
 }
 
-module.exports = AspectosDao;
+module.exports = ReportsDao;

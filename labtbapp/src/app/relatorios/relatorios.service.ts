@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
+  import { environment } from 'src/environments/environment';
 
 const API = environment.API;
 
@@ -18,12 +18,11 @@ export class RelatoriosService {
 
   totalAnoMes(ano, mes) {
     return this.http
-      .post(`${API}/reports/totalanomes`, { ano, mes })
+      .post(`${API}/reports/totalanomes`, { ano, mes });
   }
 
   informeMensal(ano, mes) {
     return this.http
       .post(`${API}/reports/informe-mensal`, { ano, mes });
   }
-
 }
