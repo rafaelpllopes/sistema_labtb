@@ -57,7 +57,8 @@ class LaudosDao {
             SELECT 
                 l.laudo_id, 
                 l.laudo_data_entrada,
-                l.laudo_amostras, 
+                l.laudo_amostras,
+                l.laudo_tipo, 
                 p.paciente_cns,
                 p.paciente_nome, 
                 p.paciente_sexo,
@@ -189,6 +190,7 @@ class LaudosDao {
             l.laudo_id, 
             l.laudo_data_entrada,
             l.laudo_amostras,
+            l.laudo_tipo,
             p.paciente_cns,
             p.paciente_nome, 
             p.paciente_sexo,

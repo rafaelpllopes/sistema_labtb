@@ -1,3 +1,4 @@
+import { UserService } from './../../core/user/user.service';
 import { FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { RelatoriosService } from '../relatorios.service';
@@ -18,11 +19,13 @@ export class InformeMensalComponent implements OnInit {
   informes$: Observable<any>;
   mes: any;
   ano: number;
+  user$: Observable<any>
 
   constructor(
     private service: RelatoriosService,
     private build: FormBuilder,
-    private uteis: UteisService
+    private uteis: UteisService,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
@@ -33,6 +36,11 @@ export class InformeMensalComponent implements OnInit {
 
     this.anos = this.uteis.getAnos();
     this.meses = this.uteis.getMeses();
+
+    const [currentMonth] = this.meses.filter(mes => parseInt(mes.numero) == new Date().getMonth() + 1);
+
+    this.informeForm.get('ano').setValue(new Date().getFullYear());
+    this.informeForm.get('mes').setValue(currentMonth.numero);
   }
 
   buscar() {
@@ -41,6 +49,7 @@ export class InformeMensalComponent implements OnInit {
     this.mes = this.meses.find(mes => mes.numero == this.informeForm.get('mes').value);
     this.informes$ = this.service
       .informeMensal(this.ano, mes);
+    this.user$ = this.userService.getUser();
   }
 
   data() {

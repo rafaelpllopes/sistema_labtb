@@ -2,7 +2,7 @@ const reportsDao = require('../models/reports-dao');
 const wrapAsync = require('../libs/async-wrap');
 const auth = require('../libs/auth');
 
-function filtrar(amostras1, amostras2, tratamentos, positivos, total) {
+function filtrar(amostras1, amostras2, tratamentos, positivos) {
 
     let amostra1 = {};
     let amostra2 = {};
@@ -42,20 +42,23 @@ function filtrar(amostras1, amostras2, tratamentos, positivos, total) {
         });
     }
 
+    amostras1 = unidadeNome(amostras1);
+    amostras2 = unidadeNome(amostras2);
+    tratamentos = unidadeNome(tratamentos);
+    positivos = unidadeNome(positivos);
 
     for (unidade of unidades) {
-        let ehItapeva = !verificarMunicipio(unidade);
 
-        amostra1 = ehItapeva ? amostras1 : amostras1.filter(a1 => a1.unidade === unidade);
-        amostra2 = ehItapeva ? amostras2 : amostras2.filter(a2 => a2.unidade === unidade);
-        controle = ehItapeva ? tratamentos : tratamentos.filter(t => t.unidade === unidade);
-        positivo = ehItapeva ? positivos : positivos.filter(p => p.unidade === unidade);
-        
-        for (let i = 0; i < total; i++) {
-            amostra1 = amostra1[i] ? amostra1[i].qtd : 0;
-            amostra2 = amostra2[i] ? amostra2[i].qtd : 0;
-            controle = controle[i] ? controle[i].qtd : 0;
-            positivo = positivo[i] ? positivo[i].qtd : 0;
+        amostra1 = amostras1.filter(a1 => a1.unidade === unidade);
+        amostra2 = amostras2.filter(a2 => a2.unidade === unidade);
+        controle = tratamentos.filter(t => t.unidade === unidade);
+        positivo = positivos.filter(p => p.unidade === unidade);
+
+        for (let i = 0; i < unidades.length; i++) {
+            amostra1 = quantidade(amostra1);
+            amostra2 = quantidade(amostra2);
+            controle = quantidade(controle);
+            positivo = quantidade(positivo);
             total_baar = amostra1 + amostra2 + controle;
 
             index = obj_unidades.findIndex(dado => dado.unidade === unidade);
@@ -85,6 +88,29 @@ function filtrar(amostras1, amostras2, tratamentos, positivos, total) {
         ]
     };
 }
+
+const quantidade = lista => {
+    let qtd = 0;
+
+    if(lista.length) {
+        for(item of lista) {
+            qtd += item.qtd;
+        }
+    } else {
+        qtd = lista.qtd | 0;
+    }
+
+    return qtd;
+};
+
+const unidadeNome = lista => {
+    for (let i = 0; i < lista.length; i++) {
+        if (!verificarMunicipio(lista[i].unidade)) {
+            lista[i].unidade = "ITAPEVA";
+        }
+    }
+    return lista;
+};
 
 const verificarMunicipio = unidade =>
     unidade === 'BURI' ||
@@ -141,8 +167,7 @@ module.exports = app => {
                 const amostras2 = await new reportsDao(req.db).getDiagnosticosAmostrasMesAno(ano, mes, 2);
                 const controles = await new reportsDao(req.db).getControlesAmostrasMesAno(ano, mes);
                 const positivos = await new reportsDao(req.db).getPositivasMesAno(ano, mes);
-                const [{ total }] = await new reportsDao(req.db).getProducaoTotalAnoMes(ano, mes);
-                const resposta = filtrar(amostras1, amostras2, controles, positivos, total);
+                const resposta = filtrar(amostras1, amostras2, controles, positivos);
 
                 res.json(resposta);
             } else {

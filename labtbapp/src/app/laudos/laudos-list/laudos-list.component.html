@@ -68,6 +68,7 @@
           <th scope="col">Material</th>
           <th scope="col">Unidade</th>
           <th scope="col">N° da Amostra</th>
+          <th scope="col">Tipo</th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -82,6 +83,7 @@
           <td scope="col">{{ laudo?.material }}</td>
           <td scope="col">{{ laudo?.unidade }}</td>
           <td scope="col">{{ laudo?.laudo_amostras }}</td>
+          <td scope="col">{{ laudo?.laudo_tipo }}</td>
           <td scope="col">
             <a class="btn btn-warning btn-sm mr-1" [routerLink]="['resultado', laudo.laudo_id]"><i class="fa fa-list-alt">
                 Editar</i></a>

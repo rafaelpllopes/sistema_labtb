@@ -36,6 +36,11 @@ export class RelatoriosProducaoComponent implements OnInit {
 
     this.anos = this.uteis.getAnos();
     this.meses = this.uteis.getMeses();
+
+    const [currentMonth] = this.meses.filter(mes => parseInt(mes.numero) == new Date().getMonth() + 1);
+
+    this.producaoForm.get('ano').setValue(new Date().getFullYear());
+    this.producaoForm.get('mes').setValue(currentMonth.numero);
   }
 
   buscar() {

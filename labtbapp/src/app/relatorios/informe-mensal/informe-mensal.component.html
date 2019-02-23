@@ -88,12 +88,13 @@
       </table>
     </div>
 
-    <section class="text-right">
+    <section class="text-center">
       <br>
       <div class="linha-assinatura"></div>
       <p>Responsavel pelo preenchimento</p>
+      <p *ngIf="user$ | async as user">{{ user.user_full_name }}</p>
     </section>
-
+    <br><br>
     <div class="text-center">
       <p>Laboratórios de Baciloscopia Pesquisa de BAAR-TB
         <br>Secretaria Municipal da Saúde
