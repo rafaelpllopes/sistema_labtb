@@ -1,4 +1,5 @@
 const pacientesDao = require('../models/pacientes-dao');
+const laudosDao = require('../models/laudos-dao');
 const wrapAsync = require('../libs/async-wrap');
 const auth = require('../libs/auth');
 
@@ -141,8 +142,13 @@ module.exports = app => {
         .delete(auth, wrapAsync(async (req, res) => {
             const id = req.params.id;
             if (id) {
-                await new pacientesDao(req.db).deletePaciente(id);
-                res.sendStatus(202);
+                const laudos  = await new laudosDao(req.db).getLaudosByPacienteId(id);
+                if (laudos.length === 0) {
+                    await new pacientesDao(req.db).deletePaciente(id);
+                    res.status(202).json({ msg: 'Paciente excluso com sucesso' });
+                } else {
+                    res.status(403).send('Exclusão não permitido, pois o paciente possui lados cadastrados');
+                }
                 return;
             } else {
                 res.sendStatus(404);

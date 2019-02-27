@@ -50,4 +50,9 @@ export class PacientesService {
     return this.http
       .get<any[]>(`${API}/pacientes/filter`, { params: PARAMS });
   }
+
+  delete(id: number) {
+    return this.http
+      .delete(`${API}/pacientes/${id}`);
+  }
 }

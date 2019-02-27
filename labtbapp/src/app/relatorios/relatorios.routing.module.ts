@@ -14,7 +14,7 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                redirectTo: 'producao',
+                redirectTo: 'informe-mensal',
             },
             {
                 path: 'producao',

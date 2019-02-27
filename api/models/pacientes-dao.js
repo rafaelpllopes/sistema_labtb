@@ -120,22 +120,17 @@ class PacientesDao {
         });
     }
 
-    async deletePaciente(id) {
-        try {
-            await this._db.run(`DELETE FROM pacientes WHERE paciente_id = ?`,
-                [id],
+    deletePaciente(id) {
+        return new Promise((resolve, reject) => {
+            this._db.run(`DELETE FROM pacientes WHERE paciente_id = ${id}`,
                 (err, rows) => {
                     if (err) {
-                        return null;
+                        console.log(err);
+                        return reject('Não foi possivel excluir o paciente');
                     }
-                    if (rows) return rows;
-                    return null;
+                    resolve("Paciente deletado com sucesso");
                 });
-        } catch (err) {
-            console.log(err);
-            return null;
-        }
-
+        });
     }
 
     findPacienteById(id) {

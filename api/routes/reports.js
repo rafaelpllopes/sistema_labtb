@@ -58,7 +58,7 @@ function filtrar(amostras1, amostras2, tratamentos, positivos) {
             amostra1 = quantidade(amostra1);
             amostra2 = quantidade(amostra2);
             controle = quantidade(controle);
-            positivo = quantidade(positivo);
+            positivo = positivas(positivo);
             total_baar = amostra1 + amostra2 + controle;
 
             index = obj_unidades.findIndex(dado => dado.unidade === unidade);
@@ -96,12 +96,22 @@ const quantidade = lista => {
         for(item of lista) {
             qtd += item.qtd;
         }
-    } else {
-        qtd = lista.qtd | 0;
+    }
+    
+    return qtd;
+};
+
+const positivas = lista => {
+    let qtd = 0;
+
+    if(lista.length) {
+        for(item of lista) {
+            qtd += 1;
+        }
     }
 
     return qtd;
-};
+}
 
 const unidadeNome = lista => {
     for (let i = 0; i < lista.length; i++) {
@@ -168,7 +178,6 @@ module.exports = app => {
                 const controles = await new reportsDao(req.db).getControlesAmostrasMesAno(ano, mes);
                 const positivos = await new reportsDao(req.db).getPositivasMesAno(ano, mes);
                 const resposta = filtrar(amostras1, amostras2, controles, positivos);
-
                 res.json(resposta);
             } else {
                 res.status(412).send();

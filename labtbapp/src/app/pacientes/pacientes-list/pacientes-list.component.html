@@ -12,7 +12,8 @@
         <label for="cns">CNS</label>
         <input formControlName="cns" type="text" class="form-control" id="cns" (keyup)="cnsSearch($event.target.value)"
           maxlength="15" minlength="15" autocomplete="off">
-        <app-vmessage *ngIf="searchForm.get('cns').invalid" text="Tamanho minimo e maximo é 15 caracteres"></app-vmessage>
+        <app-vmessage *ngIf="searchForm.get('cns').invalid" text="Tamanho minimo e maximo é 15 caracteres">
+        </app-vmessage>
       </div>
 
       <div class="form-group col-md-9">
@@ -61,10 +62,13 @@
         <td scope="col">{{ paciente?.paciente_sexo | sexoNome }}</td>
         <td scope="col">{{ paciente?.paciente_contatos }}</td>
         <td scope="col">
-          <a class="btn btn-warning btn-sm mr-1" [routerLink]="['editar', paciente.paciente_id]"><i class="fa fa-list-alt">
+          <a class="btn btn-warning btn-sm mr-1" [routerLink]="['editar', paciente.paciente_id]"><i
+              class="fa fa-list-alt">
               Editar</i></a>
-          <a class="btn btn-info  btn-sm mr-1" [routerLink]="['detalhes', paciente.paciente_id]"><i class="fa fa-info-circle">
+          <a class="btn btn-info btn-sm mr-1" [routerLink]="['detalhes', paciente.paciente_id]"><i
+              class="fa fa-info-circle">
               Detalhes</i></a>
+          <a class="btn btn-danger btn-sm mr-1" (click)="delete(paciente.paciente_id)"><i class="fa fa-trash">Excluir</i></a>
         </td>
       </tr>
     </tbody>

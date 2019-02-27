@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PacientesService } from '../pacientes.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { AlertService } from 'src/app/shared/components/alert/alert.service';
 
 @Component({
   selector: 'app-pacientes-list',
@@ -22,7 +23,8 @@ export class PacientesListComponent implements OnInit {
 
   constructor(
     private service: PacientesService,
-    private builder: FormBuilder
+    private builder: FormBuilder,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -94,5 +96,22 @@ export class PacientesListComponent implements OnInit {
 
   mostrar() {
     this.isShow = !this.isShow;
+  }
+
+  delete(id: number) {
+    let opc = confirm('Realmente quer excluir o paciente');
+    if (opc) {
+      if (id) {
+        this.service
+          .delete(id)
+          .subscribe(() => {
+            this.alertService.warning('Paciente excluso com sucesso');
+            this.pacientes = this.pacientes
+              .filter(paciente => paciente.paciente_id !== id);
+          }, erro => {
+            this.alertService.danger(erro.error);
+          })
+      }
+    }
   }
 }

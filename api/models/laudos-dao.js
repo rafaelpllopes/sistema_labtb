@@ -107,6 +107,36 @@ class LaudosDao {
         });
     }
 
+    getLaudosByPacienteId(id) {
+        return new Promise((resolve, reject) => {
+            this._db.all(`
+            SELECT 
+                l.laudo_id, 
+                l.laudo_data_entrada,
+                l.laudo_amostras,
+                l.laudo_tipo, 
+                p.paciente_cns,
+                p.paciente_nome, 
+                p.paciente_sexo,
+                p.paciente_municipio,
+                m.material,
+                u.unidade
+            FROM laudos l 
+                INNER JOIN pacientes p ON p.paciente_id = l.paciente_id
+                INNER JOIN unidades u ON l.unidade_id = u.unidade_id
+                INNER JOIN materiais m ON l.material_id = m.material_id
+            WHERE l.paciente_id = ?
+            `,
+                [id],
+                (err, rows) => {
+                    if (err) {
+                        return reject('Não foi encontrado os laudos do paciente');
+                    }
+                    rows ? resolve(rows) : resolve(null);
+                });
+        });
+    }
+
     updateLaudoResultado(id, laudo) {
         return new Promise((resolve, reject) => {
             this._db.run(`
