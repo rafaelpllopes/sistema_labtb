@@ -147,7 +147,7 @@ module.exports = app => {
                     await new pacientesDao(req.db).deletePaciente(id);
                     res.status(202).json({ msg: 'Paciente excluso com sucesso' });
                 } else {
-                    res.status(403).send('Exclusão não permitido, pois o paciente possui lados cadastrados');
+                    res.status(403).send('Exclusão não permitida, pois o paciente possui lados cadastrados');
                 }
                 return;
             } else {
