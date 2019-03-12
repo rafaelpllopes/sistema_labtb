@@ -43,13 +43,15 @@ class ReportsDao {
     }
 
     getDiagnosticosAmostrasMesAno(ano, mes, numeroAmostra) {
+        let str = numeroAmostra >= 2 ? "l.laudo_amostras >= 2" : "l.laudo_amostras = 1";
+
         return new Promise((resolve, reject) => {
             this._db.all(`SELECT u.unidade, COUNT(l.laudo_id) AS qtd, l.laudo_tipo AS tipo, l.laudo_amostras AS amostra
                 FROM laudos l
                 INNER JOIN unidades u ON u.unidade_id = l.unidade_id
                 WHERE l.laudo_data_entrada BETWEEN '${ano}-${mes}-01 00:00:00' AND '${ano}-${mes}-${dia(mes)} 23:59:59'
                 AND l.laudo_tipo = 'DIAGNÓSTICO'
-                AND l.laudo_amostras = '${numeroAmostra}'
+                AND ${str}
                 GROUP BY u.unidade
                 `, (err, rows) => {
                 if (err) {
