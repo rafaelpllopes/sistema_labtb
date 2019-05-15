@@ -1,100 +1,116 @@
-<h4 class="text-center text-uppercase">Paciente</h4>
-<form [formGroup]="formPaciente" (submit)="submit()">
-  <fieldset>
-    <legend>Dados do paciente</legend>
-    <div class="row">
-      <div class="form-group col-md-6">
-        <label for="cns">CNS</label>
-        <input formControlName="cns" type="text" class="form-control" id="cns" [value]="paciente?.paciente_cns"
-          maxlength="15" minlength="15" autocomplete="off">
-        <app-vmessage *ngIf="formPaciente.get('cns').invalid" text="Tamanho minimo e maximo é 15 caracteres"></app-vmessage>
-      </div>
-
-      <div class="form-group col-md-8">
-        <label for="nome">Nome</label>
-        <input formControlName="nome" type="text" class="form-control" id="nome" [value]="paciente?.paciente_nome">
-        <app-vmessage *ngIf="formPaciente.get('nome').errors?.required" text="Nome é obrigatorio!"></app-vmessage>
-      </div>
-
-      <div class="form-group col-md-4">
-        <label for="dataNasc">Data Nascimento</label>
-        <input type="date" formControlName="dataNasc" class="form-control" id="dataNasc" [value]="paciente?.paciente_data_nascimento">
-        <app-vmessage *ngIf="formPaciente.get('dataNasc').errors?.required" text="Data de nascimento é obrigatorio!"></app-vmessage>
-      </div>
-
-      <fieldset class="col-md-12">
-        <legend>Sexo</legend>
-        <div class="form-check">
-          <input formControlName="sexo" class="form-check-input" type="radio" name="sexo" id="masculino" value="M"
-            [checked]="paciente?.paciente_sexo === 'M'">
-          <label class="form-check-label" for="masculino">
-            Masculino
-          </label>
+<section class="container">
+  <h4 class="text-center text-uppercase">Paciente</h4>
+  <form [formGroup]="formPaciente" (submit)="submit()">
+    <fieldset>
+      <legend>Dados do paciente</legend>
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label for="cns">CNS</label>
+          <input formControlName="cns" type="text" class="form-control" id="cns" [value]="paciente?.paciente_cns"
+            maxlength="15" minlength="15" autocomplete="off">
+          <app-vmessage *ngIf="formPaciente.get('cns').invalid" text="Tamanho minimo e maximo é 15 caracteres">
+          </app-vmessage>
         </div>
-        <div class="form-check">
-          <input formControlName="sexo" class="form-check-input" type="radio" name="sexo" id="feminino" value="F"
-            [checked]="paciente?.paciente_sexo === 'F'">
-          <label class="form-check-label" for="feminino">
-            Feminino
-          </label>
+
+        <div class="form-group col-md-8">
+          <label for="nome">Nome</label>
+          <input formControlName="nome" type="text" class="form-control" id="nome" [value]="paciente?.paciente_nome">
+          <app-vmessage *ngIf="formPaciente.get('nome').errors?.required" text="Nome é obrigatorio!"></app-vmessage>
         </div>
-        <app-vmessage *ngIf="formPaciente.get('sexo').errors?.required" text="Sexo é obrigatorio!" class="col-md-12"></app-vmessage>
-      </fieldset>
-    </div>
-  </fieldset>
 
-  <fieldset>
-    <legend>Contato</legend>
-    <div class="row">
-      <div class="form-group col-md-6">
-        <label for="email">Email</label>
-        <input formControlName="email" type="email" class="form-control" id="email" [value]="paciente?.paciente_email">
-        <app-vmessage *ngIf="formPaciente.get('email').errors?.email" text="Email invalido!" class="col-md-12"></app-vmessage>
+        <div class="form-group col-md-4">
+          <label for="dataNasc">Data Nascimento</label>
+          <input type="date" formControlName="dataNasc" class="form-control" id="dataNasc"
+            [value]="paciente?.paciente_data_nascimento">
+          <app-vmessage *ngIf="formPaciente.get('dataNasc').errors?.required" text="Data de nascimento é obrigatorio!">
+          </app-vmessage>
+        </div>
+
+        <fieldset class="col-md-12">
+          <legend>Sexo</legend>
+          <div class="form-check">
+            <input formControlName="sexo" class="form-check-input" type="radio" name="sexo" id="masculino" value="M"
+              [checked]="paciente?.paciente_sexo === 'M'">
+            <label class="form-check-label" for="masculino">
+              Masculino
+            </label>
+          </div>
+          <div class="form-check">
+            <input formControlName="sexo" class="form-check-input" type="radio" name="sexo" id="feminino" value="F"
+              [checked]="paciente?.paciente_sexo === 'F'">
+            <label class="form-check-label" for="feminino">
+              Feminino
+            </label>
+          </div>
+          <app-vmessage *ngIf="formPaciente.get('sexo').errors?.required" text="Sexo é obrigatorio!" class="col-md-12">
+          </app-vmessage>
+        </fieldset>
       </div>
+    </fieldset>
 
-      <div class="form-group col-md-6">
-        <label for="telefone">Telefone</label>
-        <input formControlName="telefone" type="phone" class="form-control" id="telefone" [value]="paciente?.paciente_telefone">
+    <fieldset>
+      <legend>Contato</legend>
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label for="email">Email</label>
+          <input formControlName="email" type="email" class="form-control" id="email"
+            [value]="paciente?.paciente_email">
+          <app-vmessage *ngIf="formPaciente.get('email').errors?.email" text="Email invalido!" class="col-md-12">
+          </app-vmessage>
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="telefone">Telefone</label>
+          <input formControlName="telefone" type="phone" class="form-control" id="telefone"
+            [value]="paciente?.paciente_telefone">
+        </div>
       </div>
-    </div>
-  </fieldset>
+    </fieldset>
 
-  <fieldset>
-    <legend>Endereço</legend>
-    <div class="row">
-      <div class="form-group col-md-4">
-        <label for="cep">CEP</label>
-        <input formControlName="cep" type="text" maxlength="8" class="form-control" id="cep"[value]="paciente?.paciente_cep" (keyup)="cepWebService($event.target.value)" maxlength="8" minlength="8">
-        <app-vmessage *ngIf="formPaciente.get('cep').invalid" text="cep deve ter o tamanho de 8 caracteres numericos" class="col-md-12"></app-vmessage>
+    <fieldset>
+      <legend>Endereço</legend>
+      <div class="row">
+        <div class="form-group col-md-4">
+          <label for="cep">CEP</label>
+          <input formControlName="cep" type="text" maxlength="8" class="form-control" id="cep"
+            [value]="paciente?.paciente_cep" (keyup)="cepWebService($event.target.value)" maxlength="8" minlength="8">
+          <app-vmessage *ngIf="formPaciente.get('cep').invalid" text="cep deve ter o tamanho de 8 caracteres numericos"
+            class="col-md-12"></app-vmessage>
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="logradouro">Logradouro</label>
+          <input formControlName="logradouro" type="text" class="form-control" id="logradouro"
+            [value]="paciente?.paciente_logradouro">
+        </div>
+
+        <div class="form-group col-md-2">
+          <label for="numero">Numero</label>
+          <input formControlName="numero" type="number" class="form-control" id="numero"
+            [value]="paciente?.paciente_numero">
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="bairro">Bairro</label>
+          <input formControlName="bairro" type="text" class="form-control" id="bairro"
+            [value]="paciente?.paciente_bairro">
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="cidade">Cidade</label>
+          <input formControlName="cidade" type="text" class="form-control" id="cidade"
+            [value]="paciente?.paciente_municipio">
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="estado">Estado</label>
+          <input formControlName="estado" type="text" class="form-control" id="estado"
+            [value]="paciente?.paciente_estado">
+        </div>
       </div>
+    </fieldset>
 
-      <div class="form-group col-md-6">
-        <label for="logradouro">Logradouro</label>
-        <input formControlName="logradouro" type="text" class="form-control" id="logradouro" [value]="paciente?.paciente_logradouro">
-      </div>
-
-      <div class="form-group col-md-2">
-        <label for="numero">Numero</label>
-        <input formControlName="numero" type="number" class="form-control" id="numero" [value]="paciente?.paciente_numero">
-      </div>
-
-      <div class="form-group col-md-4">
-        <label for="bairro">Bairro</label>
-        <input formControlName="bairro" type="text" class="form-control" id="bairro" [value]="paciente?.paciente_bairro">
-      </div>
-
-      <div class="form-group col-md-4">
-        <label for="cidade">Cidade</label>
-        <input formControlName="cidade" type="text" class="form-control" id="cidade" [value]="paciente?.paciente_municipio">
-      </div>
-
-      <div class="form-group col-md-4">
-        <label for="estado">Estado</label>
-        <input formControlName="estado" type="text" class="form-control" id="estado" [value]="paciente?.paciente_estado">
-      </div>
-    </div>
-  </fieldset>
-
-  <button [disabled]="formPaciente.invalid" class="btn btn-primary btn-lg mr-2" type="submit">Salvar</button>
-  <a class="btn btn-danger btn-lg mr-2" [routerLink]="['/pacientes']">Cancelar</a>
-</form>
+    <button [disabled]="formPaciente.invalid" class="btn btn-primary btn-lg mr-2" type="submit">Salvar</button>
+    <a class="btn btn-danger btn-lg mr-2" [routerLink]="['/pacientes']">Cancelar</a>
+  </form>
+</section>

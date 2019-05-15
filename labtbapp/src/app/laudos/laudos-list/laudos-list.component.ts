@@ -15,7 +15,7 @@ import { mesAno } from '../../shared/validators/mes-ano';
 export class LaudosListComponent implements OnInit {
 
   laudos: LaudosList[] = [];
-  filter: string = '';
+  filter: any = '';
   currentPage: number = 1;
   hasMore: boolean = true;
   cnsKeyup: boolean = false;
