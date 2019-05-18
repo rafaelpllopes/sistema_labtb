@@ -78,7 +78,7 @@
         <div class="form-group col-md-4">
           <label for="numero-geral">Numero Geral</label>
           <input formControlName="numeroGeral" type="text" class="form-control" id="numero-geral"
-            [value]="laudo?.laudo_numero_geral">
+            [value]="laudo?.laudo_numero_geral" readonly>
         </div>
 
         <div *ngIf="materiais$ | async as  materiais" class="form-group col-md-8">

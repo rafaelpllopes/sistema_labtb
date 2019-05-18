@@ -72,7 +72,6 @@ export class LaudosResultadoComponent implements OnInit {
 
   update() {
     if (this.id) {
-      const numeroGeral = this.formLaudo.get('numeroGeral').value;
       const material = this.formLaudo.get('material').value;
       const dataColeta = this.formLaudo.get('dataColeta').value;
       const amostras = this.formLaudo.get('amostras').value;
@@ -85,7 +84,6 @@ export class LaudosResultadoComponent implements OnInit {
       const laudo: any = {
         material_id: material,
         laudo_data_coleta: dataColeta,
-        laudo_numero_geral: numeroGeral,
         laudo_amostras: amostras,
         unidade_id: unidade,
         laudo_tipo: tipo,
