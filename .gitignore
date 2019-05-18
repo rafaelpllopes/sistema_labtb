@@ -65,3 +65,4 @@ api/labtb.key
 api/labtb.cert
 api/secret.json
 api/labtb.db
+api/*.txt

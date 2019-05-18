@@ -13,10 +13,12 @@ const materiais = require('../routes/materiais');
 const unidades = require('../routes/unidades');
 const index = require('../routes/index');
 const fs = require('fs');
+const sha256 = require('sha256');
 
 module.exports = app => {
-    app.set('secret', 'segredo');
-
+    const secret = fs.readFileSync("secret.txt", "utf8");
+    app.set('secret', sha256(secret));
+    
     const corsOptions = {
         origin: '*',
         methods: ["GET", "POST", "PUT", "DELETE"],
