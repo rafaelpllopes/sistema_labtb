@@ -139,7 +139,7 @@ module.exports = app => {
         .delete(auth, wrapAsync(async (req, res) => {
             const id = req.params.id;
             if (id) {
-                const laudos  = await laudosController.obterPorId(req.db, id);
+                const laudos  = await laudosController.obterPorPacienteId(req.db, id);
                 if (laudos.length === 0) {
                     await pacientesController.delete(req.db, id);
                     res.status(202).json({ msg: 'Paciente excluso com sucesso' });
