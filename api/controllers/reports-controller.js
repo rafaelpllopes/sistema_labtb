@@ -140,16 +140,21 @@ Report.informeMensal = async (db, mes, ano) => {
     const resposta = filtrar(amostras1, amostras2, controles, positivos);
 
     return resposta;
-}
+};
 
 Report.total = async (db, mes, ano) => {
     const [ total ] = await new reportsDao(db).getProducaoTotalAnoMes(ano, mes);
     return total;
-}
+};
 
 Report.producao = async (db, mes, ano) => {
     const producao = await new reportsDao(db).getProducaoAnoMes(ano, mes);
     return producao;
-}
+};
+
+Report.listaPorPeriodo = async (db, mes, ano) => {
+    const laudos = await new reportsDao(db).getLaudosPorPeriodo(mes, ano);
+    return laudos;
+};
 
 module.exports = Report;

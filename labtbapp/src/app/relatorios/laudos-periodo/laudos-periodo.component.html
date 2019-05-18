@@ -1,0 +1,74 @@
+<section class="container">
+  <form [formGroup]="laudosPeriodo" class="form mt-4" (submit)="buscar()">
+    <div class="form-row align-items-center">
+
+      <div class="form-group col-md-6">
+        <label for="aspecto">Mês</label>
+        <select class="custom-select" formControlName="mes">
+          <option value="" disabled>Selecione um mês</option>
+          <option *ngFor="let mes of meses" [ngValue]="mes.numero">
+            {{ mes.nome }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="aspecto">Ano</label>
+        <select class="custom-select" formControlName="ano">
+          <option value="" disabled>Selecione um ano</option>
+          <option *ngFor="let ano of anos" [ngValue]="ano">
+            {{ ano }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-12 text-center">
+        <app-vmessage *ngIf="laudosPeriodo.get('ano').errors?.required" text="Ano deve ser selecionado"></app-vmessage>
+        <app-vmessage *ngIf="laudosPeriodo.get('mes').errors?.required" text="Mês deve ser selecionado"></app-vmessage>
+      </div>
+      <div class="col-md-12">
+        <button [disabled]="laudosPeriodo.invalid" class="btn btn-primary btn-block" type="submit">Gerar</button>
+      </div>
+    </div>
+  </form>
+
+  <section *ngIf="laudos$ | async as laudos">
+    <button class="btn btn-success btn-lg mt-4" (click)="print()">Imprimir</button>
+    <div class="img-container">
+      <img src="../../assets/timbrev2.1.png" class="img-fluid" alt="header-logo">
+    </div>
+    <h2 class="text-center text-uppercase">Laudos por período</h2>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Numero Geral</th>
+            <th scope="col">Data Entrada</th>
+            <th scope="col">CNS</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Sexo</th>
+            <th scope="col">Unidade</th>
+            <th scope="col">N° da Amostra</th>
+            <th scope="col">Tipo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let laudo of laudos">
+            <td scope="col">{{ laudo?.laudo_numero_geral }}</td>
+            <td scope="col">{{ laudo?.laudo_data_entrada | date:'dd/MM/yyyy hh:mm:ss' }}</td>
+            <td scope="col">{{ laudo?.paciente_cns }}</td>
+            <td scope="col">{{ laudo?.paciente_nome }}</td>
+            <td scope="col">{{ laudo?.paciente_sexo }}</td>
+            <td scope="col">{{ laudo?.unidade }}</td>
+            <td scope="col">{{ laudo?.laudo_amostras }}</td>
+            <td scope="col">{{ laudo?.laudo_tipo }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th colspan="7">Total</th>
+            <th>{{ total }}</th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </section>

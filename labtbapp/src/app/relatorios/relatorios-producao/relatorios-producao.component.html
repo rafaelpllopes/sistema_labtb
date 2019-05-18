@@ -1,5 +1,4 @@
 <div class="container">
-  <h2 class="text-center text-uppercase">Produção</h2>
   <form [formGroup]="producaoForm" class="form mt-4" (submit)="buscar()">
     <div class="form-row align-items-center">
 
@@ -32,14 +31,16 @@
 
     </div>
   </form>
-  <div class="text-right">
+  <!--<div class="text-right">
     <button *ngIf="producoes$" [disabled]="producaoForm.invalid" class="btn btn-success btn-lg mt-2 mb-2" (click)='downloadPDF()'>Baixar</button>
-  </div>
+  </div>-->
 
   <section *ngIf="producoes$ | async as producoes" id='pdf'>
+    <button class="btn btn-success btn-lg mt-4 mb-4" (click)="print()">Imprimir</button>
     <div class="img-container">
       <img src="../../assets/timbrev2.1.png" class="img-fluid" alt="header-logo">
     </div>
+    <h2 class="text-center text-uppercase mt-4">Produção</h2>
     <p class="mt-4">Gerado: {{ dataHora() | date:'dd/MM/yyyy hh:mm:ss' }}</p>
     <h4 class="text-center mt-4">Relatório de produção das unidades por ano e mês</h4>
     <div class="table-responsive">

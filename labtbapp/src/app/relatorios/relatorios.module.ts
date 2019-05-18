@@ -7,6 +7,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RelatoriosProducaoComponent } from './relatorios-producao/relatorios-producao.component';
 import { VmessageModule } from '../shared/vmessage/vmessage.module';
 import { InformeMensalComponent } from './informe-mensal/informe-mensal.component';
+import { LaudosPeriodoComponent } from './laudos-periodo/laudos-periodo.component';
+import { SexoNomeModule } from '../shared/pipes/sexo-nome/sexo-nome.module';
 
 @NgModule({
   imports: [
@@ -19,7 +21,8 @@ import { InformeMensalComponent } from './informe-mensal/informe-mensal.componen
   declarations: [
     RelatoriosComponent,
     RelatoriosProducaoComponent,
-    InformeMensalComponent
+    InformeMensalComponent,
+    LaudosPeriodoComponent
   ]
 })
 export class RelatoriosModule { }

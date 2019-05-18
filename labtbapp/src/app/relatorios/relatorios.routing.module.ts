@@ -5,6 +5,7 @@ import { AuthGuard } from '../core/auth/auth.guard';
 import { RelatoriosComponent } from './relatorios.component';
 import { RelatoriosProducaoComponent } from './relatorios-producao/relatorios-producao.component';
 import { InformeMensalComponent } from './informe-mensal/informe-mensal.component';
+import { LaudosPeriodoComponent } from './laudos-periodo/laudos-periodo.component';
 
 const routes: Routes = [
     {
@@ -23,6 +24,10 @@ const routes: Routes = [
             {
                 path: 'informe-mensal',
                 component: InformeMensalComponent
+            },
+            {
+                path: 'laudos-periodo',
+                component: LaudosPeriodoComponent
             }
         ]
     }

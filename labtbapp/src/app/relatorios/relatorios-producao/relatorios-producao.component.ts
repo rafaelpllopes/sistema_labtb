@@ -76,4 +76,8 @@ export class RelatoriosProducaoComponent implements OnInit {
     return new Date();
   }
 
+  print() {
+    window.print();
+  }
+
 }

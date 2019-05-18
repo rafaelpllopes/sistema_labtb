@@ -4,7 +4,6 @@ const producaoConverter = row => ({
     quantidade: row.qtd,
     unidade: row.unidade.replace('\n', '').trim()
 });
-
 class ReportsDao {
     constructor(db) {
         this._db = db;
@@ -18,12 +17,12 @@ class ReportsDao {
                 WHERE l.laudo_data_entrada BETWEEN '${ano}-${mes}-01 00:00:00' AND '${ano}-${mes}-${dia(mes)} 23:59:59' 
                 GROUP BY u.unidade
                 `, (err, rows) => {
-                if (err) {
-                    return reject('Não foi possivel carregar os resultados');
-                }
-                const resultados = rows.map(producaoConverter);
-                return resolve(resultados);
-            });
+                    if (err) {
+                        return reject('Não foi possivel carregar os resultados');
+                    }
+                    const resultados = rows.map(producaoConverter);
+                    return resolve(resultados);
+                });
         });
     }
 
@@ -33,12 +32,12 @@ class ReportsDao {
                 FROM laudos
                 WHERE laudo_data_entrada BETWEEN '${ano}-${mes}-01 00:00:00' AND '${ano}-${mes}-${dia(mes)} 23:59:59' 
                 `, (err, rows) => {
-                if (err) {
-                    return reject('Não foi possivel carregar os resultados');
-                }
-                const resultados = rows;
-                return resolve(resultados);
-            });
+                    if (err) {
+                        return reject('Não foi possivel carregar os resultados');
+                    }
+                    const resultados = rows;
+                    return resolve(resultados);
+                });
         });
     }
 
@@ -54,12 +53,12 @@ class ReportsDao {
                 AND ${str}
                 GROUP BY u.unidade
                 `, (err, rows) => {
-                if (err) {
-                    return reject('Não foi possivel carregar os resultados');
-                }
-                const resultados = rows;
-                return resolve(resultados);
-            });
+                    if (err) {
+                        return reject('Não foi possivel carregar os resultados');
+                    }
+                    const resultados = rows;
+                    return resolve(resultados);
+                });
         });
     }
 
@@ -73,12 +72,12 @@ class ReportsDao {
                 GROUP BY u.unidade
                 ORDER BY u.unidade
                 `, (err, rows) => {
-                if (err) {
-                    return reject('Não foi possivel carregar os resultados');
-                }
-                const resultados = rows;
-                return resolve(resultados);
-            });
+                    if (err) {
+                        return reject('Não foi possivel carregar os resultados');
+                    }
+                    const resultados = rows;
+                    return resolve(resultados);
+                });
         });
     }
 
@@ -93,12 +92,12 @@ class ReportsDao {
                 AND l.laudo_tipo = 'DIAGNÓSTICO'
                 GROUP BY u.unidade, l.paciente_id
                 `, (err, rows) => {
-                if (err) {
-                    return reject('Não foi possivel carregar os resultados');
-                }
-                const resultados = rows;
-                return resolve(resultados);
-            });
+                    if (err) {
+                        return reject('Não foi possivel carregar os resultados');
+                    }
+                    const resultados = rows;
+                    return resolve(resultados);
+                });
         });
     }
 
@@ -110,6 +109,35 @@ class ReportsDao {
                 }
                 const resultados = rows;
                 return resolve(resultados);
+            });
+        });
+    }
+
+    getLaudosPorPeriodo(mes, ano) {
+        let query = ` SELECT
+            l.laudo_data_entrada,
+            l.laudo_amostras,
+            l.laudo_tipo,
+            l.laudo_numero_geral,
+            p.paciente_cns,
+            p.paciente_nome, 
+            p.paciente_sexo,
+            p.paciente_municipio,
+            m.material,
+            u.unidade
+        FROM laudos l 
+            INNER JOIN pacientes p ON p.paciente_id = l.paciente_id
+            INNER JOIN unidades u ON l.unidade_id = u.unidade_id
+            INNER JOIN materiais m ON l.material_id = m.material_id
+            WHERE l.laudo_data_entrada BETWEEN '${ano}-${mes}-01 00:00:00' AND '${ano}-${mes}-${dia(mes)} 23:59:59'
+            ORDER BY l.laudo_data_entrada`;
+
+        return new Promise((resolve, reject) => {
+            this._db.all(query, (err, rows) => {
+                if (err) {
+                    return reject('Não foi obter laudos');
+                }
+                return resolve(rows);
             });
         });
     }

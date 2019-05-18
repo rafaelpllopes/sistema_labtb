@@ -25,4 +25,9 @@ export class RelatoriosService {
     return this.http
       .post(`${API}/reports/informe-mensal`, { ano, mes });
   }
+
+  laudosPorPeriodo(mes, ano) {
+    return this.http
+      .post(`${API}/reports/laudos-periodo`, { ano, mes });
+  }
 }

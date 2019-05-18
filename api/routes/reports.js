@@ -48,4 +48,15 @@ module.exports = app => {
                 res.status(412).send();
             }
         }));
+    
+    app.post('/reports/laudos-periodo', auth, wrapAsync(async (req, res) => {
+        const ano = req.body.ano;
+        const mes = req.body.mes;
+        if (ano && mes) {
+            const resposta = await reportsController.listaPorPeriodo(req.db, mes, ano);
+            res.json(resposta);
+        } else {
+            res.status(412).send();
+        }
+    }));
 };
