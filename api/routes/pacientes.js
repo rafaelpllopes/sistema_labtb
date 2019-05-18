@@ -1,13 +1,13 @@
-const pacientesDao = require('../models/pacientes-dao');
-const laudosDao = require('../models/laudos-dao');
 const wrapAsync = require('../libs/async-wrap');
 const auth = require('../libs/auth');
+const pacientesController = require('../controllers/pacientes-controller');
+const laudosController = require('../controllers/laudos-controller');
 
 module.exports = app => {
     app.route('/pacientes')
         .get(auth, wrapAsync(async (req, res) => {
             const page = req.query.page;
-            const pacientes = await new pacientesDao(req.db).getPacientes(page);
+            const pacientes = await pacientesController.obterPacientes(req.db, page);
             res.status(200).json(pacientes);
         }))
         .post(auth, wrapAsync(async (req, res) => {
@@ -20,10 +20,10 @@ module.exports = app => {
                 if (cns) {
                     const cnsNumber = cns.length === 15 ? parseInt(cns) : undefined;
                     if (typeof cnsNumber === 'number' && cnsNumber.toString().length === 15) {
-                        const cnsExiste = await new pacientesDao(req.db).findPacienteByCns(cns);
+                        const cnsExiste = await pacientesController.buscaPorCns(req.db, cns);
                         if (!cnsExiste) {
                             if (nome && dataNasc && sexo) {
-                                await new pacientesDao(req.db).addPaciente(paciente);
+                                await pacientesController.adicionar(req.db, paciente);
                                 res.status(201).json({ msg: "Paciente cadastrado com sucesso" });
                             } else {
                                 res.status(412).json('Nome, data de nascimento, sexo são obrigatorios.');
@@ -36,7 +36,7 @@ module.exports = app => {
                     }
                 } else {
                     if (nome && dataNasc && sexo) {
-                        await new pacientesDao(req.db).addPaciente(paciente);
+                        await pacientesController.adicionar(req.db, paciente);
                         res.status(201).json({ msg: "Paciente cadastrado com sucesso" });
                     } else {
                         res.status(412).json('Nome, data de nascimento, sexo são obrigatorios.')
@@ -50,10 +50,7 @@ module.exports = app => {
 
     app.route('/pacientes/filter')
         .get(auth, wrapAsync(async (req, res) => {
-            const cns = req.query.cns;
-            const nome = req.query.nome;
-            const sexo = req.query.sexo;
-            const pacientes = await new pacientesDao(req.db).getPacientesByFilter(cns, nome, sexo);
+            const pacientes = await pacientesController.filter(req.db, req.query);
             res.status(200).json(pacientes);
         }));
 
@@ -61,7 +58,7 @@ module.exports = app => {
         .get(auth, wrapAsync(async (req, res) => {
             const nome = req.params.nome;
             if (nome) {
-                const pacientes = await new pacientesDao(req.db).findPacienteByName(nome);
+                const pacientes = await pacientesController.buscaPorNome(req.db, nome);
                 res.status(200).json(pacientes);
             } else {
                 res.sendStatus(404);
@@ -74,7 +71,7 @@ module.exports = app => {
             if (cns) {
                 const cnsNumber = cns.length === 15 ? parseInt(cns) : undefined;
                 if (typeof cnsNumber === 'number' && cnsNumber.toString().length === 15) {
-                    const pacientes = await new pacientesDao(req.db).findPacienteByCns(cns);
+                    const pacientes = await pacientesController.buscaPorCns(req.db, cns);
                     res.status(200).json(pacientes);
                 } else {
                     res.sendStatus(404);
@@ -88,7 +85,7 @@ module.exports = app => {
         .get(auth, wrapAsync(async (req, res) => {
             const id = req.params.id;
             if (id) {
-                const paciente = await new pacientesDao(req.db).findPacienteById(id);
+                const paciente = await pacientesController.obterPorId(req.db, id);
                 res.status(200).json(paciente);
             } else {
                 res.sendStatus(404);
@@ -107,17 +104,17 @@ module.exports = app => {
                     if (cns) {
                         const cnsNumber = cns.length === 15 ? parseInt(cns) : undefined;
                         if (typeof cnsNumber === 'number' && cnsNumber.toString().length === 15) {
-                            const cnsExiste = await new pacientesDao(req.db).findPacienteByCns(cns);
+                            const cnsExiste = await pacientesController.buscaPorCns(req.db, cns);
                             if (cnsExiste) {
                                 if (nome && dataNasc && sexo) {
-                                    await new pacientesDao(req.db).updatePaciente(id, paciente);
+                                    await pacientesController.atualizar(req.db, id, paciente);
                                     res.status(202).json({ msg: 'Paciente atualizado com sucesso' });
                                 } else {
                                     res.status(412).json({ msg: 'Nome, data de nascimento e sexo sao obrigatorios' });
                                 }
                             } else {
                                 if (nome && dataNasc && sexo) {
-                                    await new pacientesDao(req.db).updatePaciente(id, paciente);
+                                    await pacientesController.atualizar(req.db, id, paciente);
                                     res.status(202).json({ msg: 'Paciente atualizado com sucesso' });
                                 } else {
                                     res.status(412).json({ msg: 'Nome, data de nascimento e sexo sao obrigatorios' });
@@ -128,7 +125,7 @@ module.exports = app => {
                         }
                     } else {
                         if (nome && dataNasc && sexo) {
-                            await new pacientesDao(req.db).updatePaciente(id, paciente);
+                            await pacientesController.atualizar(req.db, id, paciente);
                             res.status(202).json({ msg: 'Paciente atualizado com sucesso' });
                         } else {
                             res.status(412).json({ msg: 'Nome, data de nascimento e sexo sao obrigatorios' });
@@ -142,9 +139,9 @@ module.exports = app => {
         .delete(auth, wrapAsync(async (req, res) => {
             const id = req.params.id;
             if (id) {
-                const laudos  = await new laudosDao(req.db).getLaudosByPacienteId(id);
+                const laudos  = await laudosController.obterPorId(req.db, id);
                 if (laudos.length === 0) {
-                    await new pacientesDao(req.db).deletePaciente(id);
+                    await pacientesController.delete(req.db, id);
                     res.status(202).json({ msg: 'Paciente excluso com sucesso' });
                 } else {
                     res.status(403).send('Exclusão não permitida, pois o paciente possui lados cadastrados');

@@ -1,11 +1,11 @@
-const resultadosDao = require('../models/resultados-dao');
 const wrapAsync = require('../libs/async-wrap');
 const auth = require('../libs/auth');
+const resultadosController = require('../controllers/resultados-controller');
 
 module.exports = app => {
     app.route('/resultados')
         .get(auth, wrapAsync(async (req, res) => {
-            const resultados = await new resultadosDao(req.db).getResultados();
+            const resultados = await resultadosController.obterResultados(req.db);
             res.json(resultados);
         }));
 };

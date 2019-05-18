@@ -91,7 +91,6 @@ class ReportsDao {
                 WHERE l.laudo_data_entrada BETWEEN '${ano}-${mes}-01 00:00:00' AND '${ano}-${mes}-${dia(mes)} 23:59:59'
                 AND r.resultado <> 'NEGATIVA'
                 AND l.laudo_tipo = 'DIAGNÓSTICO'
-                AND l.laudo_amostras >= 2
                 GROUP BY u.unidade, l.paciente_id
                 `, (err, rows) => {
                 if (err) {

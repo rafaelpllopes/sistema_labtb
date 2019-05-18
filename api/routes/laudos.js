@@ -1,12 +1,12 @@
-const laudosDao = require('../models/laudos-dao');
 const wrapAsync = require('../libs/async-wrap');
 const auth = require('../libs/auth');
+const laudosController = require('../controllers/laudos-controller');
 
 module.exports = app => {
     app.route('/laudos')
         .get(auth, wrapAsync(async (req, res) => {
             const page = req.query.page;
-            const laudos = await new laudosDao(req.db).getLaudos(page);
+            const laudos = await laudosController.obter(req.db, page);
             res.status(200).json(laudos);
         }))
         .post(auth, wrapAsync(async (req, res) => {
@@ -14,7 +14,7 @@ module.exports = app => {
             const paciente = laudo.laudo.paciente_id;
             if (laudo) {
                 if (paciente) {
-                    await new laudosDao(req.db).addLaudo(laudo.laudo);
+                    await laudosController.adicionar(req.db, laudo.laudo);
                     res.status(200).json({ msg: "Laudo cadastrado com sucesso" });
                 } else {
                     res.status(409).json({ msg: "Paciente é obrigatorio" });
@@ -26,44 +26,9 @@ module.exports = app => {
 
     app.route('/laudos/filter')
         .get(auth, wrapAsync(async (req, res) => {
-            const cns = req.query.cns;
-            const nome = req.query.nome;
-            const mes = req.query.mes;
-            const ano = req.query.ano;
-            if (cns || nome || mes && ano) {
-                let dia = '';
-                let dataInicial = '';
-                let dataFinal = '';
-
-                if (mes && ano) {
-                    switch (mes) {
-                        case '01':
-                        case '03':
-                        case '05':
-                        case '07':
-                        case '08':
-                        case '10':
-                        case '12': {
-                            dia = '31';
-                        } break;
-                        case '02': {
-                            if (parseInt(mes) % 4 === 0) {
-                                dia = '29';
-                            } else {
-                                dia = '28';
-                            }
-                        }
-                            break;
-                        default: {
-                            dia = '30';
-                        }
-                    }
-                    dataInicial = `${ano}-${mes}-01`;
-                    dataFinal = `${ano}-${mes}-${dia}`;
-                }
-
-                const laudos = await new laudosDao(req.db).filterLaudos(cns, nome, dataInicial, dataFinal);
-
+            const query = req.query;
+            if (query) {                
+                const laudos = await laudosController.filter(req.db, query);
                 if (laudos) {
                     res.status(200).json(laudos);
                 } else {
@@ -79,9 +44,9 @@ module.exports = app => {
             const id = req.params.id;
             const laudo = req.body.laudo;
             if (id && laudo) {
-                const existe = await new laudosDao(req.db).getLaudoById(id);
+                const existe = await laudosController.obterPorId(req.db, id);
                 if (existe) {
-                    await new laudosDao(req.db).updateLaudoResultado(id, laudo);
+                    await laudosController.updateResultado(req.db, id);
                     res.status(200).json({ msg: "Resultado adicionado com sucesso" });
                 } else {
                     res.sendStatus(404);
@@ -95,7 +60,7 @@ module.exports = app => {
         .get(auth, wrapAsync(async (req, res) => {
             const id = req.params.id;
             if (id) {
-                const laudo = await new laudosDao(req.db).getLaudoById(id);
+                const laudo = await laudosController.obterPorId(req.db, id);
                 if (laudo) {
                     res.status(200).json(laudo);
                 } else {
@@ -109,9 +74,9 @@ module.exports = app => {
             const id = req.params.id;
             const laudo = req.body.laudo;
             if (id && laudo) {
-                const existe = await new laudosDao(req.db).getLaudoById(id);
+                const existe = await laudosController.obterPorId(req.db, id);
                 if (existe) {
-                    await new laudosDao(req.db).updateLaudo(id, laudo);
+                    await laudosController.updateLaudo(req.db, id, laudo);
                     res.status(200).json({ msg: "Laudo atualizado com sucesso" });
                 } else {
                     res.sendStatus(404);
@@ -123,9 +88,9 @@ module.exports = app => {
         .delete(auth, wrapAsync(async (req, res) => {
             const id = req.params.id;
             if (id) {
-                const laudo = await new laudosDao(req.db).getLaudoById(id);
-                if (laudo) {
-                    await new laudosDao(req.db).deleteLaudo(id);
+                const existe = await laudosController.obterPorId(req.db, id);
+                if (existe) {
+                    await laudosController.delete(req.db, id);
                     res.status(202).json({ msg: "Laudo deletado com sucesso" });
                 } else {
                     res.sendStatus(404);

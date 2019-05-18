@@ -4,8 +4,10 @@ class LaudosDao {
     }
 
     addLaudo(laudo) {
-        return new Promise((resolve, reject) => {
-            this._db.get(`
+        return new Promise(async (resolve, reject) => {
+            let numeroGeral = await this._getUltimoNumeroGeral();
+            
+            this._db.run(`
                 INSERT INTO 
                 laudos (
                     laudo_numero_geral,
@@ -22,7 +24,7 @@ class LaudosDao {
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             `,
                 [
-                    laudo.laudo_numero_geral,
+                    numeroGeral ? parseInt(numeroGeral) + 1 : 1,
                     laudo.laudo_data_coleta,
                     laudo.laudo_tipo,
                     laudo.laudo_amostras,
@@ -168,7 +170,6 @@ class LaudosDao {
         return new Promise((resolve, reject) => {
             this._db.run(`
                 UPDATE laudos SET 
-                    laudo_numero_geral = ?,
                     laudo_data_coleta = ?,
                     laudo_tipo = ?,
                     laudo_amostras = ?,
@@ -180,7 +181,6 @@ class LaudosDao {
                 WHERE laudo_id = ?
             `,
                 [
-                    laudo.laudo_numero_geral,
                     laudo.laudo_data_coleta,
                     laudo.laudo_tipo,
                     laudo.laudo_amostras,
@@ -273,6 +273,20 @@ class LaudosDao {
                 }
             );
         });
+    }
+
+    _getUltimoNumeroGeral() {
+        let ano = new Date().getFullYear();
+        return new Promise((resolve, reject) => this._db.get(
+            `SELECT MAX(laudo_numero_geral) AS numero FROM laudos WHERE laudo_data_entrada BETWEEN '${ano}-01-01 00:00:00' AND '${ano}-12-31 23:59:59'`, 
+            (err, rows) => {
+                if(err) {
+                    reject(err);
+                }
+                let { numero } = rows;
+                resolve(numero);
+            }
+        ));
     }
 }
 

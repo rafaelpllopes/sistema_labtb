@@ -11,7 +11,7 @@ module.exports = (mes) => {
             dia = '31'
         } break;
         case '02': {
-            dia = parseInt(mes)%4 == 0 ? 29 : 28;
+            dia = parseInt(mes) % 4 == 0 ? 29 : 28;
         } break;
         default: {
             dia = '30';

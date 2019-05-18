@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
-const usuariosDao = require('../models/usuarios-dao');
 const wrapAsync = require('../libs/async-wrap');
 const auth = require('../libs/auth');
+const usuarioController = require('../controllers/usuarios-controller');
 
 module.exports = app => {
     app.route('/usuario/login')
@@ -10,7 +10,7 @@ module.exports = app => {
             const password = req.body.user_password;
 
             if (user && password) {
-                const usuario = await new usuariosDao(req.db).findUsuarioAndPassword(user, password);
+                const usuario = await usuarioController.login(req.db, user, password);
                 if (usuario) {
                     const token = jwt.sign(usuario, req.app.get('secret'), {
                         expiresIn: 86400
@@ -35,7 +35,7 @@ module.exports = app => {
             const nome = usuario.user_full_name;
 
             if (id && password && nome) {
-                await new usuariosDao(req.db).updateUser(id, password, nome);
+                await usuarioController.atualizar(req.db, id, password, nome);
                 res.status(202).json({ msg: "Usuario editado com sucesso" });
             } else {
                 res.status(412).json({ msg: "Senha não pode ser vazia" });
@@ -44,7 +44,7 @@ module.exports = app => {
         .get(auth, wrapAsync(async (req, res) => {
             const id = req.params.id;
             if (id) {
-                const usuario = await new usuariosDao(req.db).findUserById(req.params.id);
+                const usuario = await usuarioController.obterPorId(req.db, req.params.id);
                 res.status(200).json(usuario);
             } else {
                 res.sendStatus(404);
@@ -53,10 +53,10 @@ module.exports = app => {
         .delete(auth, wrapAsync(async (req, res) => {
             const id = req.params.id;
             if (id) {
-                const usuario = await new usuariosDao(req.db).findUserById(id);
+                const usuario = await usuarioController.obterPorId(req.db, id);
                 if (usuario) {
                     if (usuario.user_name !== 'admin') {
-                        await new usuariosDao(req.db).deleteUserById(id);
+                        await usuarioController.delete(req.db, id);
                         res.status(202).json({ msg: "Usuario deletado com sucesso" });
                     } else {
                         res.status(403).json({ msg: "Administrador não pode ser removido" });
@@ -74,8 +74,8 @@ module.exports = app => {
         .post(auth, wrapAsync((async (req, res) => {
             const user = req.body.user_name;
             if (user) {
-                const usuarios = await new usuariosDao(req.db).existe(user);
-                res.status(200).json(usuarios);
+                const usuario = await usuarioController.existe(req.db, user);
+                res.status(200).json(usuario);
             } else {
                 res.status(412).json({ msg: "Nome do usuario não pode ser vazio" });
             }
@@ -84,10 +84,8 @@ module.exports = app => {
 
     app.route('/usuario/filter')
         .get(auth, wrapAsync((async (req, res) => {
-            const usuario = req.query.usuario;
-            const nome = req.query.nome;
             if (usuario || nome) {
-                const usuarios = await new usuariosDao(req.db).findUserByFilter(nome, usuario);
+                const usuarios = await usuarioController.filter(req.query);
                 res.status(200).json(usuarios);
             } else {
                 res.status(412).json({ msg: "Não foi possivel buscar os usuarios" });
@@ -98,7 +96,7 @@ module.exports = app => {
     app.route('/usuarios')
         .get(auth, wrapAsync(async (req, res) => {
             const page = req.query.page;
-            const users = await new usuariosDao(req.db).getUser(page);
+            const users = await usuarioController.obterUsuarios(req.db, page);
             res.status(200).json(users);
         }))
         .post(auth, wrapAsync((async (req, res) => {
@@ -106,10 +104,11 @@ module.exports = app => {
             const user = usuario.user_name;
             const nome = usuario.user_full_name;
             const password = usuario.user_password;
+
             if (user && password && nome) {
-                const existe = await new usuariosDao(req.db).existe(user);
+                const existe = await usuarioController.existe(req.db, user);
                 if (!existe) {
-                    await new usuariosDao(req.db).addUsuario(user, nome, password);
+                    await usuarioController.adicionar(req.db, user, nome, password);
                     res.status(201).json({ msg: "Usuario cadastrado com sucesso" });
                 } else {
                     res.status(409).json({ msg: "Usuario já cadastrado" });
