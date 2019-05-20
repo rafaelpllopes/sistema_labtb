@@ -12,11 +12,7 @@ import { UteisService } from 'src/app/shared/services/uteis.service';
 export class LaudosPeriodoComponent implements OnInit {
 
   laudosPeriodo: FormGroup;
-  anos: number[];
-  meses: any[];
   laudos$: Observable<any>;
-  mes: any;
-  ano: number;
   total: number;
 
   constructor(
@@ -27,25 +23,16 @@ export class LaudosPeriodoComponent implements OnInit {
 
   ngOnInit() {
     this.laudosPeriodo = this.build.group({
-      ano: ['', Validators.required],
-      mes: ['', Validators.required]
+      dataInicial: ['', Validators.required],
+      dataFinal: ['', Validators.required]
     });
-
-    this.anos = this.uteis.getAnos();
-    this.meses = this.uteis.getMeses();
-
-    const [currentMonth] = this.meses.filter(mes => parseInt(mes.numero) == new Date().getMonth() + 1);
-
-    this.laudosPeriodo.get('ano').setValue(new Date().getFullYear());
-    this.laudosPeriodo.get('mes').setValue(currentMonth.numero);
   }
 
   buscar() {
-    this.ano = this.laudosPeriodo.get('ano').value;
-    const mes = this.laudosPeriodo.get('mes').value;
-    this.mes = this.meses.find(mes => mes.numero == this.laudosPeriodo.get('mes').value);
+    const dataInicial = this.laudosPeriodo.get('dataInicial').value;
+    const dataFinal = this.laudosPeriodo.get('dataFinal').value;
     this.laudos$ = this.service
-      .laudosPorPeriodo(mes, this.ano);
+      .laudosPorPeriodo(dataInicial, dataFinal);
     this.laudos$.subscribe(laudos => this.total = laudos.length);
   }
 

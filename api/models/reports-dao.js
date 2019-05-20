@@ -113,7 +113,7 @@ class ReportsDao {
         });
     }
 
-    getLaudosPorPeriodo(mes, ano) {
+    getLaudosPorPeriodo(dataInicial, dataFinal) {
         let query = ` SELECT
             l.laudo_data_entrada,
             l.laudo_amostras,
@@ -129,7 +129,7 @@ class ReportsDao {
             INNER JOIN pacientes p ON p.paciente_id = l.paciente_id
             INNER JOIN unidades u ON l.unidade_id = u.unidade_id
             INNER JOIN materiais m ON l.material_id = m.material_id
-            WHERE l.laudo_data_entrada BETWEEN '${ano}-${mes}-01 00:00:00' AND '${ano}-${mes}-${dia(mes)} 23:59:59'
+            WHERE l.laudo_data_entrada BETWEEN '${dataInicial} 00:00:00' AND '${dataFinal} 23:59:59'
             ORDER BY l.laudo_data_entrada`;
 
         return new Promise((resolve, reject) => {

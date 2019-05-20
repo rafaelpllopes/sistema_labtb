@@ -26,8 +26,8 @@ export class RelatoriosService {
       .post(`${API}/reports/informe-mensal`, { ano, mes });
   }
 
-  laudosPorPeriodo(mes, ano) {
+  laudosPorPeriodo(dataInicial, dataFinal) {
     return this.http
-      .post(`${API}/reports/laudos-periodo`, { ano, mes });
+      .post(`${API}/reports/laudos-periodo`, { dataInicial, dataFinal });
   }
 }

@@ -152,8 +152,8 @@ Report.producao = async (db, mes, ano) => {
     return producao;
 };
 
-Report.listaPorPeriodo = async (db, mes, ano) => {
-    const laudos = await new reportsDao(db).getLaudosPorPeriodo(mes, ano);
+Report.listaPorPeriodo = async (db, dataInicial, dataFinal) => {
+    const laudos = await new reportsDao(db).getLaudosPorPeriodo(dataInicial, dataFinal);
     return laudos;
 };
 
