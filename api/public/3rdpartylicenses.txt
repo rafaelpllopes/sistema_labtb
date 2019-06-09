@@ -362,6 +362,9 @@ THE SOFTWARE.
 jspdf
 MIT
 
+zfill
+BSD
+
 html2canvas
 MIT
 Copyright (c) 2012 Niklas von Hertzen
