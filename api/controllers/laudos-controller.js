@@ -1,5 +1,5 @@
-const laudosDao = require('../models/laudos-dao');
-const ultimoDiaMes = require('../libs/ultimo-dia-mes');
+const laudosDao = require('../infra/laudos-dao');
+const ultimoDiaMes = require('../config/ultimo-dia-mes');
 
 const Laudos = {};
 

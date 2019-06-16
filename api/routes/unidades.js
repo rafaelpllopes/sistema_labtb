@@ -1,5 +1,6 @@
-const wrapAsync = require('../libs/async-wrap');
-const auth = require('../libs/auth');
+/*
+const wrapAsync = require('../config/async-wrap');
+const auth = require('../config/auth');
 const unidadesController = require('../controllers/unidades-controller');
 
 module.exports = app => {
@@ -9,3 +10,4 @@ module.exports = app => {
             res.json(unidades);
         }));
 };
+*/

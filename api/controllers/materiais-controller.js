@@ -1,4 +1,4 @@
-const materiaisDao = require('../models/materiais-dao');
+const materiaisDao = require('../infra/materiais-dao');
 
 const MateriaisController = {};
 

@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('labtb.db');
 const sha256 = require('sha256');
-const zfill = require('./zfill');
+const zfill = require('../helpers/zfill');
 
 const USUARIOS_SCHEMA = `
 CREATE TABLE IF NOT EXISTS usuarios (

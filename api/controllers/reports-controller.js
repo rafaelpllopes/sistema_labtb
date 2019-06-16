@@ -1,4 +1,4 @@
-const reportsDao = require('../models/reports-dao');
+const reportsDao = require('../infra/reports-dao');
 
 const Report = {}
 

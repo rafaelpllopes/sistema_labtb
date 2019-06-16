@@ -1,4 +1,4 @@
-const unidadesDao = require('../models/unidades-dao');
+const unidadesDao = require('../infra/unidades-dao');
 
 const UnidadesController = {};
 

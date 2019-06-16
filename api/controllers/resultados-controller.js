@@ -1,4 +1,4 @@
-const resultadosDao = require('../models/resultados-dao');
+const resultadosDao = require('../infra/resultados-dao');
 
 const ResultadosController = {};
 

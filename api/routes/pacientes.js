@@ -1,5 +1,6 @@
-const wrapAsync = require('../libs/async-wrap');
-const auth = require('../libs/auth');
+/*
+const wrapAsync = require('../config/async-wrap');
+const auth = require('../config/auth');
 const pacientesController = require('../controllers/pacientes-controller');
 const laudosController = require('../controllers/laudos-controller');
 
@@ -153,3 +154,4 @@ module.exports = app => {
             }
         }));
 };
+*/

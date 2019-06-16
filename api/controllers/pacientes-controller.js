@@ -1,4 +1,4 @@
-const pacientesDao = require('../models/pacientes-dao');
+const pacientesDao = require('../infra/pacientes-dao');
 
 const Pacientes = {};
 

@@ -1,6 +1,7 @@
+/*
 const jwt = require('jsonwebtoken');
-const wrapAsync = require('../libs/async-wrap');
-const auth = require('../libs/auth');
+const wrapAsync = require('../config/async-wrap');
+const auth = require('../config/auth');
 const usuarioController = require('../controllers/usuarios-controller');
 
 module.exports = app => {
@@ -118,3 +119,5 @@ module.exports = app => {
             }
         })));
 };
+
+*/

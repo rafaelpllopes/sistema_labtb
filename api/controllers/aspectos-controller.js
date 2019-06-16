@@ -1,10 +1,21 @@
-const aspectosDao = require('../models/aspectos-dao');
+const db = require('../config/database');
+const AspectosDao = require('../infra/aspectos-dao');
+const wrapAsync = require('../config/async-wrap');
 
-const AspectosController = {};
+class AspectosController {
 
-AspectosController.obterAspectos = async (db) => {
-    const resultado = await new aspectosDao(db).getAspectos();
-    return resultado;
+    static rotas() {
+        return {
+            aspectos: '/aspectos',
+        };
+    }
+
+    listar() {
+        return /*wrapAsync(*/async (req, res) => {
+            const resultado = await new AspectosDao(db).getAspectos();
+            res.json(resultado);
+        }/*)*/;
+    }
 }
 
 module.exports = AspectosController;
