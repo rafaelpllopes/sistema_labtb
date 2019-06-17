@@ -1,10 +1,21 @@
+const db = require('../config/database');
 const unidadesDao = require('../infra/unidades-dao');
+const wrapAsync = require('../config/async-wrap');
 
-const UnidadesController = {};
+class UnidadesController {
 
-UnidadesController.obterUnidades = async (db) => {
-    const resultado = await new unidadesDao(db).getUnidades();
-    return resultado;
+    static rotas() {
+        return {
+            unidades: '/unidades',
+        };
+    }
+
+    listar() {
+        return /*wrapAsync(*/async (req, res) => {
+            const resultado = await new unidadesDao(db).getUnidades();
+            res.json(resultado);
+        }/*)*/;
+    }
 }
 
 module.exports = UnidadesController;

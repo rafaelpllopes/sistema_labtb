@@ -1,13 +1,8 @@
-/*
-const wrapAsync = require('../config/async-wrap');
 const auth = require('../config/auth');
 const unidadesController = require('../controllers/unidades-controller');
+const unidades = new unidadesController();
 
 module.exports = app => {
-    app.route('/unidades')
-        .get(auth, wrapAsync(async (req, res) => {
-            const unidades = await unidadesController.obterUnidades(req.db);
-            res.json(unidades);
-        }));
+    app.route(unidadesController.rotas().unidades)
+        .get(/*auth, */unidades.listar());
 };
-*/
