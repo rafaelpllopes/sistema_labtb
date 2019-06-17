@@ -1,10 +1,21 @@
+const db = require('../config/database');
 const materiaisDao = require('../infra/materiais-dao');
+const wrapAsync = require('../config/async-wrap');
 
-const MateriaisController = {};
+class MateriaisController {
 
-MateriaisController.obterMateriais = async (db) => {
-    const resultado = await new materiaisDao(db).getMaterias();
-    return resultado;
+    static rotas() {
+        return {
+            materiais: '/materiais',
+        };
+    }
+
+    listar() {
+        return /*wrapAsync(*/async (req, res) => {
+            const resultado = await new materiaisDao(db).getMaterias();
+            res.json(resultado);
+        }/*)*/;
+    }
 }
 
 module.exports = MateriaisController;
