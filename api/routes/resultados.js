@@ -1,13 +1,8 @@
-/*
-const wrapAsync = require('../config/async-wrap');
 const auth = require('../config/auth');
 const resultadosController = require('../controllers/resultados-controller');
+const resultados = new resultadosController()
 
 module.exports = app => {
-    app.route('/resultados')
-        .get(auth, wrapAsync(async (req, res) => {
-            const resultados = await resultadosController.obterResultados(req.db);
-            res.json(resultados);
-        }));
+    app.route(resultadosController.rotas().resultados)
+        .get(/*auth, */resultados.listar());
 };
-*/

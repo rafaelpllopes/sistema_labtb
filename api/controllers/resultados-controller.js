@@ -1,10 +1,21 @@
+const db = require('../config/database');
 const resultadosDao = require('../infra/resultados-dao');
+const wrapAsync = require('../config/async-wrap');
 
-const ResultadosController = {};
+class ResultadosController {
 
-ResultadosController.obterResultados = async (db) => {
-    const resultado = await new resultadosDao(db).getResultados();
-    return resultado;
+    static rotas() {
+        return {
+            resultados: '/resultados',
+        };
+    }
+
+    listar() {
+        return /*wrapAsync(*/async (req, res) => {
+            const resultado = await new resultadosDao(db).getResultados();
+            res.json(resultado);
+        }/*)*/;
+    }
 }
 
 module.exports = ResultadosController;
