@@ -1,12 +1,5 @@
 const sha256 = require('sha256');
 
-/*
-const usuarioConverter = row => ({
-    user_id: row.user_id,
-    user_name: row.user_name,
-});
-*/
-
 class UserDao {
 
     constructor(db) {
@@ -83,6 +76,7 @@ class UserDao {
     }
 
     existe(user) {
+        console.log(user)
         return new Promise((resolve, reject) => {
             this._db.get(`SELECT user_name FROM usuarios WHERE user_name = ?`,
                 [user],
@@ -137,7 +131,7 @@ class UserDao {
 
     deleteUserById(id) {
         return new Promise((resolve, reject) => {
-            this._db.get(`DELETE FROM usuarios WHERE user_id = ?`,
+            this._db.run(`DELETE FROM usuarios WHERE user_id = ?`,
                 [id],
                 (err, rows) => {
                     if (err) {

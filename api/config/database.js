@@ -373,7 +373,7 @@ async function run() {
     /*INSERT_DEFAULT_UNIDADES
         .forEach(inserir => db.run(inserir));*/
 
-    db.run(INSERT_DEFAULT_USUARIO, [sha256.x2('admin')]);
+    db.run(INSERT_DEFAULT_USUARIO, [sha256.x2('labtbadmin')]);
 
     const UPDATES = await updateUnidades();
 

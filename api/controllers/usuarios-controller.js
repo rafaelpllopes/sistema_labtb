@@ -3,45 +3,15 @@ const jwt = require('jsonwebtoken');
 const usuariosDao = require('../infra/usuarios-dao');
 const wrapAsync = require('../config/async-wrap');
 const { validationResult } = require('express-validator/check');
-/*
-Usuarios.atualizar = async (db, id, password, nome) => {
-    await new usuariosDao(db).updateUser(id, password, nome);
-};
 
-Usuarios.obterPorId = async (db, id) => {
-    const usuario = await new usuariosDao(db).findUserById(id);
-    return usuario;
-};
-
-Usuarios.delete = async (db, id) => {
-    await new usuariosDao(db).deleteUserById(id);
-};
-
-Usuarios.existe = async (db, user) => {
-    const usuario = await new usuariosDao(db).existe(user);
-    return usuario;
-};
-
-Usuarios.filter = async (db, query) => {
-    const usuario = query.usuario;
-    const nome = query.nome;
-    const usuarios = await new usuariosDao(db).findUserByFilter(nome, usuario);
-    return usuarios;
-};
-
-Usuarios.obterUsuarios = async (db, page) => {
-    const users = await new usuariosDao(db).getUser(page);
-    return users;
-};
-
-Usuarios.adicionar = async (db, user, nome, password) => {
-    await new usuariosDao(db).addUsuario(user, nome, password);
-};*/
 class UsuarioController {
     static rotas() {
         return {
             login: '/usuario/login',
-            usuarioId: '/usuarios/:id'
+            usuarioId: '/usuarios/:id',
+            usuarios: '/usuarios',
+            filter: '/usuario/filter',
+            existe: '/usuario/existe'
         };
     }
 
@@ -51,7 +21,8 @@ class UsuarioController {
             const erros = validationResult(req);
 
             if (!erros.isEmpty()) {
-                res.status(412).json({ Erros: erros.array() });
+                console.log(`Erros: ${erros.array()}`);
+                res.status(412).json({ msg: 'Usuário ou senha invalido' });
                 return;
             }
 
@@ -73,7 +44,36 @@ class UsuarioController {
     }
 
     adicionar() {
+        return wrapAsync(async (req, res) => {
+            const erros = validationResult(req);
 
+            if (!erros.isEmpty()) {
+                res.status(412).json({ Erros: erros.array() });
+                return;
+            }
+
+            const user = req.body.usuario.user_name;
+            const nome = req.body.usuario.user_full_name;
+            const password = req.body.usuario.user_password;
+
+            const existe = await new usuariosDao(db).existe(user);
+
+            if (!existe) {
+                await new usuariosDao(db).addUsuario(user, nome, password);
+                res.status(201).json({ msg: "Usuario cadastrado com sucesso" });
+            } else {
+                res.status(409).json({ msg: "Usuario já cadastrado" });
+            }
+
+        });
+    }
+
+    listar() {
+        return wrapAsync(async (req, res) => {
+            const page = req.query.page | 1;
+            const users = await new usuariosDao(db).getUser(page);
+            res.status(200).json(users)
+        });
     }
 
     listarPorId() {
@@ -86,9 +86,6 @@ class UsuarioController {
             }
 
             const id = req.params.id;
-
-            console.log(id)
-
             const resultado = await new usuariosDao(db).findUserById(id);
             res.status(200).json(resultado);
         });
@@ -104,8 +101,8 @@ class UsuarioController {
             }
 
             const id = req.params.id;
-            const password = req.body.user_password;
-            const nome = req.body.user_full_name;
+            const password = req.body.usuario.user_password;
+            const nome = req.body.usuario.user_full_name;
 
             await new usuariosDao(db).updateUser(id, password, nome);
             res.status(202).json({ msg: "Usuario editado com sucesso" });
@@ -127,7 +124,7 @@ class UsuarioController {
 
             if (usuario) {
                 if (usuario.user_name !== 'admin') {
-                    await new usuariosDao(db).deletar(id)
+                    await new usuariosDao(db).deleteUserById(id)
                     res.status(202).json({ msg: "Usuário deletado com sucesso" });
                 } else {
                     res.status(403).json({ msg: "Administrador não pode ser removido" });
@@ -137,8 +134,34 @@ class UsuarioController {
             }
 
         });
-}
+    }
 
+    getByFilter() {
+        return wrapAsync(async (req, res) => {
+            const user = req.query.usuario;
+            const nome = req.query.nome;
+
+            if (user || nome) {
+                const usuarios = await new usuariosDao(db).findUserByFilter(nome, user);
+                res.status(200).json(usuarios);
+            } else {
+                res.status(412).json({ msg: "Não foi possivel buscar os usuarios" });
+            }
+        });
+
+    }
+
+    getUserExiste() {
+        return wrapAsync(async (req, res) => {
+            const user = req.body.user_name;
+            if (user) {
+                const usuario = await new usuariosDao(db).existe(user);
+                res.status(200).json(usuario);
+            } else {
+                res.status(412).json({ msg: "Nome do usuario não pode ser vazio" });
+            }
+        });
+    }
 }
 
 module.exports = UsuarioController;
