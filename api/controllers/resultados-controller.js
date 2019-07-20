@@ -11,10 +11,10 @@ class ResultadosController {
     }
 
     listar() {
-        return /*wrapAsync(*/async (req, res) => {
+        return wrapAsync(async (req, res) => {
             const resultado = await new resultadosDao(db).getResultados();
             res.json(resultado);
-        }/*)*/;
+        });
     }
 }
 

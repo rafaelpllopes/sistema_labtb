@@ -4,5 +4,5 @@ const resultados = new resultadosController()
 
 module.exports = app => {
     app.route(resultadosController.rotas().resultados)
-        .get(/*auth, */resultados.listar());
+        .get(auth, resultados.listar());
 };

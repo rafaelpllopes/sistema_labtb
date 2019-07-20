@@ -4,5 +4,5 @@ const unidades = new unidadesController();
 
 module.exports = app => {
     app.route(unidadesController.rotas().unidades)
-        .get(/*auth, */unidades.listar());
+        .get(auth, unidades.listar());
 };

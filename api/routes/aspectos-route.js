@@ -4,5 +4,5 @@ const aspectos = new AspectosController();
 
 module.exports = app => {
     app.route(AspectosController.rotas().aspectos)
-        .get(/*auth, */aspectos.listar());
+        .get(auth, aspectos.listar());
 };

@@ -11,10 +11,10 @@ class AspectosController {
     }
 
     listar() {
-        return /*wrapAsync(*/async (req, res) => {
+        return wrapAsync(async (req, res) => {
             const resultado = await new AspectosDao(db).getAspectos();
             res.json(resultado);
-        }/*)*/;
+        });
     }
 }
 

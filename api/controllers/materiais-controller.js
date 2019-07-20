@@ -11,10 +11,10 @@ class MateriaisController {
     }
 
     listar() {
-        return /*wrapAsync(*/async (req, res) => {
+        return wrapAsync(async (req, res) => {
             const resultado = await new materiaisDao(db).getMaterias();
             res.json(resultado);
-        }/*)*/;
+        });
     }
 }
 

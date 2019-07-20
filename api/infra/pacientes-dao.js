@@ -1,4 +1,4 @@
-const zfill = require('../config/zfill');
+const zfill = require('../helpers/zfill');
 
 class PacientesDao {
 

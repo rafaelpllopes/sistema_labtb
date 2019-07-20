@@ -4,5 +4,5 @@ const materiais = new materiaisController();
 
 module.exports = app => {
     app.route(materiaisController.rotas().materiais)
-        .get(/*auth, */materiais.listar());
+        .get(auth, materiais.listar());
 };
