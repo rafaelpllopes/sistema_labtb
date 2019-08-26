@@ -6,12 +6,7 @@ const stopApp = require('./stop-app')
 chai.use(chaiHttp)
 
 describe('Testando a API rota /', () => {
-  before(() => console.log())
-  after(() => {
-    stopApp()
-  })
-
-  it('GET /', () => {
+  it('GET / verifica status 200', () => {
     chai.request(app)
       .get('/')
       .then(res => {
