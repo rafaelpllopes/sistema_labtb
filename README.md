@@ -1,7 +1,7 @@
-# sistema_labtb
+## Sistema Labtb
 Sistema para emitir laudos para o laboratorio de tuberculose do municipio.
 
->> Tecnologias utilizdas:
+# Tecnologias utilizdas:
 * Nodejs;
 * Angular;
 * sqlite3

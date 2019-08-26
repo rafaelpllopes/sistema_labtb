@@ -4,9 +4,10 @@
   "description": "API REST para sistema labtb",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "NODE_ENV='test' mocha",
     "start": "npm run clusters",
-    "clusters": "node clusters.js"
+    "clusters": "node clusters.js",
+    "stop": "pkill --signal SIGINT labtab"
   },
   "keywords": [
     "api",
@@ -16,17 +17,22 @@
   "author": "Rafael Pereira de Lacerda Lopes <rafael.pllopes@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.18.3",
+    "body-parser": "^1.19.0",
     "cluster": "^0.7.7",
-    "compression": "^1.7.3",
+    "compression": "^1.7.4",
     "consign": "^0.1.6",
-    "cors": "^2.8.4",
-    "express": "^4.16.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "express-validator": "^5.3.1",
-    "helmet": "^3.13.0",
+    "helmet": "^3.20.0",
     "https": "^1.0.0",
-    "jsonwebtoken": "^8.3.0",
+    "jsonwebtoken": "^8.5.1",
     "sha256": "^0.2.0",
-    "sqlite3": "^4.0.2"
+    "sqlite3": "^4.1.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^6.2.0"
   }
 }
