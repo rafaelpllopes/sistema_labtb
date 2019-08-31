@@ -1,6 +1,6 @@
-const db = require('../config/database');
-const AspectosDao = require('../infra/aspectos-dao');
-const wrapAsync = require('../config/async-wrap');
+const db = require('../config/database')
+const AspectosDao = require('../infra/aspectos-dao')
+const wrapAsync = require('../config/async-wrap')
 
 class AspectosController {
 

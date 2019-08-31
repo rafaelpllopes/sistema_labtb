@@ -1,7 +1,8 @@
-const express = require('express');
-const consign = require('consign');
-const fs = require('fs');
-const https = require('https');
+const express = require('express')
+const consign = require('consign')
+const fs = require('fs')
+const https = require('https')
+
 const app = express();
 process.title = 'labtab';
 

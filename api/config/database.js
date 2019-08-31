@@ -1,7 +1,7 @@
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('labtb.db');
-const sha256 = require('sha256');
-const zfill = require('../helpers/zfill');
+const sqlite3 = require('sqlite3').verbose()
+const sha256 = require('sha256')
+const db = new sqlite3.Database('labtb.db')
+const zfill = require('../helpers/zfill')
 
 const USUARIOS_SCHEMA = `
 CREATE TABLE IF NOT EXISTS usuarios (
@@ -407,7 +407,7 @@ process.on('SIGINT', () =>
 );
 
 async function updateUnidades() {
-    unidades = await new Promise((resolve, reject) => db.all('SELECT * FROM unidades', (err, rows) => resolve(rows)));
+    let unidades = await new Promise((resolve, reject) => db.all('SELECT * FROM unidades', (err, rows) => resolve(rows)));
     let novo = '';
     let resposta = [];
 

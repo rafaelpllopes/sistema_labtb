@@ -1,8 +1,8 @@
-const auth = require('../config/auth');
-const resultadosController = require('../controllers/resultados-controller');
-const resultados = new resultadosController()
+const auth = require('../config/auth')
+const ResultadosController = require('../controllers/resultados-controller')
+const resultados = new ResultadosController()
 
 module.exports = app => {
-    app.route(resultadosController.rotas().resultados)
+    app.route(ResultadosController.rotas().resultados)
         .get(auth, resultados.listar());
 };

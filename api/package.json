@@ -4,6 +4,7 @@
   "description": "API REST para sistema labtb",
   "main": "server.js",
   "scripts": {
+    "dev": "nodemon serve",
     "test": "NODE_ENV='test' mocha",
     "start": "npm run clusters",
     "clusters": "node clusters.js",

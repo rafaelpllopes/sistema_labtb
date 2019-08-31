@@ -1,12 +1,13 @@
 const app = require('../server')
-const chaiHttp = require('chai-http')
+const ChaiHttp = require('chai-http')
 const chai = require('chai')
-const assert = chai.assert
 const stopApp = require('./stop-app')
-chai.use(chaiHttp)
+
+const assert = chai.assert
+chai.use(ChaiHttp)
 
 const headers = {
-  'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiJhZG1pbiIsInVzZXJfZnVsbF9uYW1lIjoiQWRtaW5pc3RyYWRvciIsImlhdCI6MTU2Njg1ODUxOCwiZXhwIjoxNTY2OTQ0OTE4fQ.rkTQB-MPwOefttLr6b9SgkRabAc5_W2Pk3zSapNV2RM'
+  'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiJhZG1pbiIsInVzZXJfZnVsbF9uYW1lIjoiQWRtaW5pc3RyYWRvciIsImlhdCI6MTU2NzI4ODkyOCwiZXhwIjoxNTY3Mzc1MzI4fQ.B7SfwjduD7EJHfp4CS_-WHXbrgVelxdm2xggWmymFjQ'
 }
 
 describe('Verificando rota /aspectos', () => {

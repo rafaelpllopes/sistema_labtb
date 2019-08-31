@@ -1,9 +1,9 @@
 const app = require('../server')
-const chaiHttp = require('chai-http')
+const ChaiHttp = require('chai-http')
 const chai = require('chai')
+
 const assert = chai.assert
-const stopApp = require('./stop-app')
-chai.use(chaiHttp)
+chai.use(ChaiHttp)
 
 describe('Testando a API rota /', () => {
   it('GET / verifica status 200', () => {

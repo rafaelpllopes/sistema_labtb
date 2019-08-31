@@ -1,14 +1,16 @@
-const jwt = require('jsonwebtoken')
+const jsonwebtoken = require('jsonwebtoken')
     , { promisify } = require('util');
 
-const verify = promisify(jwt.verify);
+const verify = promisify(jsonwebtoken.verify);
 
 module.exports = async (req, res, next) => {
     const token = req.headers['x-access-token'];
     if (token) {
         try {
             const decoded = await verify(token, req.app.get('secret'));
-            //console.log(`Valid token received: ${token}`);
+            if (process.env.NODE_ENV === 'test') {
+                console.log(`Valid token received: ${token}`);
+            }
             req.user = decoded;
             next();
         } catch (err) {

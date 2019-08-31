@@ -1,6 +1,6 @@
 const db = require('../config/database');
-const materiaisDao = require('../infra/materiais-dao');
-const wrapAsync = require('../config/async-wrap');
+const materiaisDao = require('../infra/materiais-dao')
+const wrapAsync = require('../config/async-wrap')
 
 class MateriaisController {
 
@@ -12,7 +12,7 @@ class MateriaisController {
 
     listar() {
         return wrapAsync(async (req, res) => {
-            const resultado = await new materiaisDao(db).getMaterias();
+            const resultado = await new MateriaisDao(db).getMaterias();
             res.json(resultado);
         });
     }

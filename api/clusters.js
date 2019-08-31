@@ -1,5 +1,5 @@
-const cluster = require("cluster");
-const os = require("os");
+const cluster = require("cluster")
+const os = require("os")
 
 const CPUS = os.cpus();
 

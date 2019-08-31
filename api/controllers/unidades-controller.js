@@ -1,6 +1,6 @@
-const db = require('../config/database');
-const unidadesDao = require('../infra/unidades-dao');
-const wrapAsync = require('../config/async-wrap');
+const db = require('../config/database')
+const unidadesDao = require('../infra/unidades-dao')
+const wrapAsync = require('../config/async-wrap')
 
 class UnidadesController {
 
@@ -12,7 +12,7 @@ class UnidadesController {
 
     listar() {
         return wrapAsync(async (req, res) => {
-            const resultado = await new unidadesDao(db).getUnidades();
+            const resultado = await new UnidadesDao(db).getUnidades();
             res.json(resultado);
         });
     }

@@ -1,8 +1,8 @@
-const db = require('../config/database');
-const wrapAsync = require('../config/async-wrap');
-const PacientesDao = require('../infra/pacientes-dao');
-const LaudosDao = require('../infra/laudos-dao');
-const { validationResult } = require('express-validator/check');
+const db = require('../config/database')
+const wrapAsync = require('../config/async-wrap')
+const PacientesDao = require('../infra/pacientes-dao')
+const LaudosDao = require('../infra/laudos-dao')
+const { validationResult } = require('express-validator/check')
 
 class PacientesController {
 
@@ -42,7 +42,7 @@ class PacientesController {
                 if (typeof cnsNumber === 'number' && cnsNumber.toString().length === 15) {
                     const cnsExiste = await new PacientesDao(db).findPacienteByCns(cns);
                     if (cnsExiste) {
-                        res.status(409).json({ msg: "O CNS informado ja esta cadastrado" });
+                        res.status(409).json({ msg: "O CNS informado ja está cadastrado" });
                         return
                     }
                 } else {

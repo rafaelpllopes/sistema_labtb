@@ -1,7 +1,7 @@
-const auth = require('../config/auth');
-const UsuarioController = require('../controllers/usuarios-controller');
+const auth = require('../config/auth')
+const UsuarioController = require('../controllers/usuarios-controller')
+const validacao = require('../models/usuario')
 const usuario = new UsuarioController();
-const validacao = require('../models/usuario');
 
 module.exports = app => {
     app.route(UsuarioController.rotas().login)

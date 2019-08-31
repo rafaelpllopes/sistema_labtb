@@ -1,7 +1,7 @@
-const auth = require('../config/auth');
-const PacientesController = require('../controllers/pacientes-controller');
-const pacientes = new PacientesController();
-const validacao = require('../models/pacientes');
+const auth = require('../config/auth')
+const PacientesController = require('../controllers/pacientes-controller')
+const validacao = require('../models/pacientes')
+const pacientes = new PacientesController()
 
 module.exports = app => {
     app.route(PacientesController.rotas().filter)
