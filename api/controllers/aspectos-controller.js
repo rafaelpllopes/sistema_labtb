@@ -4,18 +4,22 @@ const wrapAsync = require('../config/async-wrap')
 
 class AspectosController {
 
+    constructor() {
+        this.aspectosDao = new AspectosDao(db)
+    }
+
     static rotas() {
         return {
             aspectos: '/aspectos',
-        };
+        }
     }
 
     listar() {
         return wrapAsync(async (req, res) => {
-            const resultado = await new AspectosDao(db).getAspectos();
-            res.json(resultado);
-        });
+            const resultado = await this.aspectosDao.getAspectos();
+            res.json(resultado)
+        })
     }
 }
 
-module.exports = AspectosController;
+module.exports = AspectosController
