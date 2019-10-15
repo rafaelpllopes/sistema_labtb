@@ -60,6 +60,9 @@ typings/
 # next.js build output
 .next
 
+# package
+package-lock.json
+
 #api
 api/labtb.key
 api/labtb.cert
