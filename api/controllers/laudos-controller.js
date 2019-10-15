@@ -13,7 +13,10 @@ class LaudosController {
     static rotas() {
         return {
             laudos: '/laudos',
-            laudosId: '/laudos/:id'
+            filtrar: '/laudos/filter',
+            laudosId: '/laudos/:id',
+            resultado: '/laudos/resultado/:id',
+            pacienteId: '/laudos/paciente/:id'
         }
     }
 
@@ -27,7 +30,7 @@ class LaudosController {
     listarPorId() {
         return wrapAsync(async (req, res) => {
             const erros = validationResult(req);
-            
+
             if (!erros.isEmpty()) {
                 res.status(412).json({ Erros: erros.array() })
                 return
@@ -39,11 +42,71 @@ class LaudosController {
         })
     }
 
+    listarPorIdPaciente() {
+        return wrapAsync(async (req, res) => {
+            const erros = validationResult(req);
+
+            if (!erros.isEmpty()) {
+                res.status(412).json({ Erros: erros.array() })
+                return
+            }
+
+            const { id } = req.params
+            const laudos = await this.laudosDao.getLaudosByPacienteId(id)
+            res.json(laudos)
+        })
+    }
+
+    listarPorFiltro() {
+        return wrapAsync(async (req, res) => {
+            const query = req.query
+            
+            if (!query) {
+                res.status(412).json({ msg: 'Não há dados para pesquisar' })
+                return
+            }
+
+            const { cns, nome, mes, ano } = query
+            
+            const dia = mes ? ultimoDiaMes(mes) : undefined
+            const dataInicial = (ano && mes) ? `${ano}-${mes}-01`: undefined
+            const dataFinal = (ano && mes) ? `${ano}-${mes}-${dia}`: undefined
+
+            const laudos = await this.laudosDao.filterLaudos(cns, nome, dataInicial, dataFinal)
+            res.json(laudos)
+        })
+    }
+
+    atualizarResultado() {
+        return wrapAsync(async (req, res) => {
+
+            const erros = validationResult(req);
+
+            if (!erros.isEmpty()) {
+                res.status(404).json({ Erros: erros.array() })
+                return
+            }
+
+            const { laudo } = req.body
+            const { id } = req.params
+
+            const existe = await this.laudosDao.getLaudoById(id);
+
+            if (!existe) {
+                res.status(404).json({ msg: "Laudo não encontrado" })
+                return
+            }
+
+            await this.laudosDao.updateLaudoResultado(id, laudo)
+            res.status(201).json({ msg: "Laudo atualizado com sucesso" })
+        })
+    }
+
     adicionar() {
         return wrapAsync(async (req, res) => {
-            
+
             const erros = validationResult(req);
-            
+
             if (!erros.isEmpty()) {
                 res.status(412).json({ Erros: erros.array() })
                 return
@@ -58,9 +121,9 @@ class LaudosController {
 
     atualizar() {
         return wrapAsync(async (req, res) => {
-            
+
             const erros = validationResult(req);
-            
+
             if (!erros.isEmpty()) {
                 res.status(404).json({ Erros: erros.array() })
                 return
@@ -71,7 +134,7 @@ class LaudosController {
 
             const existe = await this.laudosDao.getLaudoById(id);
 
-            if(!existe) {
+            if (!existe) {
                 res.status(404).json({ msg: "Laudo não encontrado" })
                 return
             }
@@ -85,7 +148,7 @@ class LaudosController {
     deletar() {
         return wrapAsync(async (req, res) => {
             const erros = validationResult(req);
-            
+
             if (!erros.isEmpty()) {
                 res.status(412).json({ Erros: erros.array() })
                 return
@@ -94,7 +157,7 @@ class LaudosController {
             const { id } = req.params
             const laudo = await this.laudosDao.getLaudoById(id)
 
-            if(!laudo) {
+            if (!laudo) {
                 res.status(404).json({ msg: "Laudo não encontrado" })
                 return
             }
@@ -105,25 +168,6 @@ class LaudosController {
     }
 }
 /*
-
-Laudos.filter = async (db, query) => {
-    const cns = query.cns;
-    const nome = query.nome;
-    const mes = query.mes;
-    const ano = query.ano;
-    
-    let dia = ultimoDiaMes(mes);
-    let dataInicial = `${ano}-${mes}-01`
-    let dataFinal = `${ano}-${mes}-${dia}`;
-    
-    const laudos = await new laudosDao(db).filterLaudos(cns, nome, dataInicial, dataFinal);
-
-    return laudos;
-};
-
-Laudos.updateResultado = async (db, laudo) => {
-    await new laudosDao(db).updateLaudoResultado(id, laudo);
-};
 
 Laudos.obterPorPacienteId = async (db, id) => {
     const laudos = await new laudosDao(db).getLaudosByPacienteId(id);
