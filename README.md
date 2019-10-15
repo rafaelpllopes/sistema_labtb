@@ -15,7 +15,7 @@ Este projeto visa a criação de um sistema para registro dos laudos realizados 
 Ter uma copia do projeto no computador, ter nodejs instalado, e instalar as dependencias via npm.
 
 ### Estrutura
-
+```bash
 api/
 ├── clusters.js
 ├── config
@@ -103,6 +103,7 @@ api/
     ├── 8-api-reports.test.js
     ├── 9-api-usuarios.test.js
     └── stop-app.js
+  ```
 
 ## Recomendação para certificado https
 - Dev: utilizar labtb.key e labtb.cert "http://www.selfsignedcertificate.com/ para gerar o certificado;
