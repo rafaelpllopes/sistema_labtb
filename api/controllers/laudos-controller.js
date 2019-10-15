@@ -1,16 +1,110 @@
-const laudosDao = require('../infra/laudos-dao');
-const ultimoDiaMes = require('../config/ultimo-dia-mes');
+const db = require('../config/database')
+const LaudosDao = require('../infra/laudos-dao')
+const ultimoDiaMes = require('../helpers/ultimo-dia-mes')
+const wrapAsync = require('../config/async-wrap')
+const { validationResult } = require('express-validator/check')
 
-const Laudos = {};
+class LaudosController {
 
-Laudos.obter = async (db, page) => {
-    const laudos = await new laudosDao(db).getLaudos(page);
-    return laudos;
-};
+    constructor() {
+        this.laudosDao = new LaudosDao(db)
+    }
 
-Laudos.adicionar = async (db, laudo) => {
-    await new laudosDao(db).addLaudo(laudo);
-};
+    static rotas() {
+        return {
+            laudos: '/laudos',
+            laudosId: '/laudos/:id'
+        }
+    }
+
+    listar() {
+        return wrapAsync(async (req, res) => {
+            const laudos = await this.laudosDao.getLaudos()
+            res.json(laudos)
+        })
+    }
+
+    listarPorId() {
+        return wrapAsync(async (req, res) => {
+            const erros = validationResult(req);
+            
+            if (!erros.isEmpty()) {
+                res.status(412).json({ Erros: erros.array() })
+                return
+            }
+
+            const { id } = req.params
+            const laudo = await this.laudosDao.getLaudoById(id)
+            res.json(laudo)
+        })
+    }
+
+    adicionar() {
+        return wrapAsync(async (req, res) => {
+            
+            const erros = validationResult(req);
+            
+            if (!erros.isEmpty()) {
+                res.status(412).json({ Erros: erros.array() })
+                return
+            }
+
+            const { laudo } = req.body
+
+            await this.laudosDao.addLaudo(laudo)
+            res.json({ msg: 'Laudo cadastrado com sucesso' })
+        })
+    }
+
+    atualizar() {
+        return wrapAsync(async (req, res) => {
+            
+            const erros = validationResult(req);
+            
+            if (!erros.isEmpty()) {
+                res.status(404).json({ Erros: erros.array() })
+                return
+            }
+
+            const { laudo } = req.body
+            const { id } = req.params
+
+            const existe = await this.laudosDao.getLaudoById(id);
+
+            if(!existe) {
+                res.status(404).json({ msg: "Laudo não encontrado" })
+                return
+            }
+
+            await this.laudosDao.updateLaudo(id, laudo)
+            res.status(201).json({ msg: "Laudo atualizado com sucesso" })
+
+        })
+    }
+
+    deletar() {
+        return wrapAsync(async (req, res) => {
+            const erros = validationResult(req);
+            
+            if (!erros.isEmpty()) {
+                res.status(412).json({ Erros: erros.array() })
+                return
+            }
+
+            const { id } = req.params
+            const laudo = await this.laudosDao.getLaudoById(id)
+
+            if(!laudo) {
+                res.status(404).json({ msg: "Laudo não encontrado" })
+                return
+            }
+
+            await this.laudosDao.deleteLaudo(id);
+            res.json({ msg: "Laudo deletado com sucesso" })
+        })
+    }
+}
+/*
 
 Laudos.filter = async (db, query) => {
     const cns = query.cns;
@@ -27,26 +121,13 @@ Laudos.filter = async (db, query) => {
     return laudos;
 };
 
-Laudos.obterPorId = async (db, id) => {
-    const laudo = await new laudosDao(db).getLaudoById(id);
-    return laudo;
-};
-
 Laudos.updateResultado = async (db, laudo) => {
     await new laudosDao(db).updateLaudoResultado(id, laudo);
-};
-
-Laudos.updateLaudo = async (db, id, laudo) => {
-    await new laudosDao(db).updateLaudo(id, laudo);
-};
-
-Laudos.delete = async (db, id) => {
-    await new laudosDao(db).deleteLaudo(id);
 };
 
 Laudos.obterPorPacienteId = async (db, id) => {
     const laudos = await new laudosDao(db).getLaudosByPacienteId(id);
     return laudos;
 };
-
-module.exports = Laudos;
+*/
+module.exports = LaudosController
