@@ -36,7 +36,7 @@ export class LaudosAdicionarComponent implements OnInit {
       numeroGeral: [''],
       material: ['', Validators.required],
       tipo: ['', Validators.required],
-      amostras: ['', Validators.required],
+      amostras: ['', [ Validators.required, Validators.pattern('[0-9]*') ]],
       unidade: ['', Validators.required],
       dataColeta: [''],
       obs: [''],
@@ -48,6 +48,8 @@ export class LaudosAdicionarComponent implements OnInit {
     this.aspectos$ = this.service.getAspectos();
     this.materiais$ = this.service.getMateriais();
     this.unidades$ = this.service.getUnidades();
+
+    this.formLaudo.get('material').setValue(1);
   }
 
   /*digitouCns(cns: number) {

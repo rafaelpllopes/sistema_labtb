@@ -13,26 +13,26 @@ const routes: Routes = [
     },
     {
         path: 'home',
-        loadChildren: './home/home.module#HomeModule'
+        loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
     },
     {
         path: 'pacientes',
-        loadChildren: './pacientes/pacientes.module#PacientesModule',
+        loadChildren: () => import('./pacientes/pacientes.module').then(m => m.PacientesModule),
         canActivate: [AuthGuard]
     },
     {
         path: 'laudos',
-        loadChildren: './laudos/laudos.module#LaudosModule',
+        loadChildren: () => import('./laudos/laudos.module').then(m => m.LaudosModule),
         canActivate: [AuthGuard]
     },
     {
         path: 'usuarios',
-        loadChildren: './usuarios/usuarios.module#UsuariosModule',
+        loadChildren: () => import('./usuarios/usuarios.module').then(m => m.UsuariosModule),
         canActivate: [AuthGuard]
     },
     {
         path: 'relatorios',
-        loadChildren: './relatorios/relatorios.module#RelatoriosModule',
+        loadChildren: () => import('./relatorios/relatorios.module').then(m => m.RelatoriosModule),
         canActivate: [AuthGuard]
     },
     { 

@@ -126,6 +126,8 @@
             [value]="laudo?.laudo_amostras">
           <app-vmessage *ngIf="formLaudo.get('amostras').errors?.required" text="Quantidade de amostras é obrigatorio!"
             class="col-md-12"></app-vmessage>
+          <app-vmessage *ngIf="formLaudo.get('amostras').errors?.pattern"
+            text="Quantidade de amostras tem que ser somente número" class="col-md-12"></app-vmessage>
         </div>
       </div>
     </fieldset>

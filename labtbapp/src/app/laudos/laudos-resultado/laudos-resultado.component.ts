@@ -36,7 +36,7 @@ export class LaudosResultadoComponent implements OnInit {
       numeroGeral: [''],
       material: ['', Validators.required],
       tipo: ['', Validators.required],
-      amostras: ['', Validators.required],
+      amostras: ['', [ Validators.required, Validators.pattern('[0-9]*') ]],
       unidade: ['', Validators.required],
       dataColeta: [''],
       obs: [''],
