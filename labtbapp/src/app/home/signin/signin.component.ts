@@ -17,7 +17,7 @@ export class SigninComponent implements OnInit {
   loginForm: FormGroup;
   fromUrl: string;
 
-  @ViewChild('userNameInput', {static: false}) userNameInput: ElementRef<HTMLInputElement>;
+  @ViewChild('userNameInput', {static: true}) userNameInput: ElementRef<HTMLInputElement>;
 
   constructor(
     private formBuilder: FormBuilder,
