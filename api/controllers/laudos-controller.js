@@ -22,7 +22,9 @@ class LaudosController {
 
     listar() {
         return wrapAsync(async (req, res) => {
-            const laudos = await this.laudosDao.getLaudos()
+            const { page } = req.query
+
+            const laudos = await this.laudosDao.getLaudos(page)
             res.json(laudos)
         })
     }
