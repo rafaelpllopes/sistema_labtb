@@ -1,4 +1,4 @@
-const dia = require('../config/ultimo-dia-mes');
+const dia = require('../helpers/ultimo-dia-mes');
 
 const producaoConverter = row => ({
     quantidade: row.qtd,
