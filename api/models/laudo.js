@@ -20,9 +20,7 @@ LaudoValidacoes.atualizar = () => [
     check('laudo.material_id').isNumeric().withMessage('Material deve ser número'),
     check('laudo.laudo_tipo').exists().withMessage('Tipo deve ser selecionado'),
     check('laudo.laudo_amostras').exists().withMessage('Número da amostra é obrigatoria'),
-    check('laudo.laudo_amostras').isNumeric().withMessage('Amostra deve ser número'),
-    check('laudo.aspecto_id').isNumeric().withMessage('Aspecto deve ser número'),
-    check('laudo.resultado_id').isNumeric().withMessage('Resultado deve ser número'),
+    check('laudo.laudo_amostras').isNumeric().withMessage('Amostra deve ser número')
 ]
 
 LaudoValidacoes.id = () => [
